@@ -97,6 +97,7 @@ class CustomDrawer extends StatelessWidget {
           ],
         ),
         backgroundColor:  Color.fromARGB(255, 31, 30, 30),
+     // backgroundColor: Colors.transparent,
     );
   }
    void _logoutAndShowDialog(BuildContext context) {

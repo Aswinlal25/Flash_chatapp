@@ -95,6 +95,7 @@ class _MessageCardState extends State<MessageCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              
               Text(widget.message.msg,
                   style: TextStyle(color: Colors.white, fontSize: 16)),
               SizedBox(

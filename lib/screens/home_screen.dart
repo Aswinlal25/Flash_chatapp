@@ -148,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FloatingActionButton(
               backgroundColor: Colors.blue,
               onPressed: () {},
-              child: Icon(Icons.add_comment_rounded, color: Colors.black),
+              child: 
+              Icon(Icons.edit_document, color: Colors.black),
+              
             ),
           ),
 
@@ -174,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (list.isNotEmpty) {
                     log('inside home if');
                     return ListView.builder(
+                      
                         itemCount:
                             _isSearching ? _searchList.length : list.length,
                         padding: EdgeInsets.only(top: 3),

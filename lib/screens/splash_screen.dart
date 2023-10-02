@@ -23,34 +23,34 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Color.fromARGB(255, 34, 33, 33),
+      backgroundColor:  Colors.black,
       body: Padding(
-        padding: const EdgeInsets.only(left: 93),
+        padding: const EdgeInsets.only(left: 100),
         child: Column(
           children: [
             SizedBox(
-              height: 200,
+              height: 300,
             ),
             Image.asset(
-              'asset/flogo.png',
+              'asset/Flashlogo1.1.jpg',
               width: 200,
             ),
-            SizedBox(
-              height: 10,
-            ),
+            // SizedBox(
+            //   height: 1,
+            // ),
             Text(
               'FLASH',
               style: TextStyle(
-                  color: Colors.white, letterSpacing: 1, fontSize: 28),
+                  color: Colors.white38, letterSpacing: 5 , fontSize: 20),
             ),
             SizedBox(
-              height: 250,
+              height: 220,
             ),
-            Text(
-              'Light Up Your Chat With Flash',
-              style: TextStyle(
-                  color: Colors.white, letterSpacing: 0.3, wordSpacing: 2,fontSize: 14),
-            )
+            // Text(
+            //   'Light Up Your Chat With Flash',
+            //   style: TextStyle(
+            //       color: Colors.white38, letterSpacing: 0.6, wordSpacing: 2,fontSize: 13),
+            // )
           ],
         ),
       ),
@@ -63,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
       print(
           'User authentication status: ${user != null ? 'Authenticated' : 'Not Authenticated'}');
       if (user != null) {
-        Future.delayed(Duration(seconds: 2), () {
+        Future.delayed(Duration(seconds: 4), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),

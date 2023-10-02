@@ -51,7 +51,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "asset/flogo2.png"
+  image_path: "asset/Flashlogo1.1.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -90,6 +90,8 @@ flutter:
     - asset\w.jpg
     - asset\chat_wallpepper.jpg
     - asset\chat_wallpepper 2.jpg
+    - asset\Applcon.jpg
+    - asset\Flashlogo1.1.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
