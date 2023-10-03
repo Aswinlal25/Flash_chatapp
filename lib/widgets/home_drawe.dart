@@ -4,108 +4,118 @@ import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import '../models/chat_user.dart';
 
-
 class CustomDrawer extends StatelessWidget {
-   final ChatUser user;
+  final ChatUser user;
   const CustomDrawer({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 270,
-              child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.transparent),
-                accountName: Text(
-                   user.name,
-                  style: TextStyle(letterSpacing: 1, fontSize: 18),
-                ),
-                accountEmail: Text(
-                  user.about
-                ),
-                currentAccountPicture:
-                CircleAvatar(
-                      radius: 70,
-                      backgroundColor: Colors
-                          .transparent, // Ensure the background is transparent
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          width:
-                              140, // Double the radius to cover the entire CircleAvatar
-                          height:
-                              140, // Double the radius to cover the entire CircleAvatar
-                          fit: BoxFit.cover,
-                          imageUrl:user.image,
-                          errorWidget: (context, url, error) {
-                            print('Error loading image: $error');
-                            return const Icon(CupertinoIcons.person,
-                                size: 140); // Use an icon as the error widget
-                          },
-                        ),
-                      ),
-                    ),
-                
-                currentAccountPictureSize: Size(140, 165),
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Container(
+            height: 270,
+            child: UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: Colors.transparent),
+              accountName: Text(
+                user.name,
+                style: TextStyle(letterSpacing: 1, fontSize: 18),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.lock, color: Colors.white),
-              title: Text(
-                'Privacy and Policy',
-                style: TextStyle(color: Colors.white),
+              accountEmail: Text(user.about),
+              currentAccountPicture: CircleAvatar(
+                radius: 70,
+                backgroundColor:
+                    Colors.transparent, // Ensure the background is transparent
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    width:
+                        140, // Double the radius to cover the entire CircleAvatar
+                    height:
+                        140, // Double the radius to cover the entire CircleAvatar
+                    fit: BoxFit.cover,
+                    imageUrl: user.image,
+                    errorWidget: (context, url, error) {
+                      print('Error loading image: $error');
+                      return const Icon(CupertinoIcons.person,
+                          size: 140); // Use an icon as the error widget
+                    },
+                  ),
+                ),
               ),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              currentAccountPictureSize: Size(140, 165),
             ),
-            ListTile(
-              leading: Icon(Icons.book, color: Colors.white),
-              title: Text('About Us', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pop(context);
-              },
+          ),
+          ListTile(
+            leading: Icon(Icons.lock, color: Colors.white),
+            title: Text(
+              'Privacy and Policy',
+              style: TextStyle(color: Colors.white),
             ),
-            ListTile(
-              leading: Icon(Icons.document_scanner_sharp, color: Colors.white),
-              title: Text('Terms and Conditions',
-                  style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pop(context);
-              },
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.book, color: Colors.white),
+            title: Text('About Us', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.document_scanner_sharp, color: Colors.white),
+            title: Text('Terms and Conditions',
+                style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.share, color: Colors.white),
+            title: Text('Share', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app, color: Colors.white),
+            title: Text('Logout', style: TextStyle(color: Colors.white)),
+            onTap: () {
+              _logoutAndShowDialog(context);
+              // logOut(context);
+            },
+          ),
+          SizedBox(
+            height: 110,
+          ),
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Text(
+              'FLASH',
+              style: TextStyle(
+                  color: Colors.white38, letterSpacing: 5, fontSize: 15),
             ),
-            ListTile(
-              leading: Icon(Icons.share, color: Colors.white),
-              title: Text('Share', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.white),
-              title: Text('Logout', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                _logoutAndShowDialog(context);
-                // logOut(context);
-              },
-            ),
-
-            SizedBox(height: 110,),
-            Center(child: Text('Version 1.0',style: TextStyle(color: Colors.white54),))
-          ],
-        ),
-        backgroundColor:  Color.fromARGB(255, 31, 30, 30),
-     // backgroundColor: Colors.transparent,
+            Text(
+              'Version 1.0',
+              style: TextStyle(color: Colors.white24, fontSize: 9.5),
+            )
+          ])
+        ],
+      ),
+      backgroundColor: Color.fromARGB(255, 31, 30, 30),
     );
   }
-   void _logoutAndShowDialog(BuildContext context) {
+
+  void _logoutAndShowDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(255, 43, 42, 42),
+          
+          shape: RoundedRectangleBorder(
+            
+    borderRadius: BorderRadius.circular(15.0)),
+          backgroundColor: Color.fromARGB(255, 31, 30, 30),
           title: Text('Logout',
               style: TextStyle(color: Colors.white, letterSpacing: 0.9)),
           content: Text(
@@ -133,7 +143,8 @@ class CustomDrawer extends StatelessWidget {
       },
     );
   }
-   void _showSnackBar(
+
+  void _showSnackBar(
       BuildContext context, String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(

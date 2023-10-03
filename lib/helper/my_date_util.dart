@@ -8,7 +8,7 @@ class MyDateUtil {
   }
 
   static String getLastMassageTime(
-      {required BuildContext context, required String time}) {
+      {required BuildContext context, required String time, bool showYear = false}) {
     final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
     final DateTime now = DateTime.now();
 
@@ -17,7 +17,7 @@ class MyDateUtil {
         now.year == sent.year) {
       return TimeOfDay.fromDateTime(sent).format(context);
     }
-    return '${sent.day} ${_getMonth(sent)}';
+    return showYear ? '${sent.day} ${_getMonth(sent)} ${sent.year}':'${sent.day} ${_getMonth(sent)}';
   }
 
 // get month name from month no. or index

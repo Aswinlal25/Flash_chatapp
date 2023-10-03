@@ -15,6 +15,7 @@ import '../apis/api.dart';
 import '../models/chat_user.dart';
 import '../models/message.dart';
 import '../widgets/message_card.dart';
+import 'view_profile_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -161,7 +162,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _appBar() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_)=> ViewProfileScreen(user:widget.user)));
+      },
       child: StreamBuilder(
           stream: APIs.getUserInfo(widget.user),
           builder: (context, snapshot) {
@@ -192,8 +195,10 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: Colors.white,
                         )),
                     ClipRRect(
+                      
                       borderRadius: BorderRadius.circular(50),
                       child: CachedNetworkImage(
+                        fit: BoxFit.cover,
                           width: 40,
                           height: 40,
                           imageUrl: list.isNotEmpty

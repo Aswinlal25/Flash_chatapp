@@ -1,3 +1,4 @@
+import 'package:chat_app/apis/api.dart';
 import 'package:chat_app/screens/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,8 @@ Future<void> logOut(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   try {
+await APIs.updateActiveStatus(false);
+
     await _auth.signOut().then((value) {
        Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
     });

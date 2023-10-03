@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^1.0.4
   emoji_picker_flutter: ^1.6.1
   firebase_storage: ^11.2.7
+  photo_view: ^0.14.0
  
 
 dev_dependencies:
@@ -92,7 +93,8 @@ flutter:
     - asset\chat_wallpepper 2.jpg
     - asset\Applcon.jpg
     - asset\Flashlogo1.1.jpg
-    
+    - asset\profilelogo.jpg
+    - asset\profilepagelogo.png    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

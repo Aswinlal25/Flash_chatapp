@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../helper/my_date_util.dart';
 import '../models/message.dart';
 import '../screens/chat_screen.dart';
+import 'dialogs/profile_dialog.dart';
 
 // class ChatUserCard extends StatefulWidget {
 //   final ChatUser user;
@@ -137,24 +138,29 @@ class _ChatUserCardState extends State<ChatUserCard> {
             if (list.isNotEmpty) {
               _message = list[0];
             } else {
-              _message = null; // Ensure _message is null if there are no messages.
+              _message = null;
             }
 
             return ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  width: 50,
-                  height: 50,
-                  imageUrl: widget.user.image,
-                  errorWidget: (context, url, error) {
-                    log('Error loading image: $error');
-                    return const CircleAvatar(
-                      
-                      child: Icon(CupertinoIcons.person),
-                    );
-                  },
+              leading: InkWell(
+                onTap: (){
+                  showDialog(context: context, builder: (_) => ProfileDialog(user:  widget.user,));
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    width: 50,
+                    height: 50,
+                    imageUrl: widget.user.image,
+                    errorWidget: (context, url, error) {
+                      log('Error loading image: $error');
+                      return const CircleAvatar(
+                        
+                        child: Icon(CupertinoIcons.person),
+                      );
+                    },
+                  ),
                 ),
               ),
               title: Text(

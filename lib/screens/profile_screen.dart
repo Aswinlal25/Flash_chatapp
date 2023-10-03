@@ -9,6 +9,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../apis/api.dart';
 
+
+
 class ProfileScreen extends StatefulWidget {
   final ChatUser user;
   const ProfileScreen({super.key, required this.user});
@@ -220,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 55),
               Padding(
-                padding: const EdgeInsets.only(left: 28),
+                padding: const EdgeInsets.only(left: 37),
                 child: Row(
                   children: [
                     ElevatedButton.icon(
@@ -241,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.transparent,
                         onPrimary: Colors.white,
-                        minimumSize: Size(145, 50),
+                        minimumSize: Size(135, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -264,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.transparent,
                         onPrimary: Colors.white,
-                        minimumSize: Size(145, 50),
+                        minimumSize: Size(135, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -276,10 +278,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 height: 110,
               ),
-              Text(
-                'Version 1.0',
-                style: TextStyle(color: Colors.white60),
-              )
+              // Text(
+              //   'Version 1.0',
+              //   style: TextStyle(color: Colors.white60),
+              // )
+              // Image.asset('asset/profilepagelogo.png',
+              //   width: 90,
+              //   height: 90,
+              //   ),
+              //   SizedBox(height: 5,),
+                Text(
+              'FLASH',
+              style: TextStyle(
+                  color: Colors.white38, letterSpacing: 5 , fontSize: 15),
+            ),
+             Text(
+                  'Version 1.0',
+                  style: TextStyle(color: Colors.white24,fontSize: 9.5),
+                )
             ],
           ),
         ),
