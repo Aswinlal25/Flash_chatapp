@@ -1,15 +1,13 @@
-
-
-
-
 import 'dart:io';
-
+import 'package:chat_app/hive_db/user_db.dart';
+import 'package:chat_app/hive_model/user.dart';
 import 'package:chat_app/models/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
 import '../models/chat_user.dart';
+// import 'package:chat_app/hive_model/user.dart';
+
 
 class APIs {
   //for accessing cloud firestore database
@@ -35,6 +33,8 @@ class APIs {
     await firestore.collection('Users').doc(user.uid).get().then((user) async {
       if (user.exists) {
         me = ChatUser.fromJson(user.data()!);
+       UserModel value=UserModel(name: me.name, about: me.about, image: me.image);
+       saveUserToDB(value);
       } else {
         await createUser().then((value) => getSelfInfo());
       }
@@ -76,6 +76,8 @@ class APIs {
         .collection('Users')
         .doc(user.uid)
         .update({'name': me.name, 'about': me.about});
+        UserModel value=UserModel(name: me.name, about: me.about, image: me.image);
+       saveUserToDB(value);
   }
 
  // for getting specific user info

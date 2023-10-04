@@ -1,16 +1,9 @@
-// import 'dart:convert';
-
-//import 'dart:developer';
-
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/helper/my_date_util.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../apis/api.dart';
 import '../models/chat_user.dart';
 import '../models/message.dart';
@@ -67,8 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
             return Future.value(true);
           }
         },
-        // child:
-        // SafeArea(
+        
         child: Scaffold(
           appBar: AppBar(
               toolbarHeight: 60,
@@ -80,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                    'asset/chat_wallpepper 2.jpg'), // Replace with your image path
+                    'asset/chat_wallpepper 2.jpg'), 
                 fit: BoxFit.cover,
               ),
             ),
@@ -92,8 +84,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     builder: (context, snapshot) {
                       print('-----------------print---${a}-----------');
                       a++;
-                      print("the chat id $a");
-
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
                         case ConnectionState.none:

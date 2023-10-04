@@ -1,15 +1,12 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../apis/api.dart';
-
-
 
 class ProfileScreen extends StatefulWidget {
   final ChatUser user;
@@ -27,14 +24,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    print('dddddddddddddddddddd${widget.user.image}');
+
     // Initialize _image with the user's current profile picture URL
     netImage = widget.user.image;
   }
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -42,7 +38,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text(
           'Profile',
           style: TextStyle(
-              color: Colors.white70, fontSize: 19, fontWeight: FontWeight.w500,letterSpacing: 4),
+              color: Colors.white70,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 4),
         ),
       ),
       body: SingleChildScrollView(
@@ -61,29 +60,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ?
 
                         //local image
-                         CircleAvatar(
+                        CircleAvatar(
                             radius: 70,
                             backgroundColor: Colors.transparent,
-                            child: 
-                            ClipOval(
-                           
+                            child: ClipOval(
                                 child: Image.file(
-                                  File(_image!),
+                              File(_image!),
                               width: 140,
                               height: 140,
                               fit: BoxFit.cover,
-                              
-                             )
-                            ),
+                            )),
                           )
                         :
-                        
+
                         // server image
                         CircleAvatar(
                             radius: 70,
                             backgroundColor: Colors.transparent,
                             child: ClipOval(
-                             child:   CachedNetworkImage(
+                                child: CachedNetworkImage(
                               width: 140,
                               height: 140,
                               fit: BoxFit.cover,
@@ -95,33 +90,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   size: 140,
                                 );
                               },
-                            )
-                            ),
+                            )),
                           ),
-                         Positioned(
-                            bottom: 0,
-                            right: 0,
-                            left: 110,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.black,
-                              ),
-                              child: RawMaterialButton(
-                                onPressed: () {
-                                  // Handle edit button tap
-                                  // You can open an image picker or any other action here
-                                  _showBottomSheet();
-                                },
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                                shape: CircleBorder(),
-                              ),
-                            ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      left: 110,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: RawMaterialButton(
+                          onPressed: () {
+                            // Handle edit button tap
+                            _showBottomSheet();
+                          },
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 18,
                           ),
+                          shape: CircleBorder(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -230,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (_formkey.currentState!.validate()) {
                           _formkey.currentState!.save();
                           APIs.updateUserInfo();
-                          
+
                           _showSnackBar(
                               context, 'Update successfully.', Colors.black);
                         }
@@ -255,6 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ElevatedButton.icon(
                       onPressed: () {
                         _logoutAndShowDialog(context);
+                        deleteDB();
                       },
                       icon: Icon(
                         Icons.logout,
@@ -278,24 +272,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 height: 110,
               ),
-              // Text(
-              //   'Version 1.0',
-              //   style: TextStyle(color: Colors.white60),
-              // )
-              // Image.asset('asset/profilepagelogo.png',
-              //   width: 90,
-              //   height: 90,
-              //   ),
-              //   SizedBox(height: 5,),
-                Text(
-              'FLASH',
-              style: TextStyle(
-                  color: Colors.white38, letterSpacing: 5 , fontSize: 15),
-            ),
-             Text(
-                  'Version 1.0',
-                  style: TextStyle(color: Colors.white24,fontSize: 9.5),
-                )
+
+              Text(
+                'FLASH',
+                style: TextStyle(
+                    color: Colors.white38, letterSpacing: 5, fontSize: 15),
+              ),
+              Text(
+                'Version 1.0',
+                style: TextStyle(color: Colors.white24, fontSize: 9.5),
+              )
             ],
           ),
         ),
@@ -309,12 +295,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-         // backgroundColor: Color.fromARGB(255, 43, 42, 42),
-         backgroundColor:  Color.fromARGB(255, 31, 30, 30),
-          title: Text(
-            'Logout',
-            style: TextStyle(color: Colors.white, letterSpacing: 0.9),
-          ),
+          shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0)),
+          backgroundColor: Color.fromARGB(255, 31, 30, 30),
+          title: Text('Logout',
+              style: TextStyle(color: Colors.white, letterSpacing: 0.9)),
           content: Text(
             'Are you sure you want to log out ?',
             style: TextStyle(color: Colors.white),
@@ -329,7 +314,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               onPressed: () {
                 logOut(context);
-                _showSnackBar(context, 'Logout Successfully.', Colors.black);
+                _showSnackBar(context, 'Logout Successfully.',
+                    Colors.black); //  logout method
+                //Navigator.
               },
               child: Text('Logout', style: TextStyle(color: Colors.blue)),
             ),
@@ -372,7 +359,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Center(
               child: Text(
                 'Pick Profile Picture',
-                style: TextStyle(color: Colors.white70, fontSize: 15,letterSpacing: 2),
+                style: TextStyle(
+                    color: Colors.white70, fontSize: 15, letterSpacing: 2),
               ),
             ),
             SizedBox(height: 10),
@@ -383,7 +371,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 120,
                   height: 120,
                   child: ElevatedButton(
-                    
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
                       final XFile? image =
@@ -396,7 +383,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           _image = image
                               .path; // Update _image with selected image path
                         });
-                         APIs.updateProfilePicture(File(_image!));
+                        APIs.updateProfilePicture(File(_image!));
                         Navigator.pop(context);
                       }
                     },
@@ -404,7 +391,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-                        
                       ),
                     ),
                     child: Image.asset(
@@ -419,15 +405,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 120,
                   height: 120,
                   child: ElevatedButton(
-                    onPressed: ()  async{
-
-                       final ImagePicker picker = ImagePicker();
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
                       final XFile? image =
                           await picker.pickImage(source: ImageSource.camera);
 
                       if (image != null) {
-                        print(
-                            'Image Path: ${image.path}');
+                        print('Image Path: ${image.path}');
                         setState(() {
                           _image = image
                               .path; // Update _image with selected image path
@@ -437,7 +421,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.pop(context);
                       }
                     },
-                    
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.all(0),
                       shape: RoundedRectangleBorder(
@@ -460,6 +443,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
-
-

@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:chat_app/models/chat_user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../apis/api.dart';
 import '../widgets/chat_user_card.dart';
 import '../widgets/home_drawe.dart';
@@ -29,21 +26,15 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     APIs.getSelfInfo();
 
-    
     APIs.updateActiveStatus(true);
 
     SystemChannels.lifecycle.setMessageHandler((message) {
-        print('Message : $message');
+      print('Message : $message');
 
-        
-      
-       if(message.toString().contains('resume')) APIs.updateActiveStatus(true);
-       if(message.toString().contains('pause')) APIs.updateActiveStatus(false);
-        
+      if (message.toString().contains('resume')) APIs.updateActiveStatus(true);
+      if (message.toString().contains('pause')) APIs.updateActiveStatus(false);
 
-       
-
-        return Future.value(message);
+      return Future.value(message);
     });
   }
 
@@ -80,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) => IconButton(
                 onPressed: () {
                   _openDrawer(context);
-                  
+
                   // Open the drawer when the menu icon is tapped
                 },
                 icon: Icon(Icons.menu, color: Colors.white),
@@ -145,18 +136,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           // the custom drawer
-          //drawer:  CustomDrawer(user: APIs.me) ,
-          // the custom drawer
-          drawer: list.isNotEmpty ? CustomDrawer(user: APIs.me) : null,
+
+          drawer: list.isNotEmpty ? CustomDrawer() : null,
 
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FloatingActionButton(
               backgroundColor: Colors.blue,
               onPressed: () {},
-              child: 
-              Icon(Icons.chat, color: Colors.black),
-              
+              child: Icon(Icons.chat, color: Colors.black),
             ),
           ),
 
@@ -174,21 +162,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 case ConnectionState.done:
                   final data = snapshot.data?.docs;
                   log(data.toString());
-                  log(',,,,,,,,,,,,,,');
+                  log('-----------------------------');
                   list =
                       data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                           [];
 
                   if (list.isNotEmpty) {
-                    log('inside home if');
                     return ListView.builder(
-                      
                         itemCount:
                             _isSearching ? _searchList.length : list.length,
                         padding: EdgeInsets.only(top: 3),
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
-                          log('inside card');
                           return ChatUserCard(
                             user:
                                 _isSearching ? _searchList[index] : list[index],

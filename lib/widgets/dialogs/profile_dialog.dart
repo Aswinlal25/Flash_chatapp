@@ -63,7 +63,7 @@ class ProfileDialog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
-                                  HomeScreen(), // Replace HomeScreen with the actual home screen widget
+                                  HomeScreen(), 
                             ),
                           );
                         });
@@ -82,7 +82,7 @@ class ProfileDialog extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
-                                  HomeScreen(), // Replace HomeScreen with the actual home screen widget
+                                  HomeScreen(), 
                             ),
                           );
                         });

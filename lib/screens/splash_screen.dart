@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-
 import 'auth/login_screen.dart';
 import 'home_screen.dart';
 
@@ -13,7 +11,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  
   @override
   void initState() {
     super.initState();
@@ -23,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Colors.black,
+      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.only(left: 100),
         child: Column(
@@ -35,22 +32,14 @@ class _SplashScreenState extends State<SplashScreen> {
               'asset/Flashlogo1.1.jpg',
               width: 200,
             ),
-            // SizedBox(
-            //   height: 1,
-            // ),
             Text(
               'FLASH',
               style: TextStyle(
-                  color: Colors.white38, letterSpacing: 5 , fontSize: 20),
+                  color: Colors.white38, letterSpacing: 5, fontSize: 20),
             ),
             SizedBox(
               height: 220,
             ),
-            // Text(
-            //   'Light Up Your Chat With Flash',
-            //   style: TextStyle(
-            //       color: Colors.white38, letterSpacing: 0.6, wordSpacing: 2,fontSize: 13),
-            // )
           ],
         ),
       ),
@@ -63,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
       print(
           'User authentication status: ${user != null ? 'Authenticated' : 'Not Authenticated'}');
       if (user != null) {
-        Future.delayed(Duration(seconds: 4), () {
+        Future.delayed(Duration(seconds: 2), () {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),

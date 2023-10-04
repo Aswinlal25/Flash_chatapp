@@ -1,9 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/login_screen.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
-
 import '../../apis/api.dart';
 import '../home_screen.dart';
 
@@ -27,7 +24,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('asset/2.jpeg'), // Replace with your image path
+            image: AssetImage('asset/2.jpeg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -62,12 +59,11 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                     width: 330,
                     height: 50,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25), // Make it circular
-                      color: Colors.white, // Background color
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.white,
                     ),
                     child: Form(
                       child: TextFormField(
-
                         controller: _name,
                         decoration: InputDecoration(
                           hintText: 'Username',
@@ -78,8 +74,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                           prefixIcon:
                               Icon(Icons.person, color: Colors.black, size: 20),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                25), // Border radius should match container
+                            borderRadius: BorderRadius.circular(25),
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
@@ -227,7 +222,6 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                           _showSnackBar(context, 'Please enter all fields.',
                               Colors.black);
                         }
-                        // };
                       },
                       child: Text(
                         'Create Account',
@@ -283,8 +277,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
       ),
       backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
+        borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       behavior: SnackBarBehavior.fixed,
     ));

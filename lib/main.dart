@@ -1,14 +1,23 @@
-//import 'package:chat_app/screens/home_screen.dart';
 import 'package:chat_app/firebase_options.dart';
+import 'package:chat_app/hive_model/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/splash_screen.dart';
+import 'package:hive_flutter/adapters.dart';
 
-//import 'screens/auth/login_screen.dart';
 
 Future<void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // initialize Hive 
+  await Hive.initFlutter();
+ if (!Hive.isAdapterRegistered(UserModelAdapter().typeId)) {
+    Hive.registerAdapter(UserModelAdapter());
+  }
+  // open the chatBox
+Hive.openBox<UserModel>('user_db');
+
+  // initialize Firebase
  await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
  );
