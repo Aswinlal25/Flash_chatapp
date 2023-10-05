@@ -205,8 +205,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             list.isNotEmpty ? list[0].name : widget.user.name,
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                         Padding(

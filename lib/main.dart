@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         //useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          centerTitle: true,
+          //centerTitle: true,
           elevation: 1,
           titleTextStyle: TextStyle(
               color: Colors.black,

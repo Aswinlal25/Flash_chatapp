@@ -79,12 +79,12 @@ class _ChatUserCardState extends State<ChatUserCard> {
               ),
               title: Text(
                 widget.user.name,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,letterSpacing:.3,fontSize: 17),
               ),
               subtitle: Text(
                 _message != null ? _message!.msg : widget.user.about,
                 maxLines: 1,
-                style: TextStyle(color: Colors.white70),
+                style: TextStyle(color: Colors.white70,fontSize: 14),
               ),
               trailing: Text(
                 _message != null

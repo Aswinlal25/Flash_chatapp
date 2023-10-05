@@ -179,7 +179,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                             isLoading = true;
                           });
                           showProgressBar(context);
-                          createAccount(_name.text, _email.text, _password.text)
+                          createAccount(_name.text.trim(), _email.text.trim(), _password.text.trim())
                               .then((user) async {
                             if (user != null) {
                               setState(() {

@@ -44,7 +44,7 @@ class ProfileDialog extends StatelessWidget {
                     ),
                     Text(
                       user.name,
-                      style: TextStyle(color: Colors.white, letterSpacing: 1),
+                      style: TextStyle(color: Colors.white, letterSpacing: 1,fontWeight: FontWeight.w400),
                     ),
                     SizedBox(width: 40),
                     Spacer(),

@@ -34,37 +34,53 @@ class _CustomDrawerState extends State<CustomDrawer> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             Container(
-              height: 270,
+              height: 220,
+              width: 50,
+              decoration: BoxDecoration(image: DecorationImage(image: CachedNetworkImageProvider(user.image??"image"),fit: BoxFit.cover, )),
               child: UserAccountsDrawerHeader(
                 decoration: BoxDecoration(color: Colors.transparent),
+                
                 accountName: Text(
                   user.name??"name",
                   style: TextStyle(letterSpacing: 1, fontSize: 18),
                 ),
                 accountEmail: Text(user.about??"about"),
-                currentAccountPicture: CircleAvatar(
-                  radius: 70,
-                  backgroundColor:
-                      Colors.transparent, 
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      width:
-                          140, 
-                      height:
-                          140, 
-                      fit: BoxFit.cover,
-                      imageUrl: user.image??"https://cdn2.vectorstock.com/i/1000x1000/95/56/user-profile-icon-avatar-or-person-vector-45089556.jpg",
-                      errorWidget: (context, url, error) {
-                        print('Error loading image: $error');
-                        return const Icon(CupertinoIcons.person,
-                            size: 140); 
-                      },
-                    ),
-                  ),
-                ),
-                currentAccountPictureSize: Size(140, 165),
-              ),
+              //   // currentAccountPicture: CircleAvatar(
+              //   //   radius: 70,
+              //   //   backgroundColor:
+              //   //       Colors.transparent, 
+              //   //   child: ClipOval(
+              //   //     child: CachedNetworkImage(
+              //   //       width:
+              //   //           130, 
+              //   //       height:
+              //   //           110, 
+              //   //       fit: BoxFit.cover,
+              //   //       imageUrl: user.image??"https://cdn2.vectorstock.com/i/1000x1000/95/56/user-profile-icon-avatar-or-person-vector-45089556.jpg",
+              //   //       errorWidget: (context, url, error) {
+              //   //         print('Error loading image: $error');
+              //   //         return const Icon(CupertinoIcons.person,
+              //   //             size: 140); 
+              //   //       },
+              //   //     ),
+              //   //   ),
+              //   // ),
+              //   currentAccountPictureSize: Size(110, 165),
+               ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 20 ,top: 8),
+            //   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //             user.name??"name",
+            //             style: TextStyle(letterSpacing: 1, fontSize: 18,color: Colors.white,fontWeight: FontWeight.w600),
+            //           ),SizedBox(height: 3,),
+            //           Text(user.about??"about",style: TextStyle(color: Colors.white),),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(height: 19,),
             ListTile(
               leading: Icon(Icons.lock, color: Colors.white),
               title: Text(
@@ -124,7 +140,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         },
        
       ),
-      backgroundColor: Color.fromARGB(255, 31, 30, 30),
+      backgroundColor: Color.fromARGB(255, 30, 30, 30),
     );
   }
 
@@ -179,4 +195,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
       behavior: SnackBarBehavior.fixed,
     ));
   }
+
+
 }
