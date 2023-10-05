@@ -14,7 +14,7 @@ Future<void> main()async {
  if (!Hive.isAdapterRegistered(UserModelAdapter().typeId)) {
     Hive.registerAdapter(UserModelAdapter());
   }
-  // open the chatBox
+  // open the HiveBox
 Hive.openBox<UserModel>('user_db');
 
   // initialize Firebase

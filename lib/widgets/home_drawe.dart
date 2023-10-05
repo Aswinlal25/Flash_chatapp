@@ -17,12 +17,13 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   late Box<UserModel>user;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     user=Hive.box('user_db');
   }
+  
   @override
   Widget build(BuildContext context) {
     return Drawer(

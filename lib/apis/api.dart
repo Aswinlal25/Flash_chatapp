@@ -167,6 +167,7 @@ class APIs {
     // getting image file extension
     final ext = file.path.split('.').last;
     print('Extension: $ext');
+    
 
     // storage file ref with path
     final ref = storage.ref().child('profile_picture/${user.uid}.$ext');
@@ -184,5 +185,7 @@ class APIs {
         .collection('Users')
         .doc(user.uid)
         .update({'image': me.image});
+         UserModel value=UserModel(name: me.name, about: me.about, image: me.image);
+       saveUserToDB(value);
   }
 }

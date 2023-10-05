@@ -13,102 +13,60 @@ class MessageCard extends StatefulWidget {
   State<MessageCard> createState() => _MessageCardState();
 }
 
+
 class _MessageCardState extends State<MessageCard> {
   @override
   Widget build(BuildContext context) {
-    return APIs.user.uid == widget.message.formId
-        ? _LightgreyMessges()
-        : _darkgreyMessges();
+    return _messageWidget();
   }
 
-  // sender message
-
-  Widget _darkgreyMessges() {
-    // if (widget.message.read.isEmpty) {
-    //   APIs.updateMessageReadStatus(widget.message);
-    //  // print('message is updated');
-    // }
+  
+  Widget _messageWidget() {
+    final isDarkMessage = APIs.user.uid != widget.message.formId;
 
     return Row(
-      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: isDarkMessage
+          ? MainAxisAlignment.start
+          : MainAxisAlignment.end,
       children: [
         Container(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-          padding: EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 4),
+          padding: EdgeInsets.only(left: 12, top: 8, right: 12, bottom: 4),
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 43, 43, 43),
-              //border: Border.all(color: Colors.blue.shade300),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10))),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(widget.message.msg,
-                  style: TextStyle(color: Colors.white, fontSize: 16)),
-              
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                 // mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Text(
-                      MyDateUtil.getFormattedTime(context: context, time: widget.message.sent,),
-                      style: TextStyle(color: Colors.white70, fontSize: 9),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            color: isDarkMessage
+                ? Color.fromARGB(255, 43, 43, 43)
+                : Color.fromARGB(255, 81, 80, 80),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomRight: isDarkMessage ? Radius.circular(10) : Radius.zero,
+              bottomLeft: isDarkMessage ? Radius.zero : Radius.circular(10),
+            ),
           ),
-
-          // child: Text(widget.message.msg,
-          //     style: TextStyle(color: Colors.white, fontSize: 16)),
-        ),
-      ],
-    );
-  }
-
-  // User Messsages
-
-  Widget _LightgreyMessges() {
-   return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          constraints:
-              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-          padding: EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 4),
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-          decoration: BoxDecoration(
-              color: Color.fromARGB(255, 81, 80, 80),
-              //border: Border.all(color: Colors.blue.shade300),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10))),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: isDarkMessage
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.end,
             children: [
-              
-              Text(widget.message.msg,
-                  style: TextStyle(color: Colors.white, fontSize: 16)),
+              Text(
+                widget.message.msg,
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
               SizedBox(
                 width: 0,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,
-                 // mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.1),
                     child: Text(
-                      MyDateUtil.getFormattedTime(context: context, time: widget.message.sent,),
+                      MyDateUtil.getFormattedTime(
+                        context: context,
+                        time: widget.message.sent,
+                      ),
                       style: TextStyle(color: Colors.white70, fontSize: 9),
                     ),
                   ),
@@ -116,11 +74,125 @@ class _MessageCardState extends State<MessageCard> {
               ),
             ],
           ),
-
-          // child: Text(widget.message.msg,
-          //     style: TextStyle(color: Colors.white, fontSize: 16)),
         ),
       ],
     );
   }
 }
+
+
+
+
+
+
+// class _MessageCardState extends State<MessageCard> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return APIs.user.uid == widget.message.formId
+//         ? _LightgreyMessges()
+//         : _darkgreyMessges();
+//   }
+
+//   // sender message
+
+//   Widget _darkgreyMessges() {
+//     // if (widget.message.read.isEmpty) {
+//     //   APIs.updateMessageReadStatus(widget.message);
+//     //  // print('message is updated');
+//     // }
+
+//     return Row(
+//       //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Container(
+//           constraints:
+//               BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+//           padding: EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 4),
+//           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+//           decoration: BoxDecoration(
+//               color: Color.fromARGB(255, 43, 43, 43),
+//               //border: Border.all(color: Colors.blue.shade300),
+//               borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(10),
+//                   topRight: Radius.circular(10),
+//                   bottomRight: Radius.circular(10))),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.end,
+//             children: [
+//               Text(widget.message.msg,
+//                   style: TextStyle(color: Colors.white, fontSize: 16)),
+              
+//               Row(
+//                 mainAxisSize: MainAxisSize.min,
+//                  // mainAxisAlignment: MainAxisAlignment.end,
+//                 children: [
+                  
+//                   Padding(
+//                     padding: const EdgeInsets.only(top: 5),
+//                     child: Text(
+//                       MyDateUtil.getFormattedTime(context: context, time: widget.message.sent,),
+//                       style: TextStyle(color: Colors.white70, fontSize: 9),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+
+//           // child: Text(widget.message.msg,
+//           //     style: TextStyle(color: Colors.white, fontSize: 16)),
+//         ),
+//       ],
+//     );
+//   }
+
+//   // User Messsages
+
+//   Widget _LightgreyMessges() {
+//    return Row(
+//       mainAxisAlignment: MainAxisAlignment.end,
+//       children: [
+//         Container(
+//           constraints:
+//               BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+//           padding: EdgeInsets.only(left: 12,top: 8,right: 12,bottom: 4),
+//           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+//           decoration: BoxDecoration(
+//               color: Color.fromARGB(255, 81, 80, 80),
+//               //border: Border.all(color: Colors.blue.shade300),
+//               borderRadius: BorderRadius.only(
+//                   topLeft: Radius.circular(10),
+//                   topRight: Radius.circular(10),
+//                   bottomLeft: Radius.circular(10))),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.end,
+//             children: [
+              
+//               Text(widget.message.msg,
+//                   style: TextStyle(color: Colors.white, fontSize: 16)),
+//               SizedBox(
+//                 width: 0,
+//               ),
+//               Row(
+//                 mainAxisSize: MainAxisSize.min,
+//                  // mainAxisAlignment: MainAxisAlignment.end,
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.only(top: 5.1),
+//                     child: Text(
+//                       MyDateUtil.getFormattedTime(context: context, time: widget.message.sent,),
+//                       style: TextStyle(color: Colors.white70, fontSize: 9),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+
+//           // child: Text(widget.message.msg,
+//           //     style: TextStyle(color: Colors.white, fontSize: 16)),
+//         ),
+//       ],
+//     );
+//   }
+// }
