@@ -86,7 +86,7 @@ class ProfileDialog extends StatelessWidget {
                           );
                         });
                       },
-                      icon: const Icon(Icons.person, color: Colors.white),
+                      icon: const Icon(Icons.info, color: Colors.white),
                     )
                   ],
                 ),

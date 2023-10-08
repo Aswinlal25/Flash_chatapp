@@ -64,9 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color.fromARGB(255, 34, 33, 33),
           appBar: AppBar(
             toolbarHeight: 60,
-            backgroundColor: const Color.fromARGB(0, 5, 5, 5),
+            backgroundColor: Color.fromARGB(15, 5, 5, 5),
             elevation: 3,
-            leading: Builder(
+            leading: 
+            Builder(
               // Wrap IconButton with Builder
               builder: (context) => IconButton(
                 onPressed: () {

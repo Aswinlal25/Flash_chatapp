@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:hive_flutter/adapters.dart';
+import '../apis/api.dart';
 import '../hive_model/user.dart';
+import '../screens/home_screen.dart';
+import '../screens/profile_screen.dart';
 // import '../models/chat_user.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -33,40 +36,37 @@ class _CustomDrawerState extends State<CustomDrawer> {
           return ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            Container(
-              height: 220,
-              width: 50,
-              decoration: BoxDecoration(image: DecorationImage(image: CachedNetworkImageProvider(user.image??"image"),fit: BoxFit.cover, )),
-              child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.transparent),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileScreen(user: APIs.me)))..then((result) {
+                          // Now, navigate to the HomeScreen
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  HomeScreen(), 
+                            ),
+                          );
+                        });
+              },
+              child: Container(
+                height: 220,
+                width: 50,
+                decoration: BoxDecoration(image: DecorationImage(image: CachedNetworkImageProvider(user.image??"image"),fit: BoxFit.cover, )),
+                child: UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Colors.transparent),
+                  
+                  accountName: Text(
+                    user.name??"name",
+                    style: TextStyle(letterSpacing: 1, fontSize: 18),
+                  ),
+                  accountEmail: Text(user.about??"about"),
                 
-                accountName: Text(
-                  user.name??"name",
-                  style: TextStyle(letterSpacing: 1, fontSize: 18),
-                ),
-                accountEmail: Text(user.about??"about"),
-              //   // currentAccountPicture: CircleAvatar(
-              //   //   radius: 70,
-              //   //   backgroundColor:
-              //   //       Colors.transparent, 
-              //   //   child: ClipOval(
-              //   //     child: CachedNetworkImage(
-              //   //       width:
-              //   //           130, 
-              //   //       height:
-              //   //           110, 
-              //   //       fit: BoxFit.cover,
-              //   //       imageUrl: user.image??"https://cdn2.vectorstock.com/i/1000x1000/95/56/user-profile-icon-avatar-or-person-vector-45089556.jpg",
-              //   //       errorWidget: (context, url, error) {
-              //   //         print('Error loading image: $error');
-              //   //         return const Icon(CupertinoIcons.person,
-              //   //             size: 140); 
-              //   //       },
-              //   //     ),
-              //   //   ),
-              //   // ),
-              //   currentAccountPictureSize: Size(110, 165),
-               ),
+                 ),
+              ),
             ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 20 ,top: 8),

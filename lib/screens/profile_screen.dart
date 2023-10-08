@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../apis/api.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final ChatUser user;
@@ -17,7 +18,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final _formkey = GlobalKey<FormState>();
+  //final _formkey = GlobalKey<FormState>();
   String? _image;
   String? netImage; // Initialize with an empty string
 
@@ -33,55 +34,156 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        elevation: 3,
-        title: Text(
-          'Profile',
-          style: TextStyle(
-              color: Colors.white70,
-              fontSize: 19,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 4),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              SizedBox(height: 28),
-              // Circular Avatar
-              Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Stack(
-                  alignment: Alignment.center,
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          //elevation: 3,
+          title: Text(
+            'Profile',
+            style: TextStyle(
+                color: Colors.white70,
+                fontSize: 19,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 4),
+          ),
+          actions: [
+            PopupMenuButton(
+                color: Color.fromARGB(255, 41, 40, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(4.0), // Adjust the radius as needed
+                ),
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? image = await picker.pickImage(
+                                source: ImageSource.gallery);
+
+                            if (image != null) {
+                              print(
+                                  'Image Path: ${image.path} -- MimeType: ${image.mimeType}');
+                              setState(() {
+                                _image = image
+                                    .path; // Update _image with selected image path
+                              });
+                              APIs.updateProfilePicture(File(_image!));
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white70, // Icon color
+                                size: 22.0, // Icon size
+                              ),
+                              SizedBox(width: 6.0),
+                              Text(
+                                'Set Profile Picture',
+                                style: TextStyle(
+                                  color: Colors.white70, // Text color
+                                  fontSize: 16.0, // Text size
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditProfile(
+                                          user: APIs.me,
+                                        )));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.edit,
+                                color: Colors.white70, // Icon color
+                                size: 22.0, // Icon size
+                              ),
+                              SizedBox(
+                                  width:
+                                      8.0), // Add spacing between icon and text
+                              Text(
+                                'Edit Profile',
+                                style: TextStyle(
+                                  color: Colors.white70, // Text color
+                                  fontSize: 16.0, // Text size
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            _logoutAndShowDialog(context);
+                            deleteDB();
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.exit_to_app,
+                                color: Colors.white70, // Icon color
+                                size: 22.0, // Icon size
+                              ),
+                              SizedBox(
+                                  width:
+                                      8.0), // Add spacing between icon and text
+                              Text(
+                                'Logout',
+                                style: TextStyle(
+                                  color: Colors.white70, // Text color
+                                  fontSize: 16.0, // Text size
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                offset: Offset(0, 60),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Icon(Icons.more_vert, color: Colors.white),
+                ))
+          ]),
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Stack(children: [
+            Column(
+              children: [
+                Stack(
+                  // alignment: Alignment.center,
                   children: [
                     _image != null
                         ?
 
                         //local image
-                        CircleAvatar(
-                            radius: 70,
-                            backgroundColor: Colors.transparent,
-                            child: ClipOval(
-                                child: Image.file(
+                        Container(
+                            width: 500,
+                            child: Image.file(
                               File(_image!),
-                              width: 140,
-                              height: 140,
+                              width: 155,
+                              height: 290,
                               fit: BoxFit.cover,
-                            )),
+                            ),
                           )
                         :
 
                         // server image
-                        CircleAvatar(
-                            radius: 70,
-                            backgroundColor: Colors.transparent,
-                            child: ClipOval(
-                                child: CachedNetworkImage(
-                              width: 140,
-                              height: 140,
+                        Container(
+                            width: 500,
+                            child: CachedNetworkImage(
+                              width: 155,
+                              height: 290,
                               fit: BoxFit.cover,
                               imageUrl: netImage!,
                               errorWidget: (context, url, error) {
@@ -91,202 +193,215 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   size: 140,
                                 );
                               },
-                            )),
+                            ),
                           ),
                     Positioned(
-                      bottom: 0,
-                      right: 0,
-                      left: 110,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                        ),
-                        child: RawMaterialButton(
-                          onPressed: () {
-                            // Handle edit button tap
-                            _showBottomSheet();
-                          },
-                          child: Icon(
-                            Icons.edit,
+                        top: 223,
+                        right: 0,
+                        left: 20,
+                        child: Text(
+                          widget.user.name,
+                          style: TextStyle(
+                            fontSize: 20,
+                            letterSpacing: 1,
                             color: Colors.white,
-                            size: 18,
+                            fontWeight: FontWeight.w500,
                           ),
-                          shape: CircleBorder(),
-                        ),
-                      ),
-                    ),
+                        )),
+                    Positioned(
+                        top: 250,
+                        right: 0,
+                        left: 21,
+                        child: Text(
+                          'Online',
+                          style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 1,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
                   ],
                 ),
-              ),
-              SizedBox(height: 15),
-              Text(
-                widget.user.email,
-                style: TextStyle(
-                  fontSize: 13,
-                  letterSpacing: 1,
-                  color: Colors.white70,
-                ),
-              ),
-              Form(
-                key: _formkey,
-                child: Column(
-                  children: [
-                    SizedBox(height: 70),
-                    // Circular Text Fields
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Container(
-                        width: 330,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.all(20.10),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Account',
+                              style: TextStyle(
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                color: Colors.white70,
+                              ),
+                            ),
+                            Spacer(),
+                          ],
                         ),
-                        child: TextFormField(
-                          initialValue: widget.user.name,
-                          onSaved: (val) => APIs.me.name = val ?? '',
-                          validator: (val) => val != null && val.isNotEmpty
-                              ? null
-                              : 'Required Field',
-                          decoration: InputDecoration(
-                            hintText: 'Username',
-                            hintStyle: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 2,
-                              fontSize: 15,
-                            ),
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          widget.user.email,
+                          style: TextStyle(
+                            fontSize: 15,
+                            letterSpacing: 1.5,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
                           ),
-                          style: TextStyle(color: Colors.black),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 22),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Container(
-                        width: 330,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: Colors.white,
+                        SizedBox(
+                          height: 7,
                         ),
-                        child: TextFormField(
-                          initialValue: widget.user.about,
-                          onSaved: (val) => APIs.me.about = val ?? '',
-                          validator: (val) => val != null && val.isNotEmpty
-                              ? null
-                              : 'Required Field',
-                          decoration: InputDecoration(
-                            hintText: 'About',
-                            hintStyle: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 2,
-                              fontSize: 15,
-                            ),
-                            prefixIcon: Icon(
-                              Icons.info,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Colors.white54,
+                        Text(
+                          'Email id',
+                          style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 1,
+                            color: Colors.white70,
                           ),
-                          style: TextStyle(color: Colors.black),
                         ),
-                      ),
+                        Divider(
+                          color: Colors.black,
+                          thickness: 0.3,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          widget.user.about,
+                          style: TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          'About',
+                          style: TextStyle(
+                            fontSize: 12,
+                            letterSpacing: 1,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.black,
+                          thickness: 0.3,
+                        ),
+                        SizedBox(
+                          height: 120,
+                        ),
+                        Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'FLASH',
+                                style: TextStyle(
+                                    color: Colors.white24,
+                                    letterSpacing: 5,
+                                    fontSize: 15),
+                              ),
+                              Text(
+                                'Version 1.0',
+                                style: TextStyle(
+                                    color: Colors.white12, fontSize: 9.5),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(left: 230, top: 70),
+                        //   child: ElevatedButton.icon(
+                        //     onPressed: () {
+                        //       _logoutAndShowDialog(context);
+                        //       deleteDB();
+                        //     },
+                        //     icon: Icon(
+                        //       Icons.logout,
+                        //     ),
+                        //     label: Text(
+                        //       'Logout',
+                        //       style:
+                        //           TextStyle(fontSize: 15, letterSpacing: 0.5),
+                        //     ),
+                        //     style: ElevatedButton.styleFrom(
+                        //       primary: Colors.transparent,
+                        //       onPrimary: Colors.white,
+                        //       minimumSize: Size(135, 50),
+                        //       shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(30),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
-                  ],
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        ),
+        Positioned(
+          top: 266,
+          left: 328,
+          child: GestureDetector(
+            onTap: () {
+              _showBottomSheet();
+            },
+            child: Material(
+              color: Colors.transparent,
+              shape: CircleBorder(),
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  // shape: BoxShape.circle,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    // bottomRight: Radius.circular(20)
+                  ),
+                  color: Colors.black,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.add_a_photo,
+                    color: Colors.white,
+                    size: 22,
+                  ),
                 ),
               ),
-              SizedBox(height: 55),
-              Padding(
-                padding: const EdgeInsets.only(left: 37),
-                child: Row(
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        if (_formkey.currentState!.validate()) {
-                          _formkey.currentState!.save();
-                          APIs.updateUserInfo();
-
-                          _showSnackBar(
-                              context, 'Update successfully.', Colors.black);
-                        }
-                      },
-                      icon: Icon(Icons.upload),
-                      label: Text(
-                        'Update',
-                        style: TextStyle(fontSize: 15, letterSpacing: 0.5),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onPrimary: Colors.white,
-                        minimumSize: Size(135, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 20,
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        _logoutAndShowDialog(context);
-                        deleteDB();
-                      },
-                      icon: Icon(
-                        Icons.logout,
-                      ),
-                      label: Text(
-                        'Logout',
-                        style: TextStyle(fontSize: 15, letterSpacing: 0.5),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        onPrimary: Colors.white,
-                        minimumSize: Size(135, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 110,
-              ),
-
-              Text(
-                'FLASH',
-                style: TextStyle(
-                    color: Colors.white38, letterSpacing: 5, fontSize: 15),
-              ),
-              Text(
-                'Version 1.0',
-                style: TextStyle(color: Colors.white24, fontSize: 9.5),
-              )
-            ],
+            ),
           ),
         ),
-      ),
+        Positioned(
+            top: 400,
+            left: 328,
+            child: IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white54,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfile(
+                              user: APIs.me,
+                            )));
+              },
+            ))
+      ]),
       backgroundColor: Color.fromARGB(255, 31, 30, 30),
     );
   }
@@ -296,8 +411,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
           title: Text('Logout',
               style: TextStyle(color: Colors.white, letterSpacing: 0.9)),

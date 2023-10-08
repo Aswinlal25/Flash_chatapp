@@ -60,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
             return Future.value(true);
           }
         },
-        
+
         child: Scaffold(
           appBar: AppBar(
               toolbarHeight: 60,
@@ -71,8 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'asset/chat_wallpepper 2.jpg'), 
+                image: AssetImage('asset/chat_wallpepper 2.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -153,7 +152,10 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _appBar() {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_)=> ViewProfileScreen(user:widget.user)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ViewProfileScreen(user: widget.user)));
       },
       child: StreamBuilder(
           stream: APIs.getUserInfo(widget.user),
@@ -185,10 +187,9 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: Colors.white,
                         )),
                     ClipRRect(
-                      
                       borderRadius: BorderRadius.circular(50),
                       child: CachedNetworkImage(
-                        fit: BoxFit.cover,
+                          fit: BoxFit.cover,
                           width: 40,
                           height: 40,
                           imageUrl: list.isNotEmpty
@@ -229,6 +230,82 @@ class _ChatScreenState extends State<ChatScreen> {
                         )
                       ],
                     ),
+                    Spacer(),
+                    PopupMenuButton(
+                      color: Color.fromARGB(255, 25, 24, 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Adjust the radius as needed
+                      ),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          child: InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewProfileScreen(
+                                        user: widget.user))),
+                            //             .then((result) {
+                            //   // Now, navigate to the HomeScreen
+                            //   Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (_) => ChatScreen(user: widget.user),
+                            //     ),
+                            //   );
+                            // }),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info,
+                                  color: Colors.white70, // Icon color
+                                  size: 22.0, // Icon size
+                                ),
+                                SizedBox(
+                                    width:
+                                        6.0), 
+                                Text(
+                                  'View Account',
+                                  style: TextStyle(
+                                    color: Colors.white70, // Text color
+                                    fontSize: 16.0, // Text size
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          child: InkWell(
+                            onTap: () => _DeleteMsgDialog(context),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.delete,
+                                  color: Colors.white70, // Icon color
+                                  size: 22.0, // Icon size
+                                ),
+                                SizedBox(
+                                    width:
+                                        8.0), // Add spacing between icon and text
+                                Text(
+                                  'Delete Chat',
+                                  style: TextStyle(
+                                    color: Colors.white70, // Text color
+                                    fontSize: 16.0, // Text size
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                      offset: Offset(0, 37),
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Icon(Icons.more_vert, color: Colors.white),
+                      ), // Menu icon color
+                    )
                   ],
                 ),
               ],
@@ -298,7 +375,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
-       //   SizedBox(width: 0),
+          //   SizedBox(width: 0),
           Container(
             width: 45,
             height: 45,
@@ -323,6 +400,55 @@ class _ChatScreenState extends State<ChatScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void _DeleteMsgDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          backgroundColor: Color.fromARGB(255, 31, 30, 30),
+          title: Text(
+            'Delete',
+            style: TextStyle(color: Colors.white, letterSpacing: 0.9),
+          ),
+          content: Container(
+            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
+            child: Text(
+              'Are you sure you want Delete All Messages ?',
+              style: TextStyle(
+                color: Colors.white,
+                letterSpacing: 0.2,
+                wordSpacing: 2,
+              ),
+            ),
+          ),
+          contentPadding:
+              EdgeInsets.only(left: 18, top: 15), // Adjust padding here
+          titlePadding:
+              EdgeInsets.only(left: 27, top: 20), // Adjust padding here
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+            ),
+            TextButton(
+              onPressed: () async {
+                await APIs.deleteAllMessages(widget.user.id).then((value) {
+                  Navigator.pop(context);
+                });
+              },
+              child: Text('Delete', style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -188,4 +188,39 @@ class APIs {
          UserModel value=UserModel(name: me.name, about: me.about, image: me.image);
        saveUserToDB(value);
   }
+
+  //delete meessage
+  static Future<void>deleteMessage(Message message)async{
+    await firestore
+    .collection('chats/${getConversationID(message.told)}/messages/')
+    .doc(message.sent)
+    .delete();
+
+    if(message.type == Type.image){
+      await storage.refFromURL(message.msg).delete();
+    }
+  }
+
+
+  static Future<void> deleteAllMessages(String conversationID) async {
+    String chatId=getConversationID(conversationID);
+  final collectionReference = firestore.collection('chats/$chatId/messages');
+
+  final QuerySnapshot querySnapshot = await collectionReference.get();
+  for (final doc in querySnapshot.docs) {
+    await doc.reference.delete();
+  }
+}
+
+// updating message 
+static Future<void> updatingMessage(Message message , String updatedMsg) async {
+    await firestore
+    .collection('chats/${getConversationID(message.told)}/messages/')
+    .doc(message.sent)
+    .update({'msg': updatedMsg});
+
+    
+  
+}
+
 }
