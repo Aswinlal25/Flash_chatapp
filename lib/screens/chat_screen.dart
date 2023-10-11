@@ -4,6 +4,7 @@ import 'package:chat_app/helper/my_date_util.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import '../apis/api.dart';
 import '../models/chat_user.dart';
 import '../models/message.dart';
@@ -25,8 +26,9 @@ class _ChatScreenState extends State<ChatScreen> {
 // for   handling message changes
   final _textController = TextEditingController();
 
-// for storing value of showing emoji
-  bool _showEmoji = false;
+// for storing value of showing emoji and
+// isUploading for checking if image is uploading or not?
+  bool _showEmoji = false, _isUploading = false;
 
   ScrollController _scrollController = ScrollController();
 
@@ -41,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
+        // statusBarIconBrightness: Brightness.dark,
       ),
     );
 
@@ -62,6 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
 
         child: Scaffold(
+          //resizeToAvoidBottomInset: false,
           appBar: AppBar(
               toolbarHeight: 60,
               automaticallyImplyLeading: false,
@@ -122,10 +125,22 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                   ),
                 ),
+
+                if (_isUploading)
+                  const Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                //chat input field
                 _ChatInput(),
 
                 // show emoji on keybord
-
                 if (_showEmoji)
                   SizedBox(
                     height: 275,
@@ -232,7 +247,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     Spacer(),
                     PopupMenuButton(
-                      color: Color.fromARGB(255, 25, 24, 24),
+                      color: Color.fromARGB(255, 41, 40, 40),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10.0), // Adjust the radius as needed
@@ -243,17 +258,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             onTap: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ViewProfileScreen(
-                                        user: widget.user))),
-                            //             .then((result) {
-                            //   // Now, navigate to the HomeScreen
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (_) => ChatScreen(user: widget.user),
-                            //     ),
-                            //   );
-                            // }),
+                                    builder: (context) =>
+                                        ViewProfileScreen(user: widget.user))),
                             child: Row(
                               children: [
                                 Icon(
@@ -261,9 +267,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   color: Colors.white70, // Icon color
                                   size: 22.0, // Icon size
                                 ),
-                                SizedBox(
-                                    width:
-                                        6.0), 
+                                SizedBox(width: 6.0),
                                 Text(
                                   'View Account',
                                   style: TextStyle(
@@ -277,22 +281,20 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         PopupMenuItem(
                           child: InkWell(
-                            onTap: () => _DeleteMsgDialog(context),
+                            onTap: () => _DeleteAllMsgDialog(),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.delete,
-                                  color: Colors.white70, // Icon color
-                                  size: 22.0, // Icon size
+                                  color: Colors.white70,
+                                  size: 22.0,
                                 ),
-                                SizedBox(
-                                    width:
-                                        8.0), // Add spacing between icon and text
+                                SizedBox(width: 8.0),
                                 Text(
                                   'Delete Chat',
                                   style: TextStyle(
-                                    color: Colors.white70, // Text color
-                                    fontSize: 16.0, // Text size
+                                    color: Colors.white70,
+                                    fontSize: 16.0,
                                   ),
                                 ),
                               ],
@@ -304,7 +306,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Icon(Icons.more_vert, color: Colors.white),
-                      ), // Menu icon color
+                      ),
                     )
                   ],
                 ),
@@ -355,14 +357,38 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+
+                      // picking multiple images
+                      final List<XFile> images =
+                          await picker.pickMultiImage(imageQuality: 70);
+
+                      for (var i in images) {
+                        setState(() => _isUploading = true);
+                        await APIs.sendChatImage(widget.user, File(i.path));
+                        setState(() => _isUploading = false);
+                      }
+                    },
                     icon: const Icon(
                       Icons.image,
                       color: Colors.white60,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final ImagePicker picker = ImagePicker();
+
+                      final XFile? images = await picker.pickImage(
+                          source: ImageSource.camera, imageQuality: 70);
+
+                      if (images != null) {
+                        print('Image Path: ${images.path}');
+
+                        await APIs.sendChatImage(
+                            widget.user, File(images.path));
+                      }
+                    },
                     icon: const Icon(
                       Icons.camera_alt,
                       color: Colors.white60,
@@ -375,14 +401,14 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
-          //   SizedBox(width: 0),
           Container(
             width: 45,
             height: 45,
             child: MaterialButton(
               onPressed: () {
                 if (_textController.text.isNotEmpty) {
-                  APIs.sendMessage(widget.user, _textController.text);
+                  APIs.sendMessage(
+                      widget.user, _textController.text, Type.text);
                   _textController.text = '';
                 }
               },
@@ -397,6 +423,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            width: 5,
           )
         ],
       ),
@@ -447,6 +476,86 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Text('Delete', style: TextStyle(color: Colors.blue)),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  void _DeleteAllMsgDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+          backgroundColor: Color.fromARGB(255, 30, 30, 30),
+          content: Stack(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: SizedBox(
+                height: 280,
+                width: 190,
+                child: Column(
+                  children: [
+                    
+                    Center(
+                        child: Image.asset(
+                      'asset/chat_deleteimg-.png',
+                      width: 150,
+                      height: 150,
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
+                        'Are you sure you want Delete All Messages ?',
+                        style: TextStyle(
+                            color: Colors.white, letterSpacing: 1, fontSize: 15),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          // shape: BoxShape.circle,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      width: 200,
+                      height: 50,
+                      child: Center(
+                          child: InkWell(
+                              onTap: () async {
+                                await APIs.deleteAllMessages(widget.user.id)
+                                    .then((value) {
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
+                              ))),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                left: 201,
+                bottom: 240,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ))
+          ]),
         );
       },
     );

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/helper/my_date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 
 import '../apis/api.dart';
 import '../helper/dialogs.dart';
@@ -36,7 +38,9 @@ class _MessageCardState extends State<MessageCard> {
         Container(
           constraints:
               BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
-          padding: EdgeInsets.only(left: 12, top: 8, right: 12, bottom: 4),
+          padding: widget.message.type == Type.text
+              ? EdgeInsets.only(left: 12, top: 8, right: 12, bottom: 4)
+              : EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 4),
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
           decoration: BoxDecoration(
             color: isDarkMessage
@@ -54,10 +58,27 @@ class _MessageCardState extends State<MessageCard> {
                 ? CrossAxisAlignment.start
                 : CrossAxisAlignment.end,
             children: [
-              Text(
-                widget.message.msg,
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+              widget.message.type == Type.text
+                  ? Text(
+                      widget.message.msg,
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: widget.message.msg,
+                          placeholder: (context, url) => const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                          errorWidget: (context, url, error) => const Icon(
+                                Icons.image,
+                                size: 70,
+                              )),
+                    ),
               SizedBox(
                 width: 0,
               ),
@@ -119,14 +140,31 @@ class _MessageCardState extends State<MessageCard> {
                             });
                           },
                         )
-                      : ListTile(
-                          leading: Icon(
-                            Icons.save,
-                            color: Colors.white70,
-                          ),
-                          title: Text(
-                            'Save image',
-                            style: TextStyle(color: Colors.white70),
+                      : InkWell(
+                          onTap: () async {
+                            try{
+                              await GallerySaver.saveImage(widget.message.msg, albumName: 'Flash images')
+                                .then((success) {
+                              Navigator.pop(context);
+                              if (success != null && success) {
+                                Dialogs.showSnackbar(
+                                    context, 'Image Successfully Saved!');
+                              }
+                            });
+                            }
+                            catch(e){
+                                   print('ErrorwhileSavingimage:$e');
+                            }
+                          },
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.save,
+                              color: Colors.white70,
+                            ),
+                            title: Text(
+                              'Save image',
+                              style: TextStyle(color: Colors.white70),
+                            ),
                           ),
                         ),
                   InkWell(

@@ -13,7 +13,7 @@ class APIs {
   //for accessing cloud firestore database
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static FirebaseAuth _auth = FirebaseAuth.instance;
+  static FirebaseAuth auth = FirebaseAuth.instance;
 
   static FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -21,7 +21,7 @@ class APIs {
   static late ChatUser me;
 
   //for return current user
-  static User get user => _auth.currentUser!;
+  static User get user => auth.currentUser!;
 
   //for checking if user exists or not ?
   static Future<bool> userExists() async {
@@ -66,7 +66,7 @@ class APIs {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
     return firestore
         .collection('Users')
-        .where('id', isNotEqualTo: user.uid)
+        .orderBy("Last Message Time",descending: true)
         .snapshots();
   }
 
@@ -123,7 +123,7 @@ class APIs {
   }
 
   //for sending message
-  static Future<void> sendMessage(ChatUser chatUser, String msg) async {
+  static Future<void> sendMessage(ChatUser chatUser, String msg, Type type) async {
 // for message sending time
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -132,13 +132,22 @@ class APIs {
         told: chatUser.id,
         msg: msg,
         read: '',
-        type: Type.text,
+        type: type,
         formId: user.uid,
         sent: time);
 
     final ref = firestore
         .collection("chats/${getConversationID(chatUser.id)}/messages/");
     await ref.doc(time).set(message.toJson());
+    
+    updateLastMessageTime(time,me.id,chatUser.id);
+  }
+
+  //  for update last message time in user 
+
+ static updateLastMessageTime(String time,String thisUser,String chatUserId)async{
+    await firestore.collection('Users').doc(thisUser).set({"Last Message Time":time},SetOptions(merge: true));
+    await firestore.collection('Users').doc(chatUserId).set({"Last Message Time":time},SetOptions(merge: true));
   }
 
   //  for update the read status of message
@@ -222,5 +231,31 @@ static Future<void> updatingMessage(Message message , String updatedMsg) async {
     
   
 }
+
+
+//send chat image
+
+static Future<void> sendChatImage(ChatUser chatUser ,File file) async{
+
+  // getting image file extension
+    final ext = file.path.split('.').last;
+   
+    
+
+    // storage file ref with path
+    final ref = storage.ref().child('images/${getConversationID(chatUser.id)}/${DateTime.now().millisecondsSinceEpoch}.$ext');
+
+    //uploading image
+    await ref
+        .putFile(file, SettableMetadata (contentType: 'image/$ext'))
+        .then((p0) {
+      print('Data Transferred: ${p0.bytesTransferred / 1000} kb');
+    });
+
+    // updating image in firestore 
+    final imageUrl = await ref.getDownloadURL();
+     await sendMessage(chatUser, imageUrl, Type.image);
+}
+
 
 }

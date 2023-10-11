@@ -34,8 +34,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flash',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-       //// useMaterial3: true,
+      theme: 
+      ThemeData(
+       //useMaterial3: true,
+        
         appBarTheme: const AppBarTheme(
           //centerTitle: true,
           elevation: 1,

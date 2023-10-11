@@ -1,4 +1,6 @@
 import 'dart:developer';
+
+import 'package:chat_app/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Scaffold.of(context).openDrawer();
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -66,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
             toolbarHeight: 60,
             backgroundColor: Color.fromARGB(15, 5, 5, 5),
             elevation: 3,
-            leading: 
-            Builder(
+            leading: Builder(
               // Wrap IconButton with Builder
               builder: (context) => IconButton(
                 onPressed: () {
@@ -138,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // the custom drawer
 
-          drawer: list.isNotEmpty ? CustomDrawer() : null,
+          drawer: thisUSer.value.name!.isNotEmpty ? CustomDrawer() : null,
 
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -164,22 +167,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   final data = snapshot.data?.docs;
                   log(data.toString());
                   log('-----------------------------');
-                  list =
-                      data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
-                          [];
+                  // list =
+                  //     data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
+                  //         [];
+                  list.clear();
+                         for(var element in data!){
+                          if(element.id!=APIs.auth.currentUser!.uid){
+                            list.add(ChatUser.fromJson(element.data()));
+                          }
+                         }
+                          
 
                   if (list.isNotEmpty) {
                     return ListView.builder(
-                        itemCount:
-                            _isSearching ? _searchList.length : list.length,
-                        padding: EdgeInsets.only(top: 3),
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return ChatUserCard(
-                            user:
-                                _isSearching ? _searchList[index] : list[index],
-                          );
-                        });
+                      itemCount:
+                          _isSearching ? _searchList.length : list.length,
+                      padding: EdgeInsets.only(top: 3),
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ChatUserCard(
+                          user: _isSearching ? _searchList[index] : list[index],
+                        );
+                      },
+                    );
                   } else {
                     return const Center(
                         child: Text(
@@ -218,6 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
             TextButton(
               onPressed: () {
                 logOut(context);
+
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
                 _showSnackBar(context, 'Logout Successfully.',
                     Colors.black); //  logout method
                 //Navigator.

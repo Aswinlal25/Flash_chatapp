@@ -23,6 +23,8 @@ class Message {
     sent = json['sent'].toString();
   }
 
+  get isOnline => null;
+
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
 

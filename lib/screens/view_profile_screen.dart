@@ -69,13 +69,13 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                       topRight: Radius.circular(50))),
               child: Column(
                 children: [
-                  SizedBox(height: 19),
+                  SizedBox(height: 20),
                   Text(
                     widget.user.name,
                     style: TextStyle(
                         color: Colors.white, fontSize: 25, letterSpacing: 1.5),
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 15),
                   Text(
                     widget.user.email,
                     style: TextStyle(
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                       color: Colors.white70,
                     ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 5),
                   Text(
                     MyDateUtil.getLastActiveTime(
                         context: context, lastActive: widget.user.lastActive),
@@ -96,9 +96,9 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  Divider(
-                    color: Colors.black,
-                  ),
+                  // Divider(
+                  //   color: Colors.black,
+                  // ),
                   Column(
                     children: [
                       Row(
@@ -172,9 +172,10 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  Divider(
-                    color: Colors.black,
-                  ),
+                  // Divider(
+                  //   color: Colors.black,
+                  // ),
+                  SizedBox(height: 10,),
                   Padding(
                     padding: const EdgeInsets.all(.20),
                     child: Container(

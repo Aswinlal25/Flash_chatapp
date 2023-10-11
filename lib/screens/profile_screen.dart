@@ -36,7 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          //elevation: 3,
           title: Text(
             'Profile',
             style: TextStyle(
@@ -47,10 +46,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           actions: [
             PopupMenuButton(
+              
                 color: Color.fromARGB(255, 41, 40, 40),
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                      BorderRadius.circular(4.0), // Adjust the radius as needed
+                      BorderRadius.circular(8.0), // Adjust the radius as needed
                 ),
                 itemBuilder: (context) => [
                       PopupMenuItem(
@@ -73,12 +73,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           child: Row(
                             children: [
+                              SizedBox(
+                                width: 7,
+                              ),
                               Icon(
                                 Icons.add_a_photo,
                                 color: Colors.white70, // Icon color
                                 size: 22.0, // Icon size
                               ),
-                              SizedBox(width: 6.0),
+                              SizedBox(width: 15.0),
                               Text(
                                 'Set Profile Picture',
                                 style: TextStyle(
@@ -102,6 +105,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           child: Row(
                             children: [
+                              SizedBox(
+                                width: 7,
+                              ),
+
                               Icon(
                                 Icons.edit,
                                 color: Colors.white70, // Icon color
@@ -109,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               SizedBox(
                                   width:
-                                      8.0), // Add spacing between icon and text
+                                      15.0), // Add spacing between icon and text
                               Text(
                                 'Edit Profile',
                                 style: TextStyle(
@@ -124,11 +131,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       PopupMenuItem(
                         child: InkWell(
                           onTap: () {
-                            _logoutAndShowDialog(context);
+                            // _logoutAndShowDialog(context);
+                             _LogoutDialog();
                             deleteDB();
                           },
                           child: Row(
                             children: [
+                              SizedBox(
+                                width: 7,
+                              ),
                               Icon(
                                 Icons.exit_to_app,
                                 color: Colors.white70, // Icon color
@@ -136,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               SizedBox(
                                   width:
-                                      8.0), // Add spacing between icon and text
+                                      15.0), // Add spacing between icon and text
                               Text(
                                 'Logout',
                                 style: TextStyle(
@@ -318,31 +329,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left: 230, top: 70),
-                        //   child: ElevatedButton.icon(
-                        //     onPressed: () {
-                        //       _logoutAndShowDialog(context);
-                        //       deleteDB();
-                        //     },
-                        //     icon: Icon(
-                        //       Icons.logout,
-                        //     ),
-                        //     label: Text(
-                        //       'Logout',
-                        //       style:
-                        //           TextStyle(fontSize: 15, letterSpacing: 0.5),
-                        //     ),
-                        //     style: ElevatedButton.styleFrom(
-                        //       primary: Colors.transparent,
-                        //       onPrimary: Colors.white,
-                        //       minimumSize: Size(135, 50),
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(30),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -352,31 +338,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ]),
         ),
         Positioned(
-          top: 266,
-          left: 328,
+          top: 265, //l
+          left: 329,
           child: GestureDetector(
             onTap: () {
               _showBottomSheet();
             },
             child: Material(
               color: Colors.transparent,
-              shape: CircleBorder(),
+              // shape: CircleBorder(),
               child: Container(
                 width: 50.0,
                 height: 50.0,
                 decoration: BoxDecoration(
                   // shape: BoxShape.circle,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    // bottomRight: Radius.circular(20)
-                  ),
-                  color: Colors.black,
+                  borderRadius: BorderRadius.all(Radius.circular(30)
+                      // bottomLeft: Radius.circular(20),
+                      // topRight: Radius.circular(20),
+                      // bottomRight: Radius.circular(20)
+                      ),
+                  color: Colors.blue[400],
                 ),
                 child: Center(
                   child: Icon(
                     Icons.add_a_photo,
-                    color: Colors.white,
+                    color: Colors.black,
                     size: 22,
                   ),
                 ),
@@ -430,6 +416,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(
               onPressed: () {
                 logOut(context);
+                // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false);
+                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
                 _showSnackBar(context, 'Logout Successfully.',
                     Colors.black); //  logout method
                 //Navigator.
@@ -558,4 +546,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+
+void _LogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+          backgroundColor: Color.fromARGB(255, 30, 30, 30),
+          content: Stack(children: [
+            SizedBox(
+              height: 250,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Center(
+                      child: Image.asset(
+                    'asset/logoutEmoji.jpg',
+                    width: 97,
+                    height: 100,
+                  )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Do you want to logout ?',
+                    style: TextStyle(color: Colors.white, letterSpacing: 1),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        // shape: BoxShape.circle,
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                    width: 200,
+                    height: 50,
+                    child: Center(
+                        child: InkWell(
+                            onTap: () {
+                              logOut(context);
+
+                              _showSnackBar(context, 'Logout Successfully.',
+                                  Colors.black); //  logout method
+                            },
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(color: Colors.white),
+                            ))),
+                  )
+                ],
+              ),
+            ),
+            Positioned(
+                left: 200,
+                bottom: 219,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ))
+          ]),
+        );
+      },
+    );
+  }
+
 }

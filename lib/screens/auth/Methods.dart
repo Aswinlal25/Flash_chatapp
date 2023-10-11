@@ -56,7 +56,8 @@ Future<void> logOut(BuildContext context) async {
 await APIs.updateActiveStatus(false);
 
     await _auth.signOut().then((value) {
-       Navigator.push(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
+      print("the function is called");
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false);
     });
   } catch (e) {
     print('Error logging out: $e');
