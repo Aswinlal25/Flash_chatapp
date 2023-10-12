@@ -104,7 +104,10 @@ flutter:
     - asset\drawer1.jpeg
     - asset\logoutEmoji.jpg
     - asset\chatdeleteimg.png
-    - asset\chat_deleteimg-.png    
+    - asset\chat_deleteimg-.png
+    - asset\logoutWarnig.png
+    - asset\editMesIcon.png
+    - asset\MsgEdit.png    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

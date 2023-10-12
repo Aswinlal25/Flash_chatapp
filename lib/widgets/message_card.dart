@@ -30,7 +30,11 @@ class _MessageCardState extends State<MessageCard> {
 
   Widget _messageWidget() {
     final isDarkMessage = APIs.user.uid != widget.message.formId;
-
+   if( isDarkMessage)
+     if(widget.message.readed==''){
+      print("the function is called");
+         APIs.updateMessageReadStatus(widget.message);
+    }
     return Row(
       mainAxisAlignment:
           isDarkMessage ? MainAxisAlignment.start : MainAxisAlignment.end,
@@ -59,7 +63,7 @@ class _MessageCardState extends State<MessageCard> {
                 : CrossAxisAlignment.end,
             children: [
               widget.message.type == Type.text
-                  ? Text(
+                  ?  Text(
                       widget.message.msg,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     )
@@ -95,6 +99,13 @@ class _MessageCardState extends State<MessageCard> {
                       style: TextStyle(color: Colors.white70, fontSize: 9),
                     ),
                   ),
+                  SizedBox(width: 3,),
+
+                if ( isDarkMessage) 
+                  Text('')
+                else
+                  if(widget.message.readed!='')
+                  const Icon(Icons.done_all_rounded,color: Colors.blue,size: 14,)
                 ],
               ),
             ],
@@ -105,6 +116,8 @@ class _MessageCardState extends State<MessageCard> {
   }
 
   void _MsgEditDialog(isMe) {
+     final isDarkMessage = APIs.user.uid != widget.message.formId;
+     
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -112,114 +125,121 @@ class _MessageCardState extends State<MessageCard> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           backgroundColor: Color.fromARGB(255, 31, 30,
-              30), // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              30),
           content: Flexible(
-            child: SizedBox(
-              height: 280,
-              child: Column(
-                children: [
-                  widget.message.type == Type.text
-                      ? InkWell(
-                          child: ListTile(
-                            leading: Icon(
-                              Icons.copy,
-                              color: Colors.white70,
-                            ),
-                            title: Text(
-                              'Copy Text',
-                              style: TextStyle(color: Colors.white70),
-                            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                widget.message.type == Type.text
+                    ? InkWell(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.copy,
+                            color: Colors.white70,
                           ),
-                          onTap: () async {
-                            await Clipboard.setData(
-                                    ClipboardData(text: widget.message.msg))
-                                .then((value) {
-                              Navigator.pop(context);
-
-                              Dialogs.showSnackbar(context, 'Text Copied!');
-                            });
-                          },
-                        )
-                      : InkWell(
-                          onTap: () async {
-                            try{
-                              await GallerySaver.saveImage(widget.message.msg, albumName: 'Flash images')
-                                .then((success) {
-                              Navigator.pop(context);
-                              if (success != null && success) {
-                                Dialogs.showSnackbar(
-                                    context, 'Image Successfully Saved!');
-                              }
-                            });
-                            }
-                            catch(e){
-                                   print('ErrorwhileSavingimage:$e');
-                            }
-                          },
-                          child: ListTile(
-                            leading: Icon(
-                              Icons.save,
-                              color: Colors.white70,
-                            ),
-                            title: Text(
-                              'Save image',
-                              style: TextStyle(color: Colors.white70),
-                            ),
+                          title: Text(
+                            'Copy Text',
+                            style: TextStyle(color: Colors.white70),
                           ),
                         ),
+                        onTap: () async {
+                          await Clipboard.setData(
+                                  ClipboardData(text: widget.message.msg))
+                              .then((value) {
+                            Navigator.pop(context);
+
+                            Dialogs.showSnackbar(context, 'Text Copied!');
+                          });
+                        },
+                      )
+                    : InkWell(
+                        onTap: () async {
+                          try{
+                            await GallerySaver.saveImage(widget.message.msg, albumName: 'Flash images')
+                              .then((success) {
+                            Navigator.pop(context);
+                            if (success != null && success) {
+                              Dialogs.showSnackbar(
+                                  context, 'Image Successfully Saved!');
+                            }
+                          });
+                          }
+                          catch(e){
+                                 print('ErrorwhileSavingimage:$e');
+                          }
+                        },
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.save,
+                            color: Colors.white70,
+                          ),
+                          title: Text(
+                            'Save image',
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                        ),
+                      ),
+                      isDarkMessage?
+                  ListTile(
+                    leading: Icon(
+                      Icons.delete_forever,
+                      color: Colors.white70,
+                    ),
+                    title: Text('Cant Delete Message',
+                        style: TextStyle(color: Colors.white70)),
+                  ):
                   InkWell(
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.delete_forever,
+                      color: Colors.white70,
+                    ),
+                    title: Text('Delete Message',
+                        style: TextStyle(color: Colors.white70)),
+                  ),
+                  onTap: () async {
+                    await APIs.deleteMessage(widget.message).then((value) {
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
+                if (widget.message.type == Type.text && isMe)
+                  InkWell(
+                    onTap: () {
+                      _showMessageUpdateDialog(context);
+                    },
                     child: ListTile(
                       leading: Icon(
-                        Icons.delete_forever,
+                        Icons.edit,
                         color: Colors.white70,
                       ),
-                      title: Text('Delete Message',
-                          style: TextStyle(color: Colors.white70)),
-                    ),
-                    onTap: () async {
-                      await APIs.deleteMessage(widget.message).then((value) {
-                        Navigator.pop(context);
-                      });
-                    },
-                  ),
-                  if (widget.message.type == Type.text && isMe)
-                    InkWell(
-                      onTap: () {
-                        _showMessageUpdateDialog(context);
-                      },
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.edit,
-                          color: Colors.white70,
-                        ),
-                        title: Text(
-                          'Edit Message',
-                          style: TextStyle(color: Colors.white70),
-                        ),
+                      title: Text(
+                        'Edit Message',
+                        style: TextStyle(color: Colors.white70),
                       ),
                     ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.white70,
-                    ),
-                    title: Text(
-                      'Sent At : ${MyDateUtil.getMessageTime(context: context, time: widget.message.sent)}',
-                      style: TextStyle(color: Colors.white70, fontSize: 15),
-                    ),
                   ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.white70,
-                    ),
-                    // title: Text( widget.message.read.isNotEmpty? 'Read At : Not seen yet'
-                    //   :'Read At : ${MyDateUtil.getFormattedTime(context: context, time: widget.message.read)}',
-                    //   style: TextStyle(color: Colors.white),
-                    // ),
+                ListTile(
+                  leading: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.white70,
                   ),
-                ],
-              ),
+                  title: Text(
+                    'Sent At : ${MyDateUtil.getMessageTime(context: context, time: widget.message.sent)}',
+                    style: TextStyle(color: Colors.white70, fontSize: 15),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.white70,
+                  ),
+                  title: Text( widget.message.readed.isEmpty? 'Read At : Not seen yet'
+                    :'Read At : ${MyDateUtil.getFormattedTime(context: context, time: widget.message.readed)}',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -237,11 +257,16 @@ class _MessageCardState extends State<MessageCard> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
-          title: Text(
-            ' Update ',
-            style: TextStyle(
-                color: Colors.white, letterSpacing: 0.9, fontSize: 18),
-          ),
+         title: Image.asset(
+                    'asset/MsgEdit.png',
+                    width: 100,
+                    height: 100,
+                  ),
+          // title: Text(
+          //   ' Update ',
+          //   style: TextStyle(
+          //       color: Colors.white, letterSpacing: 0.9, fontSize: 18),
+          // ),
           content: Container(
             padding: EdgeInsets.only(
                 left: 8, right: 20), // Adjust the padding as needed
@@ -250,7 +275,7 @@ class _MessageCardState extends State<MessageCard> {
               height: 50,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(10),
                 // color: Colors.white.withOpacity(0.8), // Add opacity
               ),
               child: TextFormField(

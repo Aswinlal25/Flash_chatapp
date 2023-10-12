@@ -92,24 +92,39 @@ class _ChatUserCardState extends State<ChatUserCard> {
                subtitle: Text(
                  _message != null ?
                  _message!.type == Type.image ?
-                 'Photo'
+                 '📷 Photo'
                  :
                   _message!.msg : widget.user.about,
                   
                  maxLines: 1,
                  style: TextStyle(color: Colors.white70,fontSize: 14),
                ),
-               trailing: Text(
-                 _message != null
-                     ? MyDateUtil.getLastMassageTime(
-                         context: context,
-                         time: _message!.sent,
-                       )
-                     : '', // Handle the case where _message is null.
-                 style: TextStyle(
-                   color: Colors.white60,
-                   fontSize: 13,
+               trailing: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.end,
+                direction: Axis.vertical,
+                 children:[ Text(
+                   _message != null
+                       ? MyDateUtil.getLastMassageTime(
+                           context: context,
+                           time: _message!.sent,
+                         )
+                       : '', // Handle the case where _message is null.
+                   style: TextStyle(
+                     color: Colors.white60,
+                     fontSize: 13,
+                   ),
                  ),
+                 FutureBuilder<int>(
+                  
+                   future: APIs.getCount(widget.user.id),
+                   builder: (context,AsyncSnapshot snapshot) {
+                    var num=snapshot.data;
+                     return snapshot.data == 0 ? SizedBox() : Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: CircleAvatar(backgroundColor: Colors.blue[400], radius: 10, child: Text(snapshot.data.toString(),style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w600),)),
+                     );
+                   }
+                 ),]
                ),
              ),
               Positioned(

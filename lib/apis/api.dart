@@ -131,7 +131,7 @@ class APIs {
     final Message message = Message(
         told: chatUser.id,
         msg: msg,
-        read: '',
+        readed: '',
         type: type,
         formId: user.uid,
         sent: time);
@@ -153,10 +153,11 @@ class APIs {
   //  for update the read status of message
 
   static Future<void> updateMessageReadStatus(Message message) async {
-    firestore
+    var time=DateTime.now().millisecondsSinceEpoch.toString();
+ await firestore
         .collection("chats/${getConversationID(message.formId)}/messages/")
         .doc(message.sent)
-        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+        .set({"readed":time},SetOptions(merge: true));
   }
 
   // get only last message
@@ -258,4 +259,22 @@ static Future<void> sendChatImage(ChatUser chatUser ,File file) async{
 }
 
 
+static Future<int> getCount(String chatUserId)async{
+
+String chatId=getConversationID(chatUserId);
+  final message =await FirebaseFirestore.instance.collection('chats').doc(chatId).collection("messages").get();
+  int count = 0;
+    final  messageList = message.docs;
+    for(var data in messageList){
+      if(data['readed']== ""&&data['formId']!= auth.currentUser!.uid){
+        count++;
+      }
+    }
+  return count;
 }
+
+}
+
+
+
+

@@ -6,7 +6,6 @@ import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../apis/api.dart';
 import '../hive_model/user.dart';
-import '../screens/auth/login_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 // import '../models/chat_user.dart';
@@ -139,6 +138,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
+  // ignore: unused_element
   void _logoutAndShowDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -203,7 +203,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           content: Stack(children: [
             SizedBox(
               height: 250,
-              
               child: Column(
                 children: [
                   SizedBox(
@@ -211,7 +210,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                   Center(
                       child: Image.asset(
-                    'asset/logoutEmoji.jpg',
+                    'asset/logoutWarnig.png',
                     width: 97,
                     height: 100,
                   )),
@@ -225,25 +224,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   SizedBox(
                     height: 38,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        // shape: BoxShape.circle,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    width: 200,
-                    height: 50,
-                    child: Center(
-                        child: InkWell(
-                            onTap: () {
-                              logOut(context);
+                  InkWell(
+                    onTap: () {
+                      logOut(context);
 
-                              _showSnackBar(context, 'Logout Successfully.',
-                                  Colors.black); //  logout method
-                            },
-                            child: Text(
-                              'Logout',
-                              style: TextStyle(color: Colors.white),
-                            ))),
+                      _showSnackBar(context, 'Logout Successfully.',
+                          Colors.black); //  logout method
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          // shape: BoxShape.circle,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      width: 200,
+                      height: 50,
+                      child: Center(
+                          child: Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                    ),
                   )
                 ],
               ),

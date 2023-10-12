@@ -281,7 +281,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         PopupMenuItem(
                           child: InkWell(
-                            onTap: () => _DeleteAllMsgDialog(),
+                            onTap: () { _DeleteAllMsgDialog();
+                            
+                            },
                             child: Row(
                               children: [
                                 Icon(
@@ -508,7 +510,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       height: 10,
                     ),
                     const Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'Are you sure you want Delete All Messages ?',
                         style: TextStyle(
@@ -518,25 +520,38 @@ class _ChatScreenState extends State<ChatScreen> {
                     SizedBox(
                       height: 32,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          // shape: BoxShape.circle,
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      width: 200,
-                      height: 50,
-                      child: Center(
-                          child: InkWell(
-                              onTap: () async {
-                                await APIs.deleteAllMessages(widget.user.id)
-                                    .then((value) {
-                                  Navigator.pop(context);
-                                });
-                              },
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            // shape: BoxShape.circle,
+                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                        width: 200,
+                        height: 50,
+                        child: InkWell(
+                          onTap: () async {
+                             Navigator.pop(context);
+                          
+                             await APIs.deleteAllMessages(widget.user.id)
+                                      .then((value) {
+                                       
+                                    
+                              
+                                  }
+                                  );
+                                  
+                                   _showSnackBar(context, 'Chat Deleted Succesfully! .',
+                            Colors.black); 
+                           //  showProgressBar(context);
+                          },
+                          child: Center(
                               child: Text(
                                 'Delete',
                                 style: TextStyle(color: Colors.white),
-                              ))),
+                              )),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -559,5 +574,29 @@ class _ChatScreenState extends State<ChatScreen> {
         );
       },
     );
+  }
+
+static void showProgressBar(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => Center(
+              child: CircularProgressIndicator(),
+            ));
+  }
+
+  void _showSnackBar(
+      BuildContext context, String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white, letterSpacing: 1),
+      ),
+      backgroundColor: backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
+      ),
+      behavior: SnackBarBehavior.fixed,
+    ));
   }
 }

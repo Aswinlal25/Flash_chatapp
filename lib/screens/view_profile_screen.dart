@@ -133,7 +133,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                           ),
                           IconButton(
                             onPressed: () {
-                              _DeleteMsgDialog(context);
+                             _DeleteAllMsgDialog();
                             },
                             icon: const Icon(
                               Icons.delete,
@@ -438,52 +438,105 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
     );
   }
 
-  void _DeleteMsgDialog(BuildContext context) {
+  void _DeleteAllMsgDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          backgroundColor: Color.fromARGB(255, 31, 30, 30),
-          title: Text(
-            'Delete',
-            style: TextStyle(color: Colors.white, letterSpacing: 0.9),
-          ),
-          content: Container(
-            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
-            child: Text(
-              'Are you sure you want Delete All Messages ?',
-              style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 0.2,
-                wordSpacing: 2,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+          backgroundColor: Color.fromARGB(255, 30, 30, 30),
+          content: Stack(children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: SizedBox(
+                height: 280,
+                width: 190,
+                child: Column(
+                  children: [
+                    
+                    Center(
+                        child: Image.asset(
+                      'asset/chat_deleteimg-.png',
+                      width: 150,
+                      height: 150,
+                    )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.only(left:15),
+                      child: Text(
+                        'Are you sure you want Delete All Messages ?',
+                        style: TextStyle(
+                            color: Colors.white, letterSpacing: 1, fontSize: 15),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            // shape: BoxShape.circle,
+                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                        width: 200,
+                        height: 50,
+                        child: InkWell(
+                          onTap: () async {
+                             await APIs.deleteAllMessages(widget.user.id)
+                                      .then((value) {
+                                    Navigator.pop(context);
+                                  }
+                                  );
+                                   _showSnackBar(context, 'Chat Deleted Succesfully! .',
+                            Colors.black); 
+                          },
+                          child: Center(
+                              child: Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          contentPadding:
-              EdgeInsets.only(left: 18, top: 15), // Adjust padding here
-          titlePadding:
-              EdgeInsets.only(left: 27, top: 20), // Adjust padding here
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-            ),
-            TextButton(
-              onPressed: () async {
-                await APIs.deleteAllMessages(widget.user.id).then((value) {
-                  Navigator.pop(context);
-                });
-              },
-              child: Text('Delete', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
+            Positioned(
+                left: 201,
+                bottom: 240,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.white,
+                  ),
+                ))
+          ]),
         );
       },
     );
+  }
+  void _showSnackBar(
+      BuildContext context, String message, Color backgroundColor) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white, letterSpacing: 1),
+      ),
+      backgroundColor: backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
+      ),
+      behavior: SnackBarBehavior.fixed,
+    ));
   }
 }

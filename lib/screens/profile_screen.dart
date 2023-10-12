@@ -96,12 +96,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       PopupMenuItem(
                         child: InkWell(
                           onTap: () {
+                             Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditProfile(
                                           user: APIs.me,
                                         )));
+                                       
                           },
                           child: Row(
                             children: [
@@ -565,8 +567,8 @@ void _LogoutDialog() {
                   ),
                   Center(
                       child: Image.asset(
-                    'asset/logoutEmoji.jpg',
-                    width: 97,
+                    'asset/logoutWarnig.png',
+                    width: 100,
                     height: 100,
                   )),
                   SizedBox(
@@ -579,25 +581,26 @@ void _LogoutDialog() {
                   SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        // shape: BoxShape.circle,
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    width: 200,
-                    height: 50,
-                    child: Center(
-                        child: InkWell(
-                            onTap: () {
-                              logOut(context);
+                  InkWell(
+                    onTap: () {
+                       logOut(context);
 
                               _showSnackBar(context, 'Logout Successfully.',
                                   Colors.black); //  logout method
-                            },
-                            child: Text(
-                              'Logout',
-                              style: TextStyle(color: Colors.white),
-                            ))),
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          // shape: BoxShape.circle,
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
+                      width: 200,
+                      height: 50,
+                      child: Center(
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ),
                   )
                 ],
               ),
