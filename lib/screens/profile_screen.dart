@@ -33,20 +33,368 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: Text(
-            'Profile',
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 19,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 4),
+      appBar: null,
+      // appBar: AppBar(
+      //     backgroundColor: Colors.transparent,
+      //     centerTitle: true,
+      //     title: Text(
+      //       'Profile',
+      //       style: TextStyle(
+      //           color: Colors.white70,
+      //           fontSize: 19,
+      //           fontWeight: FontWeight.w500,
+      //           letterSpacing: 4),
+      //     ),
+      //     actions: [
+      // PopupMenuButton(
+
+      //     color: Color.fromARGB(255, 41, 40, 40),
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius:
+      //           BorderRadius.circular(8.0), // Adjust the radius as needed
+      //     ),
+      //     itemBuilder: (context) => [
+      //           PopupMenuItem(
+      //             child: InkWell(
+      //               onTap: () async {
+      //                 final ImagePicker picker = ImagePicker();
+      //                 final XFile? image = await picker.pickImage(
+      //                     source: ImageSource.gallery);
+
+      //                 if (image != null) {
+      //                   print(
+      //                       'Image Path: ${image.path} -- MimeType: ${image.mimeType}');
+      //                   setState(() {
+      //                     _image = image
+      //                         .path; // Update _image with selected image path
+      //                   });
+      //                   APIs.updateProfilePicture(File(_image!));
+      //                   Navigator.pop(context);
+      //                 }
+      //               },
+      //               child: Row(
+      //                 children: [
+      //                   SizedBox(
+      //                     width: 7,
+      //                   ),
+      //                   Icon(
+      //                     Icons.add_a_photo,
+      //                     color: Colors.white70, // Icon color
+      //                     size: 22.0, // Icon size
+      //                   ),
+      //                   SizedBox(width: 15.0),
+      //                   Text(
+      //                     'Set Profile Picture',
+      //                     style: TextStyle(
+      //                       color: Colors.white70, // Text color
+      //                       fontSize: 16.0, // Text size
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //           PopupMenuItem(
+      //             child: InkWell(
+      //               onTap: () {
+      //                  Navigator.pop(context);
+      //                 Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                         builder: (context) => EditProfile(
+      //                               user: APIs.me,
+      //                             )));
+
+      //               },
+      //               child: Row(
+      //                 children: [
+      //                   SizedBox(
+      //                     width: 7,
+      //                   ),
+
+      //                   Icon(
+      //                     Icons.edit,
+      //                     color: Colors.white70, // Icon color
+      //                     size: 22.0, // Icon size
+      //                   ),
+      //                   SizedBox(
+      //                       width:
+      //                           15.0), // Add spacing between icon and text
+      //                   Text(
+      //                     'Edit Profile',
+      //                     style: TextStyle(
+      //                       color: Colors.white70, // Text color
+      //                       fontSize: 16.0, // Text size
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //           PopupMenuItem(
+      //             child: InkWell(
+      //               onTap: () {
+      //                 // _logoutAndShowDialog(context);
+      //                  _LogoutDialog();
+      //                 deleteDB();
+      //               },
+      //               child: Row(
+      //                 children: [
+      //                   SizedBox(
+      //                     width: 7,
+      //                   ),
+      //                   Icon(
+      //                     Icons.exit_to_app,
+      //                     color: Colors.white70, // Icon color
+      //                     size: 22.0, // Icon size
+      //                   ),
+      //                   SizedBox(
+      //                       width:
+      //                           15.0), // Add spacing between icon and text
+      //                   Text(
+      //                     'Logout',
+      //                     style: TextStyle(
+      //                       color: Colors.white70, // Text color
+      //                       fontSize: 16.0, // Text size
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ],
+      //     offset: Offset(0, 60),
+      //     child: Padding(
+      //       padding: const EdgeInsets.only(right: 10),
+      //       child: Icon(Icons.more_vert, color: Colors.white),
+      //     ))
+      // ]),
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              _image != null
+                  ?
+
+                  //local image
+                  Container(
+                      width: 500,
+                      child: Image.file(
+                        File(_image!),
+                        width: 155,
+                        height: 290,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  :
+
+                  // server image
+                  Container(
+                      width: 500,
+                      child: CachedNetworkImage(
+                        width: 155,
+                        height: 345,
+                        fit: BoxFit.cover,
+                        imageUrl: netImage!,
+                        errorWidget: (context, url, error) {
+                          print('Error loading image: $error');
+                          return const Icon(
+                            CupertinoIcons.person,
+                            size: 140,
+                          );
+                        },
+                      ),
+                    ),
+              Padding(
+                padding: const EdgeInsets.all(20.10),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Account',
+                            style: TextStyle(
+                              fontSize: 14,
+                              letterSpacing: 1,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        widget.user.email,
+                        style: TextStyle(
+                          fontSize: 15,
+                          letterSpacing: 1.5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Text(
+                        'Email id',
+                        style: TextStyle(
+                          fontSize: 12,
+                          letterSpacing: 1,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        thickness: 0.3,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        widget.user.about,
+                        style: TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 1.2,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Text(
+                        'About',
+                        style: TextStyle(
+                          fontSize: 12,
+                          letterSpacing: 1,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                        thickness: 0.3,
+                      ),
+                      SizedBox(
+                        height: 120,
+                      ),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'FLASH',
+                              style: TextStyle(
+                                  color: Colors.white24,
+                                  letterSpacing: 5,
+                                  fontSize: 15),
+                            ),
+                            Text(
+                              'Version 1.0',
+                              style: TextStyle(
+                                  color: Colors.white12, fontSize: 9.5),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          actions: [
-            PopupMenuButton(
-              
+        ),
+        Positioned(
+          top: 321, //l
+          left: 327,
+          child: GestureDetector(
+            onTap: () {
+              _showBottomSheet();
+            },
+            child: Material(
+              color: Colors.transparent,
+              // shape: CircleBorder(),
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  // color: Colors.blue[400],
+                  color: Color.fromARGB(255, 107, 107, 107),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.add_a_photo,
+                    color: Colors.black,
+                    size: 22,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+            top: 457,
+            left: 328,
+            child: IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white54,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfile(
+                              user: APIs.me,
+                            )));
+              },
+            )),
+            Positioned(
+            top: 20,
+            left: 0,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
+        Positioned(
+            top: 285,
+            right: 0,
+            left: 20,
+            child: Text(
+              widget.user.name,
+              style: TextStyle(
+                fontSize: 20,
+                letterSpacing: 1,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            )),
+        Positioned(
+            top: 312,
+            right: 0,
+            left: 21,
+            child: Text(
+              'Online',
+              style: TextStyle(
+                fontSize: 12,
+                letterSpacing: 1,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            )),
+        Positioned(
+            top: 30,
+            left: 350,
+            child: PopupMenuButton(
                 color: Color.fromARGB(255, 41, 40, 40),
                 shape: RoundedRectangleBorder(
                   borderRadius:
@@ -77,7 +425,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 width: 7,
                               ),
                               Icon(
-                                Icons.add_a_photo,
+                                Icons.add_a_photo_outlined,
                                 color: Colors.white70, // Icon color
                                 size: 22.0, // Icon size
                               ),
@@ -85,7 +433,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 'Set Profile Picture',
                                 style: TextStyle(
-                                  color: Colors.white70, // Text color
+                                  color: Colors.white, // Text color
                                   fontSize: 16.0, // Text size
                                 ),
                               ),
@@ -96,14 +444,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       PopupMenuItem(
                         child: InkWell(
                           onTap: () {
-                             Navigator.pop(context);
+                            Navigator.pop(context);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EditProfile(
                                           user: APIs.me,
                                         )));
-                                       
                           },
                           child: Row(
                             children: [
@@ -112,7 +459,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
 
                               Icon(
-                                Icons.edit,
+                                Icons.mode_edit_outline,
                                 color: Colors.white70, // Icon color
                                 size: 22.0, // Icon size
                               ),
@@ -122,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 'Edit Profile',
                                 style: TextStyle(
-                                  color: Colors.white70, // Text color
+                                  color: Colors.white, // Text color
                                   fontSize: 16.0, // Text size
                                 ),
                               ),
@@ -134,7 +481,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: InkWell(
                           onTap: () {
                             // _logoutAndShowDialog(context);
-                             _LogoutDialog();
+                            _LogoutDialog();
                             deleteDB();
                           },
                           child: Row(
@@ -153,7 +500,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 'Logout',
                                 style: TextStyle(
-                                  color: Colors.white70, // Text color
+                                  color: Colors.white, // Text color
                                   fontSize: 16.0, // Text size
                                 ),
                               ),
@@ -162,233 +509,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
-                offset: Offset(0, 60),
+                offset: Offset(0, 5),
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: Icon(Icons.more_vert, color: Colors.white),
-                ))
-          ]),
-      body: Stack(children: [
-        SingleChildScrollView(
-          child: Stack(children: [
-            Column(
-              children: [
-                Stack(
-                  // alignment: Alignment.center,
-                  children: [
-                    _image != null
-                        ?
-
-                        //local image
-                        Container(
-                            width: 500,
-                            child: Image.file(
-                              File(_image!),
-                              width: 155,
-                              height: 290,
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        :
-
-                        // server image
-                        Container(
-                            width: 500,
-                            child: CachedNetworkImage(
-                              width: 155,
-                              height: 290,
-                              fit: BoxFit.cover,
-                              imageUrl: netImage!,
-                              errorWidget: (context, url, error) {
-                                print('Error loading image: $error');
-                                return const Icon(
-                                  CupertinoIcons.person,
-                                  size: 140,
-                                );
-                              },
-                            ),
-                          ),
-                    Positioned(
-                        top: 223,
-                        right: 0,
-                        left: 20,
-                        child: Text(
-                          widget.user.name,
-                          style: TextStyle(
-                            fontSize: 20,
-                            letterSpacing: 1,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )),
-                    Positioned(
-                        top: 250,
-                        right: 0,
-                        left: 21,
-                        child: Text(
-                          'Online',
-                          style: TextStyle(
-                            fontSize: 12,
-                            letterSpacing: 1,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.10),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Account',
-                              style: TextStyle(
-                                fontSize: 14,
-                                letterSpacing: 1,
-                                color: Colors.white70,
-                              ),
-                            ),
-                            Spacer(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          widget.user.email,
-                          style: TextStyle(
-                            fontSize: 15,
-                            letterSpacing: 1.5,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          'Email id',
-                          style: TextStyle(
-                            fontSize: 12,
-                            letterSpacing: 1,
-                            color: Colors.white70,
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.black,
-                          thickness: 0.3,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          widget.user.about,
-                          style: TextStyle(
-                              fontSize: 16,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          'About',
-                          style: TextStyle(
-                            fontSize: 12,
-                            letterSpacing: 1,
-                            color: Colors.white70,
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.black,
-                          thickness: 0.3,
-                        ),
-                        SizedBox(
-                          height: 120,
-                        ),
-                        Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'FLASH',
-                                style: TextStyle(
-                                    color: Colors.white24,
-                                    letterSpacing: 5,
-                                    fontSize: 15),
-                              ),
-                              Text(
-                                'Version 1.0',
-                                style: TextStyle(
-                                    color: Colors.white12, fontSize: 9.5),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ]),
-        ),
-        Positioned(
-          top: 265, //l
-          left: 329,
-          child: GestureDetector(
-            onTap: () {
-              _showBottomSheet();
-            },
-            child: Material(
-              color: Colors.transparent,
-              // shape: CircleBorder(),
-              child: Container(
-                width: 50.0,
-                height: 50.0,
-                decoration: BoxDecoration(
-                  // shape: BoxShape.circle,
-                  borderRadius: BorderRadius.all(Radius.circular(30)
-                      // bottomLeft: Radius.circular(20),
-                      // topRight: Radius.circular(20),
-                      // bottomRight: Radius.circular(20)
-                      ),
-                  color: Colors.blue[400],
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.add_a_photo,
-                    color: Colors.black,
-                    size: 22,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-            top: 400,
-            left: 328,
-            child: IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Colors.white54,
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EditProfile(
-                              user: APIs.me,
-                            )));
-              },
-            ))
+                )))
       ]),
       backgroundColor: Color.fromARGB(255, 31, 30, 30),
     );
@@ -549,7 +674,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-void _LogoutDialog() {
+  void _LogoutDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -583,10 +708,10 @@ void _LogoutDialog() {
                   ),
                   InkWell(
                     onTap: () {
-                       logOut(context);
+                      logOut(context);
 
-                              _showSnackBar(context, 'Logout Successfully.',
-                                  Colors.black); //  logout method
+                      _showSnackBar(context, 'Logout Successfully.',
+                          Colors.black); //  logout method
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -597,9 +722,9 @@ void _LogoutDialog() {
                       height: 50,
                       child: Center(
                           child: Text(
-                            'Logout',
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        'Logout',
+                        style: TextStyle(color: Colors.white),
+                      )),
                     ),
                   )
                 ],
@@ -623,5 +748,4 @@ void _LogoutDialog() {
       },
     );
   }
-
 }

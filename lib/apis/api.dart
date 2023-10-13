@@ -258,7 +258,7 @@ static Future<void> sendChatImage(ChatUser chatUser ,File file) async{
      await sendMessage(chatUser, imageUrl, Type.image);
 }
 
-
+// for show unread message count in chat_user_card
 static Future<int> getCount(String chatUserId)async{
 
 String chatId=getConversationID(chatUserId);

@@ -22,12 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ChatUser> list = [];
   final List<ChatUser> _searchList = [];
   bool _isSearching = false;
-
+ 
   @override
   void initState() {
     super.initState();
     APIs.getSelfInfo();
-
     APIs.updateActiveStatus(true);
 
     SystemChannels.lifecycle.setMessageHandler((message) {
@@ -60,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             return Future.value(false);
           } else {
-            return Future.value(false);
+            return Future.value(true);
           }
         },
 
@@ -127,6 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                 ),
               ),
+              
               IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -146,9 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FloatingActionButton(
-              backgroundColor: Colors.blue,
+              backgroundColor: Color.fromARGB(255, 80, 79, 79),
+
               onPressed: () {},
-              child: Icon(Icons.chat, color: Colors.black),
+              child: Icon(Icons.person_add_alt_outlined, color: Colors.white),
             ),
           ),
 

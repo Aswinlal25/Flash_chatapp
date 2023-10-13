@@ -180,14 +180,15 @@ class _MessageCardState extends State<MessageCard> {
                         ),
                       ),
                       isDarkMessage?
-                  ListTile(
-                    leading: Icon(
-                      Icons.delete_forever,
-                      color: Colors.white70,
-                    ),
-                    title: Text('Cant Delete Message',
-                        style: TextStyle(color: Colors.white70)),
-                  ):
+                  // ListTile(
+                  //   leading: Icon(
+                  //     Icons.delete_forever,
+                  //     color: Colors.white70,
+                  //   ),
+                  //   title: Text('Cant Delete Message',
+                  //       style: TextStyle(color: Colors.white70)),
+                  SizedBox()
+                  :
                   InkWell(
                   child: ListTile(
                     leading: Icon(
@@ -257,16 +258,16 @@ class _MessageCardState extends State<MessageCard> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
-         title: Image.asset(
-                    'asset/MsgEdit.png',
-                    width: 100,
-                    height: 100,
-                  ),
-          // title: Text(
-          //   ' Update ',
-          //   style: TextStyle(
-          //       color: Colors.white, letterSpacing: 0.9, fontSize: 18),
-          // ),
+        //  title: Image.asset(
+        //             'asset/MsgEdit.png',
+        //             width: 100,
+        //             height: 100,
+        //           ),
+          title: Text(
+            ' Update ',
+            style: TextStyle(
+                color: Colors.white, letterSpacing: 0.9, fontSize: 18),
+          ),
           content: Container(
             padding: EdgeInsets.only(
                 left: 8, right: 20), // Adjust the padding as needed

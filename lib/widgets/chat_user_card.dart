@@ -6,7 +6,6 @@ import 'package:chat_app/apis/api.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../helper/my_date_util.dart';
 
@@ -111,17 +110,18 @@ class _ChatUserCardState extends State<ChatUserCard> {
                        : '', // Handle the case where _message is null.
                    style: TextStyle(
                      color: Colors.white60,
-                     fontSize: 13,
+                     fontSize: 12,
                    ),
                  ),
                  FutureBuilder<int>(
                   
                    future: APIs.getCount(widget.user.id),
                    builder: (context,AsyncSnapshot snapshot) {
+                    // ignore: unused_local_variable
                     var num=snapshot.data;
                      return snapshot.data == 0 ? SizedBox() : Padding(
                        padding: const EdgeInsets.all(8.0),
-                       child: CircleAvatar(backgroundColor: Colors.blue[400], radius: 10, child: Text(snapshot.data.toString(),style: TextStyle(fontSize: 11,color: Colors.black,fontWeight: FontWeight.w600),)),
+                       child: CircleAvatar(backgroundColor:Color.fromARGB(255, 109, 108, 108), radius: 11, child: Text(snapshot.data.toString(),style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.w500),)),
                      );
                    }
                  ),]
@@ -129,9 +129,13 @@ class _ChatUserCardState extends State<ChatUserCard> {
              ),
               Positioned(
                 
-                top: 6, 
-                left: 11,
+                // top: 6, 
+                // left: 11,
+                // top: 50,
+                // left: 53,
                 child: widget.user.isOnline? _onlineIndicator():SizedBox(),
+                top: 7,
+                left: 12,
               ),
           ] );
          },
@@ -147,15 +151,18 @@ class _ChatUserCardState extends State<ChatUserCard> {
        showDialog(context: context, builder: (_) => ProfileDialog(user:  widget.user,));
     },
      child: Container(
-                    width: 60, 
-                    height: 60, 
+                    width: 58, 
+                    height: 58, 
                     decoration: BoxDecoration(
                       shape: BoxShape.circle, 
                       border: Border.all(
-                        color: Colors.green, 
-                        width: 1.5, 
+                        color: Color.fromARGB(255, 30, 128, 3), 
+                        width: 1.7, 
                       ),
                     ),
+                    // width: 12,
+                    // height: 12,
+                    // decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.amber),
                     child: Center(
                      
                       child: Container(

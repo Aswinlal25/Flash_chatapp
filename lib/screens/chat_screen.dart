@@ -64,7 +64,6 @@ class _ChatScreenState extends State<ChatScreen> {
         },
 
         child: Scaffold(
-          //resizeToAvoidBottomInset: false,
           appBar: AppBar(
               toolbarHeight: 60,
               automaticallyImplyLeading: false,
@@ -72,11 +71,13 @@ class _ChatScreenState extends State<ChatScreen> {
               elevation: 10,
               flexibleSpace: _appBar()),
           body: Container(
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('asset/chat_wallpepper 2.jpg'),
-                fit: BoxFit.cover,
-              ),
+                  image: AssetImage('asset/chat_wallpepper 2.jpg'),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter),
             ),
             child: Column(
               children: [
@@ -250,7 +251,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: Color.fromARGB(255, 41, 40, 40),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the radius as needed
+                            8.0), // Adjust the radius as needed
                       ),
                       itemBuilder: (context) => [
                         PopupMenuItem(
@@ -263,7 +264,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.info,
+                                  Icons.info_outline,
                                   color: Colors.white70, // Icon color
                                   size: 22.0, // Icon size
                                 ),
@@ -271,7 +272,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Text(
                                   'View Account',
                                   style: TextStyle(
-                                    color: Colors.white70, // Text color
+                                    color: Colors.white, // Text color
                                     fontSize: 16.0, // Text size
                                   ),
                                 ),
@@ -281,13 +282,13 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
                         PopupMenuItem(
                           child: InkWell(
-                            onTap: () { _DeleteAllMsgDialog();
-                            
+                            onTap: () {
+                              _DeleteAllMsgDialog();
                             },
                             child: Row(
                               children: [
                                 Icon(
-                                  Icons.delete,
+                                  Icons.delete_outline,
                                   color: Colors.white70,
                                   size: 22.0,
                                 ),
@@ -295,7 +296,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 Text(
                                   'Delete Chat',
                                   style: TextStyle(
-                                    color: Colors.white70,
+                                    color: Colors.white,
                                     fontSize: 16.0,
                                   ),
                                 ),
@@ -319,169 +320,118 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _ChatInput() {
-    return Padding(
-      padding: const EdgeInsets.all(.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: Card(
-              color: Color.fromARGB(255, 20, 19, 19),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      setState(() => _showEmoji = !_showEmoji);
-                    },
-                    icon: const Icon(
-                      Icons.emoji_emotions,
-                      color: Colors.white60,
-                    ),
+    return Row(
+      children: [
+        Expanded(
+          child: Card(
+            color: Color.fromARGB(255, 20, 19, 19),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    setState(() => _showEmoji = !_showEmoji);
+                  },
+                  icon: const Icon(
+                    Icons.emoji_emotions,
+                    color: Colors.white60,
                   ),
-                  Expanded(
-                    child: TextField(
-                      controller: _textController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      onTap: () {
-                        if (_showEmoji)
-                          setState(() => _showEmoji = !_showEmoji);
-                      },
-                      style: TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        hintText: ' Message',
-                        hintStyle:
-                            TextStyle(color: Colors.white70, fontSize: 16),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-
-                      // picking multiple images
-                      final List<XFile> images =
-                          await picker.pickMultiImage(imageQuality: 70);
-
-                      for (var i in images) {
-                        setState(() => _isUploading = true);
-                        await APIs.sendChatImage(widget.user, File(i.path));
-                        setState(() => _isUploading = false);
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.image,
-                      color: Colors.white60,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-
-                      final XFile? images = await picker.pickImage(
-                          source: ImageSource.camera, imageQuality: 70);
-
-                      if (images != null) {
-                        print('Image Path: ${images.path}');
-
-                        await APIs.sendChatImage(
-                            widget.user, File(images.path));
-                      }
-                    },
-                    icon: const Icon(
-                      Icons.camera_alt,
-                      color: Colors.white60,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            width: 45,
-            height: 45,
-            child: MaterialButton(
-              onPressed: () {
-                if (_textController.text.isNotEmpty) {
-                  APIs.sendMessage(
-                      widget.user, _textController.text, Type.text);
-                  _textController.text = '';
-                }
-              },
-              color: Colors.blue,
-              textColor: Colors.white,
-              shape: CircleBorder(),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: Icon(
-                  Icons.send,
-                  size: 21,
                 ),
+                SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    onTap: () {
+                      if (_showEmoji) setState(() => _showEmoji = !_showEmoji);
+                    },
+                    style: TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      hintText: ' Aa',
+                      hintStyle: TextStyle(color: Colors.white70, fontSize: 16),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+
+                    // picking multiple images
+                    final List<XFile> images =
+                        await picker.pickMultiImage(imageQuality: 70);
+
+                    for (var i in images) {
+                      setState(() => _isUploading = true);
+                      await APIs.sendChatImage(widget.user, File(i.path));
+                      setState(() => _isUploading = false);
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.image,
+                    color: Colors.white60,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+
+                    final XFile? images = await picker.pickImage(
+                        source: ImageSource.camera, imageQuality: 70);
+
+                    if (images != null) {
+                      print('Image Path: ${images.path}');
+
+                      await APIs.sendChatImage(widget.user, File(images.path));
+                    }
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    color: Colors.white60,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          width: 45,
+          height: 45,
+          child: MaterialButton(
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                APIs.sendMessage(widget.user, _textController.text, Type.text);
+                _textController.text = '';
+              }
+            },
+            color: Colors.blue,
+            textColor: Colors.white,
+            shape: CircleBorder(),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Icon(
+                Icons.send,
+                size: 21,
               ),
             ),
           ),
-          SizedBox(
-            width: 5,
-          )
-        ],
-      ),
+        ),
+        SizedBox(
+          width: 5,
+        )
+      ],
     );
   }
 
-  void _DeleteMsgDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          backgroundColor: Color.fromARGB(255, 31, 30, 30),
-          title: Text(
-            'Delete',
-            style: TextStyle(color: Colors.white, letterSpacing: 0.9),
-          ),
-          content: Container(
-            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
-            child: Text(
-              'Are you sure you want Delete All Messages ?',
-              style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 0.2,
-                wordSpacing: 2,
-              ),
-            ),
-          ),
-          contentPadding:
-              EdgeInsets.only(left: 18, top: 15), // Adjust padding here
-          titlePadding:
-              EdgeInsets.only(left: 27, top: 20), // Adjust padding here
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-            ),
-            TextButton(
-              onPressed: () async {
-                await APIs.deleteAllMessages(widget.user.id).then((value) {
-                  Navigator.pop(context);
-                });
-              },
-              child: Text('Delete', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   void _DeleteAllMsgDialog() {
     showDialog(
@@ -499,7 +449,6 @@ class _ChatScreenState extends State<ChatScreen> {
                 width: 190,
                 child: Column(
                   children: [
-                    
                     Center(
                         child: Image.asset(
                       'asset/chat_deleteimg-.png',
@@ -514,7 +463,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: Text(
                         'Are you sure you want Delete All Messages ?',
                         style: TextStyle(
-                            color: Colors.white, letterSpacing: 1, fontSize: 15),
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontSize: 15),
                       ),
                     ),
                     SizedBox(
@@ -526,30 +477,25 @@ class _ChatScreenState extends State<ChatScreen> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             // shape: BoxShape.circle,
-                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                         width: 200,
                         height: 50,
                         child: InkWell(
                           onTap: () async {
-                             Navigator.pop(context);
-                          
-                             await APIs.deleteAllMessages(widget.user.id)
-                                      .then((value) {
-                                       
-                                    
-                              
-                                  }
-                                  );
-                                  
-                                   _showSnackBar(context, 'Chat Deleted Succesfully! .',
-                            Colors.black); 
-                           //  showProgressBar(context);
+                            Navigator.pop(context);
+
+                            await APIs.deleteAllMessages(widget.user.id)
+                                .then((value) {});
+
+                            _showSnackBar(context,
+                                'Chat Deleted Succesfully! .', Colors.black);
                           },
                           child: Center(
                               child: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.white),
-                              )),
+                            'Delete',
+                            style: TextStyle(color: Colors.white),
+                          )),
                         ),
                       ),
                     )
@@ -576,7 +522,8 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-static void showProgressBar(BuildContext context) {
+  // ignore: unused_element
+  static void showProgressBar(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) => Center(

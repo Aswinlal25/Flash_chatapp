@@ -113,14 +113,14 @@ class _EditProfileState extends State<EditProfile> {
                             width: 2.0,
                           ),
                         ),
-                        hintText: 'About',
+                        hintText: 'Username',
                         hintStyle: TextStyle(
                           color: Colors.white,
                           letterSpacing: 2,
                           fontSize: 15,
                         ),
                         prefixIcon: Icon(
-                          Icons.person,
+                          Icons.person_2_outlined,
                           color: Colors.white,
                           size: 20,
                         )),
@@ -154,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                           fontSize: 15,
                         ),
                         prefixIcon: Icon(
-                          Icons.info,
+                          Icons.info_outline,
                           color: Colors.white,
                           size: 20,
                         )),
