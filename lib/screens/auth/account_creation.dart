@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/login_screen.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import '../../apis/api.dart';
+import '../../widgets/dialogs/policy_dialog.dart';
 import '../home_screen.dart';
 
 class AccountCreateScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class AccountCreateScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<AccountCreateScreen> {
-  final TextEditingController _name = TextEditingController();
+  // final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
@@ -20,11 +22,14 @@ class _LoginScreenState extends State<AccountCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 43, 42, 42),
       body: Container(
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('asset/2.jpeg'),
+            image: AssetImage('asset/123.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -54,47 +59,44 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                         color: Colors.white,
                         fontWeight: FontWeight.w400),
                   ),
-                  SizedBox(height: 100),
-                  Container(
-                    width: 330,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
-                    ),
-                    child: Form(
-                      child: TextFormField(
-                        controller: _name,
-                        decoration: InputDecoration(
-                          hintText: 'Username',
-                          hintStyle: TextStyle(
-                              color: Colors.black,
-                              letterSpacing: 2,
-                              fontSize: 15),
-                          prefixIcon:
-                              Icon(Icons.person, color: Colors.black, size: 20),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 130),
+                  // Container(
+                  //   width: 330,
+                  //   height: 50,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(25),
+                  //     color: Colors.white,
+                  //   ),
+                  //   child: Form(
+                  //     child: TextFormField(
+                  //       controller: _name,
+                  //       decoration: InputDecoration(
+                  //         hintText: 'Username',
+                  //         hintStyle: TextStyle(
+                  //             color: Colors.black,
+                  //             letterSpacing: 2,
+                  //             fontSize: 15),
+                  //         prefixIcon:
+                  //             Icon(Icons.person, color: Colors.black, size: 20),
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(25),
+                  //           borderSide: BorderSide.none,
+                  //         ),
+                  //         filled: true,
+                  //         fillColor: Colors.white,
+                  //       ),
+                  //       style: TextStyle(color: Colors.black),
+                  //     ),
+                  //   ),
+                  // ),
 
-                  SizedBox(
-                    height: 20,
-                  ),
+                  
 
                   Container(
                     width: 330,
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
                     ),
                     child: TextFormField(
                       controller: _email,
@@ -111,7 +113,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Colors.white60.withOpacity(0.8),
                       ),
                       style: TextStyle(color: Colors.black),
                       validator: (value) {
@@ -131,7 +133,6 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      color: Colors.white,
                     ),
                     child: TextFormField(
                       controller: _password,
@@ -148,7 +149,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
-                        fillColor: Colors.white,
+                        fillColor: Colors.white60.withOpacity(0.8),
                       ),
                       style: TextStyle(color: Colors.black),
                       obscureText: true,
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                     ),
                   ),
 
-                  SizedBox(height: 70),
+                  SizedBox(height: 90),
 
                   // Login Button
                   Padding(
@@ -172,14 +173,14 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         // Implement your account creation logic here
-                        if (_name.text.isNotEmpty &&
-                            _email.text.isNotEmpty &&
+                        if (_email.text.isNotEmpty &&
                             _password.text.isNotEmpty) {
                           setState(() {
                             isLoading = true;
                           });
                           showProgressBar(context);
-                          createAccount(_name.text.trim(), _email.text.trim(), _password.text.trim())
+                          createAccount(
+                                  _email.text.trim(), _password.text.trim())
                               .then((user) async {
                             if (user != null) {
                               setState(() {
@@ -228,7 +229,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                         style: TextStyle(fontSize: 16, letterSpacing: 0.5),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 2, 87, 157),
+                        primary: Color.fromARGB(255, 84, 83, 83),
                         onPrimary: Colors.white,
                         minimumSize: Size(180, 52),
                         shape: RoundedRectangleBorder(
@@ -252,13 +253,48 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                       padding: const EdgeInsets.only(left: 156),
                       child: Text(
                         'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 13),
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 140,
-                  )
+                  SizedBox(height: 127,),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: "   By creating an account, you are agreeing to our   ",
+                        style: TextStyle(color: Colors.white70, fontSize: 12,),
+                        children: [
+                          TextSpan(
+                            text: 'Privacy and policy',
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return PolicyDialog(
+                                          mdFileName: 'privacy_policy.md');
+                                    });
+                              },
+                          ),
+                          TextSpan(
+                            text: ' and ',
+                          
+                          ),
+                          TextSpan(
+                            text: 'Terms & Conditions',
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return PolicyDialog(
+                                          mdFileName: 'terms_conditions.md');
+                                    });
+                              },
+                          ),
+                        ])),
                 ],
               ),
             ),

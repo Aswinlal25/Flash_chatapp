@@ -373,8 +373,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   },
                   icon: const Icon(
-                    Icons.image,
-                    color: Colors.white60,
+                    Icons.image_outlined,
+                    color: Colors.white54,
                   ),
                 ),
                 IconButton(
@@ -391,8 +391,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     }
                   },
                   icon: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.white60,
+                    Icons.camera_alt_outlined,
+                    color: Colors.white54,
                   ),
                 ),
                 SizedBox(

@@ -1,6 +1,8 @@
 // import 'package:chat_app/hive_model/user.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../apis/api.dart';
+import '../../widgets/dialogs/policy_dialog.dart';
 import '../home_screen.dart';
 import 'Methods.dart';
 import 'account_creation.dart';
@@ -21,10 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
+      body: Container(height: double.infinity,
+      width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('asset/2.jpeg'), // Replace with your image path
+            image: AssetImage(
+                'asset/123.jpg'), 
+                
+                // Replace with your image path
             fit: BoxFit.cover,
           ),
         ),
@@ -59,8 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Colors.white
-                        .withOpacity(0.8), // Add opacity to the white color
+                    
                   ),
                   child: TextField(
                     controller: _email,
@@ -75,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8), // Add opacity
+                      fillColor: Colors.white60.withOpacity(0.8), // Add opacity
                     ),
                     style: TextStyle(color: Colors.black),
                   ),
@@ -86,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Colors.white.withOpacity(0.8), // Add opacity
+                    // color: Colors.white.withOpacity(0.8), // Add opacity
                   ),
                   child: TextField(
                     controller: _password,
@@ -101,13 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.8), // Add opacity
+                      fillColor: Colors.white60.withOpacity(0.8), // Add opacity
                     ),
                     style: TextStyle(color: Colors.black),
                     obscureText: true,
                   ),
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 90),
                 Padding(
                   padding: const EdgeInsets.only(left: 93),
                   child: ElevatedButton(
@@ -127,8 +132,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             logIn(_email.text.trim(), _password.text.trim())
                                 .then((user) async {
                               if (user != null) {
-                                
-
                                 print('Login Successful');
                                 setState(() {
                                   isLoading = false;
@@ -176,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 16, letterSpacing: 1.5),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 2, 87, 157),
+                      primary: Color.fromARGB(255, 84, 83, 83),
                       onPrimary: Colors.white,
                       minimumSize: Size(150, 52),
                       shape: RoundedRectangleBorder(
@@ -196,16 +199,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => AccountCreateScreen()));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 126),
+                    padding: const EdgeInsets.only(left: 124),
                     child: Text(
                       'Create Account',
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 208,
-                )
+                  height: 127,
+                ),
+                RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: "   By creating an account, you are agreeing to our   ",
+                        style: TextStyle(color: Colors.white70, fontSize: 12,),
+                        children: [
+                          TextSpan(
+                            text: 'Privacy and policy',
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return PolicyDialog(
+                                          mdFileName: 'privacy_policy.md');
+                                    });
+                              },
+                          ),
+                          TextSpan(
+                            text: ' and ',
+                          
+                          ),
+                          TextSpan(
+                            text: 'Terms & Conditions',
+                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return PolicyDialog(
+                                          mdFileName: 'terms_conditions.md');
+                                    });
+                              },
+                          ),
+                        ])),
+                       
               ],
             ),
           ),

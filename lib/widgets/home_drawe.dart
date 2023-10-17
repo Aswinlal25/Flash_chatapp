@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:share_plus/share_plus.dart';
 import '../apis/api.dart';
 import '../hive_model/user.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
+import 'dialogs/policy_dialog.dart';
 // import '../models/chat_user.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -82,14 +84,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PolicyDialog(mdFileName: 'privacy_policy.md');
+                      });
                 },
               ),
               ListTile(
                 leading: Icon(Icons.book, color: Colors.white),
                 title: Text('About Us', style: TextStyle(color: Colors.white)),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PolicyDialog(mdFileName: 'about_us.md');
+                      });
                 },
               ),
               ListTile(
@@ -98,14 +108,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 title: Text('Terms and Conditions',
                     style: TextStyle(color: Colors.white)),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PolicyDialog(mdFileName: 'terms_conditions.md');
+                      });
                 },
               ),
               ListTile(
                 leading: Icon(Icons.share, color: Colors.white),
                 title: Text('Share', style: TextStyle(color: Colors.white)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Share.share("com.aswin.chat_app");
                 },
               ),
               ListTile(

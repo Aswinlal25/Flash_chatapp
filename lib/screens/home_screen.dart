@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import '../apis/api.dart';
 import '../widgets/chat_user_card.dart';
 import '../widgets/home_drawe.dart';
-import 'auth/Methods.dart';
 import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -148,13 +147,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FloatingActionButton(
               backgroundColor: Color.fromARGB(255, 80, 79, 79),
 
-              onPressed: () {},
+              onPressed: () {
+                _showAddChatDialog(context);
+              },
               child: Icon(Icons.person_add_alt_outlined, color: Colors.white),
             ),
           ),
 
           body: StreamBuilder(
-            stream: APIs.getAllUsers(),
+            stream: APIs.getMyUsersId(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -167,18 +168,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 case ConnectionState.done:
                   final data = snapshot.data?.docs;
                   log(data.toString());
-                  log('-----------------------------');
-                  // list =
-                  //     data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
-                  //         [];
                   list.clear();
                          for(var element in data!){
                           if(element.id!=APIs.auth.currentUser!.uid){
                             list.add(ChatUser.fromJson(element.data()));
                           }
                          }
-                          
-
                   if (list.isNotEmpty) {
                     return ListView.builder(
                       itemCount:
@@ -206,19 +201,55 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  void _logoutAndShowDialog(BuildContext context) {
+  void _showAddChatDialog(BuildContext context) {
+    String email ='';
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(255, 43, 42, 42),
-          title: Text('Logout',
-              style: TextStyle(color: Colors.white, letterSpacing: 0.9)),
-          content: Text(
-            'Are you sure you want to log out ?',
-            style: TextStyle(color: Colors.white),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
+          backgroundColor: Color.fromARGB(255, 31, 30, 30),
+                 
+          title: Text(
+            ' Add Users ',
+            style: TextStyle(
+                color: Colors.white, letterSpacing: 0.9, fontSize: 18),
+          ),
+          content: Container(
+            padding: EdgeInsets.only(
+                left: 8, right: 20), // Adjust the padding as needed
+            child: Container(
+              width: 300,
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: TextFormField(
+               
+                maxLines: null,
+                onChanged: (value) => email = value,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.email_outlined, color: Colors.white, size: 20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25),
+                    borderSide: BorderSide.none,
+                  ),
+                
+                  fillColor: Colors.white.withOpacity(0.9),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
+                  
+                ),
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          contentPadding:
+              EdgeInsets.only(left: 18, top: 15), // Adjust padding here
+          titlePadding:
+              EdgeInsets.only(left: 35, top: 20), // Adjust padding here
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -227,20 +258,30 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text('Cancel', style: TextStyle(color: Colors.blue)),
             ),
             TextButton(
-              onPressed: () {
-                logOut(context);
+              onPressed: () async {
 
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
-                _showSnackBar(context, 'Logout Successfully.',
-                    Colors.black); //  logout method
-                //Navigator.
+                APIs.addUser(email.trim());
+                
+                Navigator.of(context).pop();
+              //   if(email.isNotEmpty)
+              // await  APIs.addChatUser(email.trim()).then((value) {if(!value){
+              //  _showSnackBar(context, 'User does not Exists !',Colors.black);
+                 
+              // }});
+
+             
+              
+              
+               
               },
-              child: Text('Logout', style: TextStyle(color: Colors.blue)),
+              child: Text('Add', style: TextStyle(color: Colors.blue)),
             ),
           ],
         );
       },
     );
+
+
   }
 
   void _showSnackBar(
