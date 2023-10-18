@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:chat_app/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
@@ -139,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           // the custom drawer
-
           drawer: thisUSer.value.name!.isNotEmpty ? CustomDrawer() : null,
 
           floatingActionButton: Padding(
@@ -168,12 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 case ConnectionState.done:
                   final data = snapshot.data?.docs;
                   log(data.toString());
-                  list.clear();
-                         for(var element in data!){
-                          if(element.id!=APIs.auth.currentUser!.uid){
-                            list.add(ChatUser.fromJson(element.data()));
-                          }
-                         }
+                 list = data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
+                  // list.clear();
+                        //  for(var element in data!){
+                        //   if(element.id!=APIs.auth.currentUser!.uid){
+                        //     list.add(ChatUser.fromJson(element.data()));
+                        //   }
+                        //  }
                   if (list.isNotEmpty) {
                     return ListView.builder(
                       itemCount:
@@ -201,6 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   void _showAddChatDialog(BuildContext context) {
     String email ='';
     showDialog(
@@ -262,17 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 APIs.addUser(email.trim());
                 
-                Navigator.of(context).pop();
-              //   if(email.isNotEmpty)
-              // await  APIs.addChatUser(email.trim()).then((value) {if(!value){
-              //  _showSnackBar(context, 'User does not Exists !',Colors.black);
-                 
-              // }});
-
-             
-              
-              
-               
+                Navigator.of(context).pop();              
               },
               child: Text('Add', style: TextStyle(color: Colors.blue)),
             ),
@@ -280,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
     );
-
 
   }
 

@@ -137,10 +137,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   isLoading = false;
                                 });
                                 if ((await APIs.userExists())) {
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => HomeScreen()));
+                                          builder: (_) => HomeScreen()),(route) => false,);
                                   _showSnackBar(context, 'Login Successful!',
                                       Colors.black);
                                 } else {
@@ -267,7 +267,8 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       behavior: SnackBarBehavior.fixed,
-    ));
+    )
+    );
   }
 
   static void showProgressBar(BuildContext context) {

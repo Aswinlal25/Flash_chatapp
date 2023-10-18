@@ -16,12 +16,10 @@ class PolicyDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       backgroundColor: Color.fromARGB(255, 30, 30, 30),
-    
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
       child: Column(children: [
         Expanded(
-        
           child: FutureBuilder(
             future: Future.delayed(Duration(milliseconds: 150)).then((value) {
               return rootBundle.loadString('assets/$mdFileName',);
@@ -52,11 +50,7 @@ class PolicyDialog extends StatelessWidget {
                 bottomLeft: Radius.circular(radius),
                 bottomRight: Radius.circular(radius),
               )),
-                
-            
-         
             child: Container(
-              
               alignment: Alignment.center,
               height: 50,
               width: double.infinity,

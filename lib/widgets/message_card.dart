@@ -3,8 +3,6 @@ import 'package:chat_app/helper/my_date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:share_plus/share_plus.dart';
-
 import '../apis/api.dart';
 import '../helper/dialogs.dart';
 import '../models/message.dart';
@@ -180,27 +178,7 @@ class _MessageCardState extends State<MessageCard> {
                           ),
                         ),
                       ),
-                    //   widget.message.type == Type.text
-                    // ? SizedBox()
-                    // : InkWell(
-                    //     onTap: () async {
-                         
-                    //      Share.share(Type.image as String);
-                    //     },
-                    //     child: ListTile(
-                    //       leading: Icon(
-                    //         Icons.share,
-                    //         color: Colors.white70,
-                    //       ),
-                    //       title: Text(
-                    //         'Share image',
-                    //         style: TextStyle(color: Colors.white70),
-                    //       ),
-                    //     ),
-                    //   ),
-                      
                       isDarkMessage?
-                  
                   SizedBox()
                   :
                   InkWell(
@@ -272,11 +250,6 @@ class _MessageCardState extends State<MessageCard> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
-        //  title: Image.asset(
-        //             'asset/MsgEdit.png',
-        //             width: 100,
-        //             height: 100,
-        //           ),
           title: Text(
             ' Update ',
             style: TextStyle(

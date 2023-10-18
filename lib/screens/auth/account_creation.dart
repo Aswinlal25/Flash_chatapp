@@ -60,38 +60,6 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                         fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 130),
-                  // Container(
-                  //   width: 330,
-                  //   height: 50,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(25),
-                  //     color: Colors.white,
-                  //   ),
-                  //   child: Form(
-                  //     child: TextFormField(
-                  //       controller: _name,
-                  //       decoration: InputDecoration(
-                  //         hintText: 'Username',
-                  //         hintStyle: TextStyle(
-                  //             color: Colors.black,
-                  //             letterSpacing: 2,
-                  //             fontSize: 15),
-                  //         prefixIcon:
-                  //             Icon(Icons.person, color: Colors.black, size: 20),
-                  //         border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(25),
-                  //           borderSide: BorderSide.none,
-                  //         ),
-                  //         filled: true,
-                  //         fillColor: Colors.white,
-                  //       ),
-                  //       style: TextStyle(color: Colors.black),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  
-
                   Container(
                     width: 330,
                     height: 50,

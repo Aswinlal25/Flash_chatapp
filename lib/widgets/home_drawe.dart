@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/hive_db/user_db.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -10,7 +9,6 @@ import '../hive_model/user.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 import 'dialogs/policy_dialog.dart';
-// import '../models/chat_user.dart';
 
 class CustomDrawer extends StatefulWidget {
   // final ChatUser user;

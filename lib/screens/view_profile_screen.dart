@@ -32,10 +32,6 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: null,
-      //  AppBar(
-      //   backgroundColor: Color.fromARGB(66, 0, 0, 0),
-      //   elevation: 0.0,
-      // ),
       body: Stack(
         children: [
           Container(
@@ -96,9 +92,6 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  // Divider(
-                  //   color: Colors.black,
-                  // ),
                   Column(
                     children: [
                       Row(
@@ -133,7 +126,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                           ),
                           IconButton(
                             onPressed: () {
-                             _DeleteAllMsgDialog();
+                              _DeleteAllMsgDialog();
                             },
                             icon: const Icon(
                               Icons.delete,
@@ -172,16 +165,14 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  // Divider(
-                  //   color: Colors.black,
-                  // ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(.20),
                     child: Container(
                       constraints: BoxConstraints(
                           maxWidth: MediaQuery.of(context).size.width * 0.9),
-                      // width: 390,
                       decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 40, 40, 40),
                         borderRadius: BorderRadius.all(
@@ -280,160 +271,6 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
           ),
         ],
       ),
-      // body: SingleChildScrollView(
-      //   child: Center(
-      //     child: Padding(
-      //       padding: EdgeInsets.all(25),
-      //       child: Column(
-      //         children: [
-      //           // Circular Avatar
-      // ClipOval(
-      //   child: CachedNetworkImage(
-      //     width: 250,
-      //     height: 250,
-      //     fit: BoxFit.cover,
-      //     imageUrl: netImage!,
-      //     errorWidget: (context, url, error) {
-      //       print('Error loading image: $error');
-      //       return const Icon(
-      //         CupertinoIcons.person,
-      //         size: 140,
-      //       );
-      //     },
-      //   ),
-      // ),
-      // SizedBox(height: 15),
-      // Text(
-      //   widget.user.name,
-      //   style: TextStyle(
-      //       color: Colors.white, fontSize: 25, letterSpacing: 1.5),
-      // ),
-      // SizedBox(height: 5),
-      // Text(
-      //   MyDateUtil.getLastActiveTime(
-      //       context: context, lastActive: widget.user.lastActive),
-      //   style: const TextStyle(
-      //     color: Colors.white54,
-      //     fontSize: 13,
-      //   ),
-      // ),
-
-      // SizedBox(height: 5),
-      // Text(
-      //   widget.user.email,
-      //   style: TextStyle(
-      //     fontSize: 15,
-      //     letterSpacing: 1.7,
-      //     color: Colors.white70,
-      //   ),
-      // ),
-      // SizedBox(
-      //   height: 10,
-      // ),
-      // Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     IconButton(
-      //       onPressed: () {
-      //         Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (_) => ChatScreen(
-      //                 user: widget.user,
-      //               ),
-      //             )).then((result) {
-      //           // Now, navigate to the HomeScreen
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(
-      //               builder: (_) => HomeScreen(),
-      //             ),
-      //           );
-      //         });
-      //       },
-      //       icon: const Icon(
-      //         Icons.chat,
-      //         color: Colors.white,
-      //         size: 27,
-      //       ),
-      //     ),
-      //     Text(
-      //       'Message',
-      //       style: TextStyle(
-      //           color: Colors.white70,
-      //           fontSize: 12,
-      //           letterSpacing: .5),
-      //     ),
-      //   ],
-      // ),
-      // Divider(
-      //   color: Color.fromARGB(255, 35, 35, 35),
-      //   height: 20,
-      //   thickness: 10,
-      // ),
-      // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      //   Text(
-      //     'About : ',
-      //     style: TextStyle(
-      //         color: Colors.white70,
-      //         // fontWeight: FontWeight.w700,
-      //         letterSpacing: 1.5,
-      //         fontSize: 14),
-      //   ),
-      //   Text(
-      //     widget.user.about,
-      //     style: TextStyle(
-      //         color: Colors.white, letterSpacing: 1, fontSize: 17),
-      //   ),
-      // ]),
-
-      // SizedBox(
-      //   height: 5,
-      // ),
-      // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      //   Text(
-      //     'Joined On : ',
-      //     style: TextStyle(
-      //         color: Colors.white70,
-      //         fontWeight: FontWeight.w700,
-      //         letterSpacing: 1.5,
-      //         fontSize: 12),
-      //   ),
-      //   Text(
-      //     MyDateUtil.getLastMassageTime(
-      //         context: context,
-      //         time: widget.user.createdAt,
-      //         showYear: true),
-      //     style: TextStyle(
-      //         color: Colors.white, letterSpacing: 1, fontSize: 12),
-      //   ),
-      // ]),
-
-      // Divider(
-      //   color: Color.fromARGB(255, 35, 35, 35),
-      //   height: 30,
-      //   thickness: 10,
-      // ),
-      // SizedBox(
-      //   height: 10,
-      // ),
-
-      // SizedBox(height: 100),
-
-      // Text(
-      //   'FLASH',
-      //   style: TextStyle(
-      //       color: Colors.white38, letterSpacing: 5, fontSize: 13),
-      // ),
-      // Text(
-      //   'Version 1.0',
-      //   style: TextStyle(color: Colors.white24, fontSize: 8),
-      // )
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
       backgroundColor: Color.fromARGB(255, 31, 30, 30),
     );
   }
@@ -454,7 +291,6 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                 width: 190,
                 child: Column(
                   children: [
-                    
                     Center(
                         child: Image.asset(
                       'asset/chat_deleteimg-.png',
@@ -465,11 +301,13 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                       height: 10,
                     ),
                     const Padding(
-                      padding: const EdgeInsets.only(left:15),
+                      padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'Are you sure you want Delete All Messages ?',
                         style: TextStyle(
-                            color: Colors.white, letterSpacing: 1, fontSize: 15),
+                            color: Colors.white,
+                            letterSpacing: 1,
+                            fontSize: 15),
                       ),
                     ),
                     SizedBox(
@@ -481,24 +319,24 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             // shape: BoxShape.circle,
-                            borderRadius: BorderRadius.all(Radius.circular(30))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                         width: 200,
                         height: 50,
                         child: InkWell(
                           onTap: () async {
-                             await APIs.deleteAllMessages(widget.user.id)
-                                      .then((value) {
-                                    Navigator.pop(context);
-                                  }
-                                  );
-                                   _showSnackBar(context, 'Chat Deleted Succesfully! .',
-                            Colors.black); 
+                            await APIs.deleteAllMessages(widget.user.id)
+                                .then((value) {
+                              Navigator.pop(context);
+                            });
+                            _showSnackBar(context,
+                                'Chat Deleted Succesfully! .', Colors.black);
                           },
                           child: Center(
                               child: Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.white),
-                              )),
+                            'Delete',
+                            style: TextStyle(color: Colors.white),
+                          )),
                         ),
                       ),
                     )
@@ -524,6 +362,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
       },
     );
   }
+
   void _showSnackBar(
       BuildContext context, String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

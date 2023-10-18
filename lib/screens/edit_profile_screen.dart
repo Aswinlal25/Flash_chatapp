@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../apis/api.dart';
 import '../models/chat_user.dart';
 
@@ -53,45 +52,6 @@ class _EditProfileState extends State<EditProfile> {
               child: Column(
                 children: [
                   SizedBox(height: 20),
-                  // Circular Text Fields
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 5),
-                  //   child: Container(
-                  //     width: 330,
-                  //     height: 50,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(25),
-                  //       // color: Colors.white,
-                  //     ),
-                  //     child: TextFormField(
-                  //       initialValue: widget.user.name,
-                  //       onSaved: (val) => APIs.me.name = val ?? '',
-                  //       validator: (val) => val != null && val.isNotEmpty
-                  //           ? null
-                  //           : 'Required Field',
-                  //       decoration: InputDecoration(
-                  //         hintText: 'Username',
-                  //         hintStyle: TextStyle(
-                  //           color: Colors.black,
-                  //           letterSpacing: 2,
-                  //           fontSize: 15,
-                  //         ),
-                  //         prefixIcon: Icon(
-                  //           Icons.person,
-                  //           color: Colors.black,
-                  //           size: 20,
-                  //         ),
-                  //         border: OutlineInputBorder(
-                  //           borderRadius: BorderRadius.circular(25),
-                  //           borderSide: BorderSide.none,
-                  //         ),
-                  //         filled: true,
-                  //         fillColor: Colors.white,
-                  //       ),
-                  //       style: TextStyle(color: Colors.black),
-                  //     ),
-                  //   ),
-                  // ),
                   TextFormField(
                      initialValue: widget.user.name,
                         onSaved: (val) => APIs.me.name = val ?? '',
@@ -164,37 +124,6 @@ class _EditProfileState extends State<EditProfile> {
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 220, top: 20),
-          //   child: Row(
-          //     children: [
-          //       ElevatedButton.icon(
-          //         onPressed: () {
-          //           if (_formkey.currentState!.validate()) {
-          //             _formkey.currentState!.save();
-          //             APIs.updateUserInfo();
-
-          //             _showSnackBar(
-          //                 context, 'Update successfully.', Colors.black);
-          //           }
-          //         },
-          //         icon: Icon(Icons.upload),
-          //         label: Text(
-          //           'Update',
-          //           style: TextStyle(fontSize: 15, letterSpacing: 0.5),
-          //         ),
-          //         style: ElevatedButton.styleFrom(
-          //           primary: Colors.transparent,
-          //           onPrimary: Colors.white,
-          //           minimumSize: Size(135, 50),
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );
