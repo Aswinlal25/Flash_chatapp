@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../apis/api.dart';
 import '../helper/my_date_util.dart';
+import 'profile_picture_screen.dart';
 
 class ViewProfileScreen extends StatefulWidget {
   final ChatUser user;
@@ -34,20 +35,28 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
       appBar: null,
       body: Stack(
         children: [
-          Container(
-            height: height * .48,
-            child: CachedNetworkImage(
-              width: 390.0,
-              height: 180.0,
-              fit: BoxFit.cover,
-              imageUrl: netImage!,
-              errorWidget: (context, url, error) {
-                print('Error loading image: $error');
-                return const Icon(
-                  CupertinoIcons.person,
-                  size: 140,
-                );
-              },
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => ProfilePictureView(user: widget.user)));
+            },
+            child: Container(
+              height: height * .48,
+              child: CachedNetworkImage(
+                width: 390.0,
+                height: 180.0,
+                fit: BoxFit.cover,
+                imageUrl: netImage!,
+                errorWidget: (context, url, error) {
+                  print('Error loading image: $error');
+                  return const Icon(
+                    CupertinoIcons.person,
+                    size: 140,
+                  );
+                },
+              ),
             ),
           ),
           SizedBox(
@@ -263,8 +272,8 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                 Navigator.pop(context);
               },
               icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+                CupertinoIcons.arrow_left,
+                color: Colors.white,
                 size: 27,
               ),
             ),
@@ -317,7 +326,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color:  Color.fromARGB(255, 107, 107, 107),
                             // shape: BoxShape.circle,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),
@@ -335,7 +344,7 @@ class _ProfileScreenState extends State<ViewProfileScreen> {
                           child: Center(
                               child: Text(
                             'Delete',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
                           )),
                         ),
                       ),

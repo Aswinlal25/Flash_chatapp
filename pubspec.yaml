@@ -49,6 +49,8 @@ dependencies:
   gallery_saver: ^2.3.2
   flutter_markdown: ^0.6.18
   share_plus: ^7.2.1
+  linear_progress_bar: ^1.1.0
+  simple_animation_progress_bar: "^1.6.0"
  
 
 dev_dependencies:
@@ -92,7 +94,7 @@ flutter:
     - asset\cam.png
     - asset\img.jpg
     - asset\cam2.webp
-    - asset\cam3.jpg
+    - asset\cam3.png
     - asset\chat_wal1.jpeg
     - asset\download (2).jpeg
     - asset\kooo.jpg
@@ -115,6 +117,7 @@ flutter:
     - assets/about_us.md
     - asset\123.jpg
     - asset\1234.jpg
+    - asset\checkmark-removebg-preview.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

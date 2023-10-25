@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../models/chat_user.dart';
 import '../../screens/chat_screen.dart';
 import '../../screens/home_screen.dart';
+import '../../screens/profile_picture_screen.dart';
 import '../../screens/view_profile_screen.dart';
 
 class ProfileDialog extends StatelessWidget {
@@ -20,16 +21,25 @@ class ProfileDialog extends StatelessWidget {
         child: Column(
           children: [
             Stack(children: [
-              Container(
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: user.image,
-                  errorWidget: (context, url, error) => CircleAvatar(
-                    child: Icon(CupertinoIcons.person),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ProfilePictureView(user: user)))
+                      .then((result) => Navigator.pop(context));
+                },
+                child: Container(
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: user.image,
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      child: Icon(CupertinoIcons.person),
+                    ),
                   ),
+                  width: 260,
+                  height: 260,
                 ),
-                width: 260,
-                height: 260,
               ),
             ]),
             Stack(children: [
@@ -43,7 +53,10 @@ class ProfileDialog extends StatelessWidget {
                     ),
                     Text(
                       user.name,
-                      style: TextStyle(color: Colors.white, letterSpacing: 1,fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w400),
                     ),
                     SizedBox(width: 40),
                     Spacer(),
@@ -57,35 +70,36 @@ class ProfileDialog extends StatelessWidget {
                               ),
                             )).then((result) {
                           // Now, navigate to the HomeScreen
-                          Navigator.push(
+                          Navigator.pop(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  HomeScreen(), 
+                              builder: (_) => HomeScreen(),
                             ),
                           );
                         });
                       },
-                      icon: const Icon(Icons.chat, color: Colors.white),
+                      icon: const Icon(CupertinoIcons.chat_bubble_text_fill,
+                          color: Colors.white),
                     ),
                     IconButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                   ViewProfileScreen(user: user))).then((result) {
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ViewProfileScreen(user: user)))
+                            .then((result) {
                           // Now, navigate to the HomeScreen
-                          Navigator.push(
+                          Navigator.pop(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  HomeScreen(), 
+                              builder: (_) => HomeScreen(),
                             ),
                           );
                         });
                       },
-                      icon: const Icon(Icons.info, color: Colors.white),
+                      icon: const Icon(CupertinoIcons.info_circle_fill,
+                          color: Colors.white),
                     )
                   ],
                 ),

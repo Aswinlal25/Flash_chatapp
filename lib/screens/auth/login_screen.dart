@@ -1,6 +1,7 @@
 // import 'package:chat_app/hive_model/user.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import '../../apis/api.dart';
 import '../../widgets/dialogs/policy_dialog.dart';
 import '../home_screen.dart';
@@ -23,14 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(height: double.infinity,
-      width: double.infinity,
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                'asset/123.jpg'), 
-                
-                // Replace with your image path
+            image: AssetImage('asset/123.jpg'),
+
+            // Replace with your image path
             fit: BoxFit.cover,
           ),
         ),
@@ -65,7 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    
                   ),
                   child: TextField(
                     controller: _email,
@@ -122,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading = true;
                         });
                         showProgressBar(context);
+                        //MyWidget();
                         // Simulate login by delaying for 2 seconds
                         Future.delayed(Duration(seconds: 2), () {
                           if (_email.text.isNotEmpty &&
@@ -212,12 +213,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: "   By creating an account, you are agreeing to our   ",
-                        style: TextStyle(color: Colors.white70, fontSize: 12,),
+                        text:
+                            "   By creating an account, you are agreeing to our   ",
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
                         children: [
                           TextSpan(
                             text: 'Privacy and policy',
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.blue),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 showDialog(
@@ -230,11 +238,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextSpan(
                             text: ' and ',
-                          
                           ),
                           TextSpan(
                             text: 'Terms & Conditions',
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.blue),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.blue),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 showDialog(
@@ -246,7 +256,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                           ),
                         ])),
-                       
               ],
             ),
           ),
@@ -267,15 +276,27 @@ class _LoginScreenState extends State<LoginScreen> {
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       behavior: SnackBarBehavior.fixed,
-    )
-    );
+    ));
   }
 
   static void showProgressBar(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (_) => Center(
-              child: CircularProgressIndicator(),
-            ));
+      context: context,
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(top: 550),
+        child: Center(
+            child: SimpleAnimationProgressBar(
+          height: 4,
+          width: 250,
+          backgroundColor: Colors.white24,
+          foregrondColor: Colors.blue,
+          ratio: 0.5,
+          direction: Axis.horizontal,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          duration: const Duration(seconds: 2),
+          borderRadius: BorderRadius.circular(10),
+        )),
+      ),
+    );
   }
 }

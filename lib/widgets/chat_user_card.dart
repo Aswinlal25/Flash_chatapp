@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/apis/api.dart';
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/screens/profile_picture_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../helper/my_date_util.dart';
@@ -63,6 +64,13 @@ class _ChatUserCardState extends State<ChatUserCard> {
                               user: widget.user,
                             ));
                   },
+                  onDoubleTap: () {
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ProfilePictureView(user: widget.user)))
+                      .then((result) => Navigator.canPop(context));
+                  },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: CachedNetworkImage(
@@ -110,7 +118,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
                             : '', // Handle the case where _message is null.
                         style: TextStyle(
                           color: Colors.white60,
-                          fontSize: 12,
+                          fontSize: 11.5,
                         ),
                       ),
                       FutureBuilder<int>(
@@ -137,11 +145,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
                           }),
                     ]),
               ),
-              Positioned(
-                child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
-                top: 7,
-                left: 12,
-              ),
+              // Positioned(
+              //   child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
+              //   top: 7,
+              //   left: 12,
+              // ),
             ]);
           },
         ),
@@ -158,6 +166,13 @@ class _ChatUserCardState extends State<ChatUserCard> {
                   user: widget.user,
                 ));
       },
+      onDoubleTap: () {
+                    Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ProfilePictureView(user: widget.user)))
+                      .then((result) => Navigator.canPop(context));
+                  },
       child: Container(
         width: 58,
         height: 58,

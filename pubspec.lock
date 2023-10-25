@@ -624,6 +624,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  linear_progress_bar:
+    dependency: "direct main"
+    description:
+      name: linear_progress_bar
+      sha256: "7db25e6c84b1d9e598127b9f8cedb3072978532d648f820288720122c5f566a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   logging:
     dependency: transitive
     description:
@@ -904,6 +912,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  simple_animation_progress_bar:
+    dependency: "direct main"
+    description:
+      name: simple_animation_progress_bar
+      sha256: ea5a84956d59541794aa2e8d9d68af3c3fc712f6224992ebb68ac13325401c1c
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.0"
   sky_engine:
     dependency: transitive
     description: flutter

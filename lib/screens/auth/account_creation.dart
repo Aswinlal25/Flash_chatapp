@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/screens/auth/login_screen.dart';
 import 'package:chat_app/screens/auth/Methods.dart';
+import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
 import '../../apis/api.dart';
 import '../../widgets/dialogs/policy_dialog.dart';
 import '../home_screen.dart';
@@ -289,9 +290,22 @@ class _LoginScreenState extends State<AccountCreateScreen> {
 
   static void showProgressBar(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (_) => Center(
-              child: CircularProgressIndicator(),
-            ));
+      context: context,
+      builder: (_) => Padding(
+        padding: const EdgeInsets.only(top: 550),
+        child: Center(
+            child: SimpleAnimationProgressBar(
+          height: 4,
+          width: 250,
+          backgroundColor: Colors.white24,
+          foregrondColor: Colors.blue,
+          ratio: 0.5,
+          direction: Axis.horizontal,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          duration: const Duration(seconds: 2),
+          borderRadius: BorderRadius.circular(10),
+        )),
+      ),
+    );
   }
 }

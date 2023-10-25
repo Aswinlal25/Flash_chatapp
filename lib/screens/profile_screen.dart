@@ -2,11 +2,12 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
-import 'package:chat_app/screens/auth/Methods.dart';
+import 'package:chat_app/screens/profile_picture_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../apis/api.dart';
+import '../widgets/dialogs/logout_dialog.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,8 +31,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     netImage = widget.user.image;
   }
 
+  late double height, width;
+
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: null,
       body: Stack(children: [
@@ -47,27 +52,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Image.file(
                         File(_image!),
                         width: 155,
-                        height: 290,
+                        height: 345,
                         fit: BoxFit.cover,
                       ),
                     )
                   :
 
                   // server image
-                  Container(
-                      width: 500,
-                      child: CachedNetworkImage(
-                        width: 155,
-                        height: 345,
-                        fit: BoxFit.cover,
-                        imageUrl: netImage!,
-                        errorWidget: (context, url, error) {
-                          print('Error loading image: $error');
-                          return const Icon(
-                            CupertinoIcons.person,
-                            size: 140,
-                          );
-                        },
+                  InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    ProfilePictureView(user: widget.user)));
+                      },
+                      child: Container(
+                        width: 500,
+                        child: CachedNetworkImage(
+                          width: 155,
+                          height: 345,
+                          fit: BoxFit.cover,
+                          imageUrl: netImage!,
+                          errorWidget: (context, url, error) {
+                            print('Error loading image: $error');
+                            return const Icon(
+                              CupertinoIcons.person,
+                              size: 140,
+                            );
+                          },
+                        ),
                       ),
                     ),
               Padding(
@@ -91,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: height * 0.02,
                       ),
                       Text(
                         widget.user.email,
@@ -173,8 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Positioned(
-          top: 321, //l
-          left: 327,
+          top: height*0.38, //l
+          left: width*0.83,
           child: GestureDetector(
             onTap: () {
               _showBottomSheet();
@@ -192,8 +206,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 child: Center(
                   child: Icon(
-                    Icons.add_a_photo,
-                    color: Colors.black,
+                    CupertinoIcons.photo_camera_solid,
+                    color: Colors.white,
                     size: 22,
                   ),
                 ),
@@ -202,8 +216,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Positioned(
-            top: 457,
-            left: 328,
+            top:height*0.54,
+          left: width*0.83,
             child: IconButton(
               icon: Icon(
                 Icons.edit,
@@ -218,12 +232,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             )));
               },
             )),
-            Positioned(
+        Positioned(
             top: 20,
             left: 0,
             child: IconButton(
               icon: Icon(
-                Icons.arrow_back,
+                CupertinoIcons.arrow_left,
                 color: Colors.white,
               ),
               onPressed: () {
@@ -231,13 +245,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             )),
         Positioned(
-            top: 285,
+            top: 282,
             right: 0,
             left: 20,
             child: Text(
               widget.user.name,
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 23,
                 letterSpacing: 1,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
@@ -257,8 +271,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             )),
         Positioned(
-            top: 30,
-            left: 350,
+         top: height*0.04,
+          left: width*0.89,
             child: PopupMenuButton(
                 color: Color.fromARGB(255, 41, 40, 40),
                 shape: RoundedRectangleBorder(
@@ -332,7 +346,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   width:
                                       15.0), // Add spacing between icon and text
                               Text(
-                                'Edit Profile',
+                                'Edit Name',
                                 style: TextStyle(
                                   color: Colors.white, // Text color
                                   fontSize: 16.0, // Text size
@@ -345,8 +359,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       PopupMenuItem(
                         child: InkWell(
                           onTap: () {
-                            // _logoutAndShowDialog(context);
-                            _LogoutDialog();
+                            showDialog(
+                                context: context,
+                                builder: (_) => LogoutDialog());
+
                             deleteDB();
                           },
                           child: Row(
@@ -384,44 +400,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _logoutAndShowDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          backgroundColor: Color.fromARGB(255, 31, 30, 30),
-          title: Text('Logout',
-              style: TextStyle(color: Colors.white, letterSpacing: 0.9)),
-          content: Text(
-            'Are you sure you want to log out ?',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-            ),
-            TextButton(
-              onPressed: () {
-                logOut(context);
-                // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen(),), (route) => false);
-                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> LoginScreen()));
-                _showSnackBar(context, 'Logout Successfully.',
-                    Colors.black); //  logout method
-                //Navigator.
-              },
-              child: Text('Logout', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _showSnackBar(
       BuildContext context, String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -440,175 +418,132 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showBottomSheet() async {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 31, 30, 30),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
       ),
       builder: (_) {
         return ListView(
           shrinkWrap: true,
           children: [
-            SizedBox(height: 20),
+            SizedBox(height: 33),
             Center(
               child: Text(
-                'Pick Profile Picture',
+                'Change Profile Picture',
                 style: TextStyle(
-                    color: Colors.white70, fontSize: 15, letterSpacing: 2),
+                    color: Colors.white70,
+                    fontSize: 15.7,
+                    letterSpacing: 1.4,
+                    fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 120,
-                  height: 120,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? image =
-                          await picker.pickImage(source: ImageSource.gallery);
+            SizedBox(height: 20),
+            InkWell(
+              onTap: () async {
+                final ImagePicker picker = ImagePicker();
+                final XFile? image =
+                    await picker.pickImage(source: ImageSource.gallery);
 
-                      if (image != null) {
-                        print(
-                            'Image Path: ${image.path} -- MimeType: ${image.mimeType}');
-                        setState(() {
-                          _image = image
-                              .path; // Update _image with selected image path
-                        });
-                        APIs.updateProfilePicture(File(_image!));
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Image.asset(
-                      'asset/img.jpg',
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 120,
-                  height: 120,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final ImagePicker picker = ImagePicker();
-                      final XFile? image =
-                          await picker.pickImage(source: ImageSource.camera);
-
-                      if (image != null) {
-                        print('Image Path: ${image.path}');
-                        setState(() {
-                          _image = image
-                              .path; // Update _image with selected image path
-                        });
-
-                        APIs.updateProfilePicture(File(_image!));
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Image.asset(
-                      'asset/cam3.jpg',
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _LogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-          backgroundColor: Color.fromARGB(255, 30, 30, 30),
-          content: Stack(children: [
-            SizedBox(
-              height: 250,
-              child: Column(
+                if (image != null) {
+                  print(
+                      'Image Path: ${image.path} -- MimeType: ${image.mimeType}');
+                  setState(() {
+                    _image =
+                        image.path; // Update _image with selected image path
+                  });
+                  APIs.updateProfilePicture(File(_image!));
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 15,
+                    width: 20,
                   ),
-                  Center(
-                      child: Image.asset(
-                    'asset/logoutWarnig.png',
-                    width: 100,
-                    height: 100,
-                  )),
+                  Container(
+                    width: 50.0,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      // color: Colors.blue[400],
+                      color: Color.fromARGB(255, 107, 107, 107),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        CupertinoIcons.photo_fill,
+                        color: Colors.white,
+                        size: 22,
+                      ),
+                    ),
+                  ),
                   SizedBox(
-                    height: 20,
+                    width: 15,
                   ),
                   Text(
-                    'Do you want to logout ?',
-                    style: TextStyle(color: Colors.white, letterSpacing: 1),
+                    'Choose from Gallery',
+                    style: TextStyle(color: Colors.white, letterSpacing: 0.8),
                   ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      logOut(context);
-
-                      _showSnackBar(context, 'Logout Successfully.',
-                          Colors.black); //  logout method
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          // shape: BoxShape.circle,
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      width: 200,
-                      height: 50,
-                      child: Center(
-                          child: Text(
-                        'Logout',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                    ),
-                  )
+                  SizedBox(),
                 ],
               ),
             ),
-            Positioned(
-                left: 200,
-                bottom: 219,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 24,
-                    color: Colors.white,
+            SizedBox(height: 11),
+            InkWell(
+              onTap: () async {
+                final ImagePicker picker = ImagePicker();
+                final XFile? image =
+                    await picker.pickImage(source: ImageSource.camera);
+
+                if (image != null) {
+                  print('Image Path: ${image.path}');
+                  setState(() {
+                    _image =
+                        image.path; // Update _image with selected image path
+                  });
+
+                  APIs.updateProfilePicture(File(_image!));
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 20,
                   ),
-                ))
-          ]),
+                  Container(
+                    width: 50.0,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      // color: Colors.blue[400],
+                      color: Color.fromARGB(255, 107, 107, 107),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        CupertinoIcons.photo_camera_solid,
+                        color: Colors.white,
+                        size: 22,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    'Take Photos',
+                    style: TextStyle(color: Colors.white, letterSpacing: 0.8),
+                  ),
+                  SizedBox()
+                ],
+              ),
+            ),
+            SizedBox(height: 28),
+          ],
         );
       },
     );

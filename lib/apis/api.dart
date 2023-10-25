@@ -27,29 +27,27 @@ class APIs {
     return (await firestore.collection('Users').doc(user.uid).get()).exists;
   }
 
-  //for Adding an chat user info
-  // static Future<bool> addChatUser(String email) async {
-  //   final data = await firestore
-  //       .collection('Users')
-  //       .where('email', isEqualTo: email)
-  //       .get();
+ // for adding an chat user for our conversaction
+  static Future<bool> addChatUser(String email) async {
+    QuerySnapshot<Map<String, dynamic>> allUSers=await firestore.collection("Users").get();
+String userID="";
+bool found=false;
+for(var ele in allUSers.docs){
+  if(ele['email']==email){
+userID=ele['id'];
+found=true;
+break;
+  }
+}
+if(found==true){
+  firestore.collection("Users").doc(user.uid).collection("chat_user").doc(userID).set({"userID":userID});
+firestore.collection("Users").doc(userID).collection("chat_user").doc(user.uid).set({"userID":user.uid});
+}
+return found;
+  }
 
-  //   if (data.docs.isNotEmpty && data.docs.first.id != user.uid) {
-  //     //user exists
-  //     firestore
-  //         .collection('Users')
-  //         .doc(user.uid)
-  //         .collection('my_users')
-  //         .doc(data.docs.first.id)
-  //         .set({});
 
-  //     return true;
-  //   } else {
-  //     //user doesn't exists
 
-  //     return false;
-  //   }
-  // }
 
   //for getting current user information
   static Future<void> getSelfInfo() async {
@@ -86,65 +84,27 @@ class APIs {
         .set(chatUser.toJson());
   }
 
-//-----------------------------//
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
-    print("the functi>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+ 
+
+
+static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
     return firestore
-        .collection('Users')
-        .doc(user.uid)
-        .collection('my_users')
-         .orderBy("Last Message Time", descending: true)
+        .collection('Users').doc(user.uid).collection('chat_user')
+        //.orderBy("Last Message Time", descending: true)
         .snapshots();
   }
-
-  
-  static Future<void> addUser(String email) async {
-    final singleUserCollection = FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user.uid)
-        .collection('my_users');
-
-
-    final allUserData = await firestore
-        .collection('Users')
-        // .orderBy("Last Message Time", descending: true)
-        .get();
-
-    for (var document in allUserData.docs) {
-      if (email == document['email']) {
-        singleUserCollection.doc(document.id).set(document.data());
-      }
-    }
-  }
-
-// static addUser(String email)async{
-  //   final singleuser = FirebaseFirestore.instance.collection('Users').doc(user.uid).collection('my_users');
-
-  //   // ignore: unused_local_variable
-  //   final alluser =await firestore
-  //       .collection('Users').get();
-
-  //   final alluserdata =await firestore
-  //       .collection('Users')
-  //      // .orderBy("Last Message Time", descending: true)
-  //       .get();
-
-  //       for(var element in alluserdata.docs){
-  //         if(email == element['email']){
-  //           singleuser.doc(element['id']).set(element.data());
-  //         }
-  //       }
-  // }
-//-----------------------------//
 
   // for getting all users
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
+    List<String> userIds) {
+    
     return firestore
         .collection('Users')
-         .orderBy("Last Message Time", descending: true)
-        .snapshots();
+        .orderBy("Last Message Time", descending:true).snapshots();
   }
+
 
   
 
@@ -185,9 +145,7 @@ class APIs {
     String msgId = uid.join("_");
     return msgId;
   }
-  // user.uid.hashCode <= id.hashCode
-  //     ? '${user.uid}_$id'
-  //     : '${id}_${user.uid}';
+ 
 
   //for getting all messages
 
@@ -228,14 +186,11 @@ class APIs {
     await firestore
         .collection('Users')
         .doc(chatUserId)
-        .collection('my_users')
-        .doc(thisUser)
+        
         .set({"Last Message Time": time}, SetOptions(merge: true));
     await firestore
         .collection('Users')
         .doc(user.uid)
-        .collection('my_users')
-        .doc(chatUserId)
         .set({"Last Message Time": time}, SetOptions(merge: true));
   }
 

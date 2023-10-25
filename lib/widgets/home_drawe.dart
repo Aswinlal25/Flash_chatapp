@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/hive_db/user_db.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app/screens/auth/Methods.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:share_plus/share_plus.dart';
 import '../apis/api.dart';
 import '../hive_model/user.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
+import 'dialogs/logout_dialog.dart';
 import 'dialogs/policy_dialog.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -124,8 +124,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 leading: Icon(Icons.exit_to_app, color: Colors.white),
                 title: Text('Logout', style: TextStyle(color: Colors.white)),
                 onTap: () {
-                  // _logoutAndShowDialog(context);
-                  _LogoutDialog();
+                 
+                  showDialog(
+                        context: context,
+                        builder: (_) => LogoutDialog(
+                            
+                            ));
                 },
               ),
               SizedBox(
@@ -151,42 +155,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   // ignore: unused_element
-  void _logoutAndShowDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          backgroundColor: Color.fromARGB(255, 31, 30, 30),
-          title: Text('Logout',
-              style: TextStyle(color: Colors.white, letterSpacing: 0.9)),
-          content: Text(
-            'Are you sure you want to log out ?',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-            ),
-            TextButton(
-              onPressed: () {
-                logOut(context);
-
-                _showSnackBar(context, 'Logout Successfully.',
-                    Colors.black); //  logout method
-                //Navigator.
-              },
-              child: Text('Logout', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 
   void _showSnackBar(
       BuildContext context, String message, Color backgroundColor) {
@@ -204,78 +173,5 @@ class _CustomDrawerState extends State<CustomDrawer> {
     ));
   }
 
-  void _LogoutDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-          backgroundColor: Color.fromARGB(255, 30, 30, 30),
-          content: Stack(children: [
-            SizedBox(
-              height: 250,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Center(
-                      child: Image.asset(
-                    'asset/logoutWarnig.png',
-                    width: 97,
-                    height: 100,
-                  )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Do you want to logout ?',
-                    style: TextStyle(color: Colors.white, letterSpacing: 1),
-                  ),
-                  SizedBox(
-                    height: 38,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      logOut(context);
-
-                      _showSnackBar(context, 'Logout Successfully.',
-                          Colors.black); //  logout method
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          // shape: BoxShape.circle,
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                      width: 200,
-                      height: 50,
-                      child: Center(
-                          child: Text(
-                        'Logout',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Positioned(
-                left: 200,
-                bottom: 219,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 24,
-                    color: Colors.white,
-                  ),
-                ))
-          ]),
-        );
-      },
-    );
-  }
+  
 }
