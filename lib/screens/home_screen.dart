@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ));
                 
                 },
-                child: Icon(Icons.person_add_alt_outlined, color: Colors.white),
+                child: Icon(Icons.person_add_alt_1, color: Colors.white),
               ),
             ),
             body: StreamBuilder(

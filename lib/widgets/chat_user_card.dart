@@ -23,8 +23,12 @@ class _ChatUserCardState extends State<ChatUserCard> {
   Message? _message;
   bool isOnline = false;
 
+    late double height, width;
+
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Card(
       color: Colors.transparent,
       elevation: 0.0,
@@ -145,11 +149,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
                           }),
                     ]),
               ),
-              // Positioned(
-              //   child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
-              //   top: 7,
-              //   left: 12,
-              // ),
+              Positioned(
+                child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
+                top: 47,
+                left:58,
+              ),
             ]);
           },
         ),
@@ -174,18 +178,18 @@ class _ChatUserCardState extends State<ChatUserCard> {
                       .then((result) => Navigator.canPop(context));
                   },
       child: Container(
-        width: 58,
-        height: 58,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: Color.fromARGB(255, 30, 128, 3),
-            width: 1.7,
-          ),
-        ),
-        // width: 12,
-        // height: 12,
-        // decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.amber),
+        // width: 58,
+        // height: 58,
+        // decoration: BoxDecoration(
+        //   shape: BoxShape.circle,
+        //   border: Border.all(
+        //     color: Color.fromARGB(255, 30, 128, 3),
+        //     width: 1.7,
+        //   ),
+        // ),
+        width:3,
+        height: height*3,
+        decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.green),
         child: Center(
           child: Container(
             width: 90,
