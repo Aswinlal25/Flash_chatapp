@@ -186,8 +186,8 @@ static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
     await firestore
         .collection('Users')
         .doc(chatUserId)
-        
         .set({"Last Message Time": time}, SetOptions(merge: true));
+        
     await firestore
         .collection('Users')
         .doc(user.uid)

@@ -149,11 +149,11 @@ class _ChatUserCardState extends State<ChatUserCard> {
                           }),
                     ]),
               ),
-              Positioned(
-                child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
-                top: 47,
-                left:58,
-              ),
+              // Positioned(
+              //   child: widget.user.isOnline ? _onlineIndicator() : SizedBox(),
+              //   top: 47,
+              //   left:58,
+              // ),
             ]);
           },
         ),

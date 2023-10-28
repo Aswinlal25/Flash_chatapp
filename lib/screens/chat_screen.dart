@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/helper/my_date_util.dart';
+import 'package:chat_app/hive_db/user_db.dart';
+import 'package:chat_app/widgets/dialogs/chat_delete_dialog.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -284,7 +286,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         PopupMenuItem(
                           child: InkWell(
                             onTap: () {
-                              _DeleteAllMsgDialog();
+                            //  _DeleteAllMsgDialog();
+                            showDialog(
+                        context: context,
+                        builder: (_) => ChatDeleteDialog(user:widget.user
+                            
+                            ));
                             },
                             child: Row(
                               children: [
@@ -435,95 +442,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void _DeleteAllMsgDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-          backgroundColor: Color.fromARGB(255, 30, 30, 30),
-          content: Stack(children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: SizedBox(
-                height: 280,
-                width: 190,
-                child: Column(
-                  children: [
-                    Center(
-                        child: Image.asset(
-                      'asset/chat_deleteimg-.png',
-                      width: 150,
-                      height: 150,
-                    )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        'Are you sure you want Delete All Messages ?',
-                        style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1,
-                            fontSize: 15),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:Color.fromARGB(255, 107, 107, 107),
-                            // shape: BoxShape.circle,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        width: 200,
-                        height: 50,
-                        child: InkWell(
-                          onTap: () async {
-                            Navigator.pop(context);
-
-                            await APIs.deleteAllMessages(widget.user.id)
-                                .then((value) {});
-
-                            _showSnackBar(context,
-                                'Chat Deleted Succesfully! .', Colors.black);
-                           
-                          },
-                          child: Center(
-                              child: Text(
-                            'Delete',
-                            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
-                          )),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-                left: 201,
-                bottom: 240,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 24,
-                    color: Colors.white,
-                  ),
-                ))
-          ]),
-        );
-      },
-    );
-  }
+ 
 
   // ignore: unused_element
   static void showProgressBar(BuildContext context) {
