@@ -88,7 +88,6 @@ class _MessageCardState extends State<MessageCard> {
                               )),
                     ),
               SizedBox(
-                width: 0,
               ),
               Row(
                 mainAxisSize: MainAxisSize.min,

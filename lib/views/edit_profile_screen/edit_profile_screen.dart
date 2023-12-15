@@ -1,11 +1,13 @@
+import 'package:chat_app/views/edit_profile_screen/widgets/Input_feild.dart';
+import 'package:chat_app/views/edit_profile_screen/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
-import '../../services/apis/api.dart';
 import '../../models/chat_user.dart';
-import '../../common_widgets/snackbar.dart';
+import '../../utils/constants.dart';
+
 
 class EditProfile extends StatefulWidget {
   final ChatUser user;
-  const EditProfile({super.key, required this.user});
+  const EditProfile({Key? key, required this.user}) : super(key: key);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -13,35 +15,15 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 31, 30, 30),
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(
-            'Edit profile',
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 19,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 3),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-                    _formkey.currentState!.save();
-                    APIs.updateUserInfo();
-                  CustomSnackBar.show(context, 'Update successfully', Colors.black);
-                  }
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                )),
-          ]),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: EditAppbar(formkey: _formkey),
+      ),
       body: Column(
         children: [
           Form(
@@ -50,75 +32,10 @@ class _EditProfileState extends State<EditProfile> {
               padding: const EdgeInsets.all(19.0),
               child: Column(
                 children: [
-                  SizedBox(height: 20),
-                  TextFormField(
-                     initialValue: widget.user.name,
-                        onSaved: (val) => APIs.me.name = val ?? '',
-                        validator: (val) => val != null && val.isNotEmpty
-                            ? null
-                            : 'Required Field',
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Colors.white38, // Border color in normal state
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Colors.white, // Border color in focused state
-                            width: 2.0,
-                          ),
-                        ),
-                        hintText: 'Username',
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          letterSpacing: 2,
-                          fontSize: 15,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.person_2_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        )),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  SizedBox(height: 22),
-                  TextFormField(
-                    initialValue: widget.user.about,
-                    onSaved: (val) => APIs.me.about = val ?? '',
-                    validator: (val) =>
-                        val != null && val.isNotEmpty ? null : 'Required Field',
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Colors.white38, // Border color in normal state
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Colors.white, // Border color in focused state
-                            width: 2.0,
-                          ),
-                        ),
-                        hintText: 'About',
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          letterSpacing: 2,
-                          fontSize: 15,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                          size: 20,
-                        )),
-                    style: TextStyle(color: Colors.white),
-                  )
+                  height20,
+                  InputField(widget: widget,fieldType: InputFieldType.username,),
+                  height22,
+                  InputField(widget: widget,fieldType: InputFieldType.about,),
                 ],
               ),
             ),

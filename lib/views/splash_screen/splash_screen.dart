@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../../utils/constants.dart';
 import '../auth/login_screen.dart';
 import '../home_screen/home_screen.dart';
 
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: black,
       body: Padding(
         padding: const EdgeInsets.only(left: 100),
         child: Column(
@@ -36,9 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
               'FLASH',
               style: TextStyle(
                   color: Colors.white38, letterSpacing: 5, fontSize: 20),
-            ),
-            SizedBox(
-              height: 220,
             ),
           ],
         ),

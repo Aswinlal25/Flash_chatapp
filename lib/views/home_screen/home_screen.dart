@@ -1,3 +1,4 @@
+// ignore_for_file: deprecated_member_use
 import 'package:chat_app/services/hive_database/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
@@ -199,7 +200,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white),),
                                 );
                               } else {
-//  list = data.map((e) => ChatUser.fromJson(e.data())).toList();
                                 list.clear();
                                 List<Map<String,dynamic>> thisUsers=[];
                                 for (var ele in users) {
