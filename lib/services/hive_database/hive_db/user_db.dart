@@ -1,5 +1,6 @@
 
-import 'package:chat_app/hive_model/user.dart';
+
+import 'package:chat_app/services/hive_database/hive_model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/adapters.dart';
 

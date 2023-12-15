@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/apis/api.dart';
+import 'package:chat_app/services/apis/api.dart';
 import 'package:chat_app/models/chat_user.dart';
-import 'package:chat_app/screens/profile_picture_screen.dart';
+import 'package:chat_app/views/home_screen/widgets/profile_picture_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../helper/my_date_util.dart';
-import '../models/message.dart';
-import '../screens/chat_screen.dart';
-import 'dialogs/profile_dialog.dart';
+import '../../../services/helper/my_date_util.dart';
+import '../../../models/message.dart';
+import '../../chat_screen/chat_screen.dart';
+import '../../../common_widgets/dialogs/profile_dialog.dart';
 
 class ChatUserCard extends StatefulWidget {
   final ChatUser user;

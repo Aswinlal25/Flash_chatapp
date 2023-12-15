@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../models/chat_user.dart';
-import '../../screens/chat_screen.dart';
-import '../../screens/home_screen.dart';
-import '../../screens/profile_picture_screen.dart';
-import '../../screens/view_profile_screen.dart';
+import '../../views/chat_screen/chat_screen.dart';
+import '../../views/home_screen/home_screen.dart';
+import '../../views/home_screen/widgets/profile_picture_view.dart';
+import '../../views/users_profile_screen/view_profile_screen.dart';
 
 class ProfileDialog extends StatelessWidget {
   const ProfileDialog({super.key, required this.user});

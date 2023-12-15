@@ -1,8 +1,9 @@
 import 'package:chat_app/firebase_options.dart';
-import 'package:chat_app/hive_model/user.dart';
+import 'package:chat_app/services/hive_database/hive_model/user.dart';
+import 'package:chat_app/views/splash_screen/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app/screens/splash_screen.dart';
+
 import 'package:hive_flutter/adapters.dart';
 
 
@@ -36,18 +37,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: 
       ThemeData(
-       //useMaterial3: true,
-        
-        appBarTheme: const AppBarTheme(
+      // useMaterial3: true,
+         appBarTheme: const AppBarTheme(
           //centerTitle: true,
           elevation: 1,
           titleTextStyle: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.w400,
               letterSpacing: 2,
               fontSize: 20),
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        ),
+        ), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(secondary: Colors.white),
       ),
       home: SplashScreen(),
     );

@@ -1,13 +1,13 @@
-import 'package:chat_app/hive_db/user_db.dart';
+import 'package:chat_app/services/hive_database/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../apis/api.dart';
-import '../widgets/chat_user_card.dart';
-import '../widgets/dialogs/add_chat_dialog.dart';
-import '../widgets/home_drawe.dart';
-import 'profile_screen.dart';
+import '../../services/apis/api.dart';
+import 'widgets/chat_user_card.dart';
+import 'widgets/add_chat_dialog.dart';
+import 'widgets/home_drawe.dart';
+import '../user_profile_screen/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key});
@@ -256,98 +256,5 @@ class _HomeScreenState extends State<HomeScreen> {
             )),
       ),
     );
-  }
-
-  void _showAddChatDialog(BuildContext context) {
-    String email = '';
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          backgroundColor: Color.fromARGB(255, 31, 30, 30),
-
-          title: Text(
-            ' Add Users ',
-            style: TextStyle(
-                color: Colors.white, letterSpacing: 0.9, fontSize: 18),
-          ),
-          content: Container(
-            padding: EdgeInsets.only(
-                left: 8, right: 20), // Adjust the padding as needed
-            child: Container(
-              width: 300,
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: TextFormField(
-                maxLines: null,
-                onChanged: (value) => email = value,
-                decoration: InputDecoration(
-                  prefixIcon:
-                      Icon(Icons.email_outlined, color: Colors.white, size: 20),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide.none,
-                  ),
-                  fillColor: Colors.white.withOpacity(0.9),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 0),
-                ),
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-          contentPadding:
-              EdgeInsets.only(left: 18, top: 15), // Adjust padding here
-          titlePadding:
-              EdgeInsets.only(left: 35, top: 20), // Adjust padding here
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
-            ),
-            TextButton(
-              onPressed: () async {
-                APIs.addChatUser(email.trim());
-                // APIs.addUser(email.trim());
-
-                Navigator.of(context).pop();
-                if (email.isEmpty) {
-                  await APIs.addChatUser(email).then((value) {
-                    if (!value) {
-                      _showSnackBar(
-                          context, 'User does not Exists ', Colors.black);
-                    }
-                  });
-                }
-              },
-              child: Text('Add', style: TextStyle(color: Colors.blue)),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white, letterSpacing: 1),
-      ),
-      backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
-      ),
-      behavior: SnackBarBehavior.fixed,
-    ));
   }
 }

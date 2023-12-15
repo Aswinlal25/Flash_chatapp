@@ -2,9 +2,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
-import '../../apis/api.dart';
-import '../../widgets/dialogs/policy_dialog.dart';
-import '../home_screen.dart';
+import '../../services/apis/api.dart';
+import '../../common_widgets/dialogs/policy_dialog.dart';
+import '../home_screen/home_screen.dart';
 import 'Methods.dart';
 import 'account_creation.dart';
 
@@ -19,9 +19,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
+  late double height, width;
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -200,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             builder: (context) => AccountCreateScreen()));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 124),
+                    padding:  EdgeInsets.only(left:width*0.31),
                     child: Text(
                       'Create Account',
                       style: TextStyle(color: Colors.white, fontSize: 14),

@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/hive_db/user_db.dart';
+import 'package:chat_app/services/hive_database/hive_db/user_db.dart';
+import 'package:chat_app/services/hive_database/hive_model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:share_plus/share_plus.dart';
-import '../apis/api.dart';
-import '../hive_model/user.dart';
-import '../screens/home_screen.dart';
-import '../screens/profile_screen.dart';
-import 'dialogs/logout_dialog.dart';
-import 'dialogs/policy_dialog.dart';
+import '../../../services/apis/api.dart';
+import '../home_screen.dart';
+import '../../user_profile_screen/profile_screen.dart';
+import '../../../common_widgets/dialogs/logout_dialog.dart';
+import '../../../common_widgets/dialogs/policy_dialog.dart';
 
 class CustomDrawer extends StatefulWidget {
   // final ChatUser user;
@@ -133,7 +133,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 },
               ),
               SizedBox(
-                height: 110,
+                height: 230,
               ),
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Text(

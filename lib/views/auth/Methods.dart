@@ -1,5 +1,5 @@
-import 'package:chat_app/apis/api.dart';
-import 'package:chat_app/screens/auth/login_screen.dart';
+import 'package:chat_app/services/apis/api.dart';
+import 'package:chat_app/views/auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

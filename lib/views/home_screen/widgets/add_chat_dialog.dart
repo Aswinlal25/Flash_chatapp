@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../apis/api.dart';
-
-
+import '../../../services/apis/api.dart';
 
 class CustomAddChatDialog extends StatefulWidget {
  final BuildContext cntx;
@@ -87,18 +84,6 @@ class _CustomAddChatDialogState extends State<CustomAddChatDialog> {
                               widget.cntx, 'User added Successfully! ', Colors.black):_showSnackBar(
                               widget.cntx, 'User does not Exists ', Colors.black);
                       Navigator.of(context).pop();
-                  //   if (email.isEmpty) {
-                  //   bool isFound= await APIs.addChatUser(email);
-                  //   isFound==true?_showSnackBar(
-                  //             context, 'User added ', Colors.black):_showSnackBar(
-                  //             context, 'User does not Exists ', Colors.black);
-                  //   //  then((value) {
-                  //   //      if (!value) {
-                  //   //       _showSnackBar(
-                  //   //           context, 'User does not Exists ', Colors.black);
-                  //   //     }
-                  //   //  });
-                  //  }
                  },
               child: Container(
                 decoration: BoxDecoration(

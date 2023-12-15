@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../screens/auth/Methods.dart';
+import '../../views/auth/Methods.dart';
+import '../snackbar.dart';
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
@@ -55,6 +56,7 @@ class LogoutDialog extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       logOut(context);
+                      CustomSnackBar.show(context,'Logout Successfully!',Colors.black);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -80,19 +82,5 @@ class LogoutDialog extends StatelessWidget {
     );
   }
 
-  void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white, letterSpacing: 1),
-      ),
-      backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
-      ),
-      behavior: SnackBarBehavior.fixed,
-    ));
-  }
+ 
 }

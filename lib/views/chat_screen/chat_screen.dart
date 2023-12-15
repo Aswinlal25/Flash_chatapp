@@ -1,18 +1,17 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/helper/my_date_util.dart';
-import 'package:chat_app/hive_db/user_db.dart';
-import 'package:chat_app/widgets/dialogs/chat_delete_dialog.dart';
+import 'package:chat_app/services/helper/my_date_util.dart';
+import 'package:chat_app/views/chat_screen/widgets/chat_delete_dialog.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import '../apis/api.dart';
-import '../models/chat_user.dart';
-import '../models/message.dart';
-import '../widgets/message_card.dart';
-import 'view_profile_screen.dart';
+import '../../services/apis/api.dart';
+import '../../models/chat_user.dart';
+import '../../models/message.dart';
+import 'widgets/message_card.dart';
+import '../users_profile_screen/view_profile_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -163,7 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
         ),
-        //),
+        
       ),
     );
   }
@@ -442,8 +441,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
- 
-
   // ignore: unused_element
   static void showProgressBar(BuildContext context) {
     showDialog(
@@ -451,21 +448,5 @@ class _ChatScreenState extends State<ChatScreen> {
         builder: (_) => Center(
               child: CircularProgressIndicator(),
             ));
-  }
-
-  void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white, letterSpacing: 1),
-      ),
-      backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.all(Radius.circular(8)), // Rounded rectangle border
-      ),
-      behavior: SnackBarBehavior.fixed,
-    ));
   }
 }

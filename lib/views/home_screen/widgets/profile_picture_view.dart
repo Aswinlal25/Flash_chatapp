@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/apis/api.dart';
+import 'package:chat_app/services/apis/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/chat_user.dart';
+import '../../../models/chat_user.dart';
 
 
 class ProfilePictureView extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../apis/api.dart';
-import '../models/chat_user.dart';
+import '../../services/apis/api.dart';
+import '../../models/chat_user.dart';
+import '../../common_widgets/snackbar.dart';
 
 class EditProfile extends StatefulWidget {
   final ChatUser user;
@@ -32,9 +33,7 @@ class _EditProfileState extends State<EditProfile> {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
                     APIs.updateUserInfo();
-
-                    _showSnackBar(
-                        context, 'Update successfully.', Colors.black);
+                  CustomSnackBar.show(context, 'Update successfully', Colors.black);
                   }
                   Navigator.pop(context);
                 },
@@ -127,20 +126,5 @@ class _EditProfileState extends State<EditProfile> {
         ],
       ),
     );
-  }
-
-  void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white, letterSpacing: 1),
-      ),
-      backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      behavior: SnackBarBehavior.fixed,
-    ));
   }
 }

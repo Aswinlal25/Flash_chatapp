@@ -1,14 +1,14 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/hive_db/user_db.dart';
+import 'package:chat_app/services/hive_database/hive_db/user_db.dart';
 import 'package:chat_app/models/chat_user.dart';
-import 'package:chat_app/screens/profile_picture_screen.dart';
+import 'package:chat_app/views/home_screen/widgets/profile_picture_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../apis/api.dart';
-import '../widgets/dialogs/logout_dialog.dart';
-import 'edit_profile_screen.dart';
+import '../../services/apis/api.dart';
+import '../../common_widgets/dialogs/logout_dialog.dart';
+import '../edit_profile_screen/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final ChatUser user;
@@ -160,25 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(
                         height: 120,
                       ),
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'FLASH',
-                              style: TextStyle(
-                                  color: Colors.white24,
-                                  letterSpacing: 5,
-                                  fontSize: 15),
-                            ),
-                            Text(
-                              'Version 1.0',
-                              style: TextStyle(
-                                  color: Colors.white12, fontSize: 9.5),
-                            ),
-                          ],
-                        ),
-                      ),
+                     
                     ],
                   ),
                 ),
@@ -399,22 +381,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Color.fromARGB(255, 31, 30, 30),
     );
   }
-
-  void _showSnackBar(
-      BuildContext context, String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white, letterSpacing: 1),
-      ),
-      backgroundColor: backgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      behavior: SnackBarBehavior.fixed,
-    ));
-  }
-
   void _showBottomSheet() async {
     showModalBottomSheet(
       context: context,

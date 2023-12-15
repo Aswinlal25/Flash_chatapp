@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app/screens/auth/login_screen.dart';
-import 'package:chat_app/screens/auth/Methods.dart';
+import 'package:chat_app/views/auth/login_screen.dart';
+import 'package:chat_app/views/auth/Methods.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';
-import '../../apis/api.dart';
-import '../../widgets/dialogs/policy_dialog.dart';
-import '../home_screen.dart';
+import '../../services/apis/api.dart';
+import '../../common_widgets/dialogs/policy_dialog.dart';
+import '../home_screen/home_screen.dart';
 
 class AccountCreateScreen extends StatefulWidget {
   const AccountCreateScreen({super.key});
@@ -19,9 +19,13 @@ class _LoginScreenState extends State<AccountCreateScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool isLoading = false;
+    late double height, width;
+
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 43, 42, 42),
@@ -133,8 +137,12 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                       },
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text('Please ensure your password contains at least six characters for your account creation.',style: TextStyle(color: Colors.white,fontSize: 11.5),),
+                  ),
 
-                  SizedBox(height: 90),
+                  SizedBox(height: 56),
 
                   // Login Button
                   Padding(
@@ -208,7 +216,7 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 7,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -219,14 +227,14 @@ class _LoginScreenState extends State<AccountCreateScreen> {
                       // Navigate to Login screen
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 156),
+                      padding:  EdgeInsets.only(left: width*0.39),
                       child: Text(
                         'Login',
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                     ),
                   ),
-                  SizedBox(height: 127,),
+                  SizedBox(height: 126,),
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(

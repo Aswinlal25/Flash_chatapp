@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'package:chat_app/hive_db/user_db.dart';
-import 'package:chat_app/hive_model/user.dart';
+import 'package:chat_app/services/hive_database/hive_db/user_db.dart';
+
 import 'package:chat_app/models/message.dart';
+import 'package:chat_app/services/hive_database/hive_model/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../models/chat_user.dart';
+import '../../models/chat_user.dart';
 // import 'package:chat_app/hive_model/user.dart';
 
 class APIs {

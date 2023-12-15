@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/helper/my_date_util.dart';
+import 'package:chat_app/services/helper/my_date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import '../apis/api.dart';
-import '../helper/dialogs.dart';
-import '../models/message.dart';
+import '../../../services/apis/api.dart';
+import '../../../services/helper/dialogs.dart';
+import '../../../models/message.dart';
 
 class MessageCard extends StatefulWidget {
   const MessageCard({super.key, required this.message});
@@ -22,7 +22,12 @@ class _MessageCardState extends State<MessageCard> {
     bool isMe = APIs.user.uid == widget.message.formId;
     return InkWell(
         onLongPress: () {
+          try{
           _MsgEditDialog(isMe);
+          } on Exception catch (e) {
+                  print("the error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
+                  return ;
+                }
         },
         child: _messageWidget());
   }
@@ -125,8 +130,9 @@ class _MessageCardState extends State<MessageCard> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           backgroundColor: Color.fromARGB(255, 31, 30,
               30),
-          content: Flexible(
-            child: Column(
+          content: Stack(
+            children:[ Column(
+              
               mainAxisSize: MainAxisSize.min,
               children: [
                 widget.message.type == Type.text
@@ -142,14 +148,19 @@ class _MessageCardState extends State<MessageCard> {
                           ),
                         ),
                         onTap: () async {
+                          try{
                           await Clipboard.setData(
                                   ClipboardData(text: widget.message.msg))
                               .then((value) {
                             Navigator.pop(context);
-
+          
                             Dialogs.showSnackbar(context, 'Text Copied!');
-                          });
+                          });} on Exception catch (e) {
+                  print("the error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
+                  return ;
+                }
                         },
+                        
                       )
                     : InkWell(
                         onTap: () async {
@@ -234,7 +245,7 @@ class _MessageCardState extends State<MessageCard> {
                 ),
               ],
             ),
-          ),
+          ]),
         );
       },
     );
