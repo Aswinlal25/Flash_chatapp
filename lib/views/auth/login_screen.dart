@@ -1,4 +1,6 @@
 // import 'package:chat_app/hive_model/user.dart';
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animation_progress_bar/simple_animation_progress_bar.dart';

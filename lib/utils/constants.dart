@@ -12,14 +12,21 @@ const height10 =  SizedBox(height: 10);
 
 const height900 =  SizedBox(height: 900,);
 
+const height32 = SizedBox(height: 32);
+
 //Colors
 
 const white = Colors.white;
 
 const black = Colors.black;
 
+const blue = Colors.blue;
+
 const primarycolor = Color.fromARGB(255, 31, 30, 30);
 
+const msgcardcolor1 = Color.fromARGB(255, 43, 43, 43);
+
+const msgcardcolor2 =Color.fromARGB(255, 81, 80, 80);
 
 //Textstyles
 

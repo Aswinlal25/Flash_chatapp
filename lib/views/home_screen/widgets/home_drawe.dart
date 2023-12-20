@@ -155,8 +155,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   // ignore: unused_element
-  
-
   void _showSnackBar(
       BuildContext context, String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

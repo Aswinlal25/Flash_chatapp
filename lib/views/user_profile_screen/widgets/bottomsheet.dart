@@ -24,7 +24,7 @@ class ProfilePictureBottomSheet extends StatelessWidget {
           topRight: Radius.circular(45),
         ),
       ),
-      color: Color.fromARGB(255, 31, 30, 30),
+     // color: Color.fromARGB(255, 31, 30, 30),
       child: ListView(
         shrinkWrap: true,
         children: [

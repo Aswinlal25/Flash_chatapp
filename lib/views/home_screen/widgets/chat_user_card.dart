@@ -161,6 +161,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
     );
   }
 
+  // ignore: unused_element
   Widget _onlineIndicator() {
     return InkWell(
       onTap: () {

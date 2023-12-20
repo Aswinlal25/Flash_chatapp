@@ -51,6 +51,8 @@ dependencies:
   share_plus: ^7.2.1
   linear_progress_bar: ^1.1.0
   simple_animation_progress_bar: "^1.6.0"
+  get: ^4.6.6
+  provider: ^6.1.1
  
 
 dev_dependencies:

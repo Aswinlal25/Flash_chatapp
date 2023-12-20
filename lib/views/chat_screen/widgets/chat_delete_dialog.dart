@@ -1,8 +1,8 @@
 import 'package:chat_app/services/apis/api.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/material.dart';
-
 import '../../../common_widgets/snackbar.dart';
+import '../../../utils/constants.dart';
 
 class ChatDeleteDialog extends StatelessWidget {
   final ChatUser user;
@@ -13,7 +13,7 @@ class ChatDeleteDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-      backgroundColor: Color.fromARGB(255, 30, 30, 30),
+      backgroundColor: primarycolor,
       content: Stack(children: [
         Padding(
           padding: const EdgeInsets.only(left: 20),
@@ -28,20 +28,16 @@ class ChatDeleteDialog extends StatelessWidget {
                   width: 150,
                   height: 150,
                 )),
-                SizedBox(
-                  height: 10,
-                ),
+                height10,
                 const Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
                     'Are you sure you want Delete All Messages ?',
-                    style: TextStyle(
-                        color: Colors.white, letterSpacing: 1, fontSize: 15),
+                    style:
+                        TextStyle(color: white, letterSpacing: 1, fontSize: 15),
                   ),
                 ),
-                SizedBox(
-                  height: 32,
-                ),
+                height32,
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Container(
@@ -57,13 +53,13 @@ class ChatDeleteDialog extends StatelessWidget {
                           Navigator.pop(context);
                         });
                         CustomSnackBar.show(
-                            context, 'Chat Deleted Succesfully!', Colors.black);
+                            context, 'Chat Deleted Succesfully!', black);
                       },
                       child: Center(
                           child: Text(
                         'Delete',
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                            color: white, fontWeight: FontWeight.bold),
                       )),
                     ),
                   ),
@@ -82,7 +78,7 @@ class ChatDeleteDialog extends StatelessWidget {
               icon: Icon(
                 Icons.close,
                 size: 24,
-                color: Colors.white,
+                color: white,
               ),
             ))
       ]),

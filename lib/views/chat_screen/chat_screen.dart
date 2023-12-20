@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use, unused_element
+
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/services/helper/my_date_util.dart';
+import 'package:chat_app/utils/constants.dart';
 import 'package:chat_app/views/chat_screen/widgets/chat_delete_dialog.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +18,7 @@ import '../users_profile_screen/view_profile_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
+  
   const ChatScreen({super.key, required this.user});
 
   @override
@@ -22,6 +26,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+ 
 // for storing all the messages
   List<Message> _list = [];
 
@@ -30,8 +36,18 @@ class _ChatScreenState extends State<ChatScreen> {
 
 // for storing value of showing emoji and
 // isUploading for checking if image is uploading or not?
-  bool _showEmoji = false, _isUploading = false;
+  bool _showEmoji = false, _isUploading = false,isEditing =false;
 
+   void _onMessagePress() {
+    // Update the app bar or perform any action you want when a message is pressed
+    setState(() {
+      print("Message pressed!");
+      // Update the app bar or any other state
+      // For example, you can set a flag to change the app bar in the build method
+      isEditing = !isEditing;
+    });
+  }
+ 
   ScrollController _scrollController = ScrollController();
 
   @override
@@ -71,7 +87,8 @@ class _ChatScreenState extends State<ChatScreen> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               elevation: 10,
-              flexibleSpace: _appBar()),
+              flexibleSpace: isEditing ? _appBar() : _appBar(),),
+              
           body: Container(
             width: double.infinity,
             height: double.infinity,
@@ -111,7 +128,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return MessageCard(
-                                    message: _list[index],
+                                    message: _list[index],     onMessagePress: _onMessagePress,user: widget.user,
                                   );
                                 });
                           } else {
@@ -141,7 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 //chat input field
-                _ChatInput(),
+                ChatInput(),
 
                 // show emoji on keybord
                 if (_showEmoji)
@@ -162,7 +179,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           backgroundColor: Color.fromARGB(255, 31, 30, 30),
         ),
-        
       ),
     );
   }
@@ -285,12 +301,11 @@ class _ChatScreenState extends State<ChatScreen> {
                         PopupMenuItem(
                           child: InkWell(
                             onTap: () {
-                            //  _DeleteAllMsgDialog();
-                            showDialog(
-                        context: context,
-                        builder: (_) => ChatDeleteDialog(user:widget.user
-                            
-                            ));
+                              //  _DeleteAllMsgDialog();
+                              showDialog(
+                                  context: context,
+                                  builder: (_) =>
+                                      ChatDeleteDialog(user: widget.user));
                             },
                             child: Row(
                               children: [
@@ -326,15 +341,98 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _ChatInput() {
+  Widget _appBar2() {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ViewProfileScreen(user: widget.user)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.edit,
+                  color: white,
+                )),
+            SizedBox(
+              width: 30,
+            ),
+            InkWell(onTap: () {}, child: Icon(Icons.save, color: white)),
+            SizedBox(
+              width: 30,
+            ),
+            InkWell(onTap: () {}, child: Icon(Icons.delete, color: white)),
+            SizedBox(
+              width: 30,
+            ),
+            InkWell(onTap: () {}, child: Icon(Icons.copy, color: white)),
+            SizedBox(
+              width: 30,
+            ),
+            PopupMenuButton(
+              color: Color.fromARGB(255, 41, 40, 40),
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(8.0), // Adjust the radius as needed
+              ),
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      SizedBox(width: 6.0),
+                      Text(
+                        'time',
+                        style: TextStyle(
+                          color: white, // Text color
+                          fontSize: 16.0, // Text size
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      SizedBox(width: 8.0),
+                      Text(
+                        'Delete Chat',
+                        style: TextStyle(
+                          color: white,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              offset: Offset(0, 37),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Icon(Icons.more_vert, color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  ChatInput() {
     return Row(
       children: [
         Container(
           child: Expanded(
             child: Card(
               color: Color.fromARGB(255, 20, 19, 19),
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
               child: Row(
                 children: [
                   IconButton(
@@ -343,7 +441,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       setState(() => _showEmoji = !_showEmoji);
                     },
                     icon: const Icon(
-                      Icons.emoji_emotions,
+                      CupertinoIcons.smiley,
                       color: Colors.white60,
                     ),
                   ),
@@ -356,12 +454,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       onTap: () {
-                        if (_showEmoji) setState(() => _showEmoji = !_showEmoji);
+                        if (_showEmoji)
+                          setState(() => _showEmoji = !_showEmoji);
                       },
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: white),
                       decoration: const InputDecoration(
                         hintText: ' Aa',
-                        hintStyle: TextStyle(color: Colors.white70, fontSize: 16),
+                        hintStyle:
+                            TextStyle(color: Colors.white70, fontSize: 16),
                         border: InputBorder.none,
                       ),
                     ),
@@ -369,11 +469,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   IconButton(
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
-        
+
                       // picking multiple images
                       final List<XFile> images =
                           await picker.pickMultiImage(imageQuality: 70);
-        
+
                       for (var i in images) {
                         setState(() => _isUploading = true);
                         await APIs.sendChatImage(widget.user, File(i.path));
@@ -381,30 +481,31 @@ class _ChatScreenState extends State<ChatScreen> {
                       }
                     },
                     icon: const Icon(
-                      Icons.image_outlined,
+                      CupertinoIcons.photo_fill,size: 22,
                       color: Colors.white54,
                     ),
                   ),
                   IconButton(
                     onPressed: () async {
                       final ImagePicker picker = ImagePicker();
-        
+
                       final XFile? images = await picker.pickImage(
                           source: ImageSource.camera, imageQuality: 70);
-        
+
                       if (images != null) {
                         print('Image Path: ${images.path}');
-        
-                        await APIs.sendChatImage(widget.user, File(images.path));
+
+                        await APIs.sendChatImage(
+                            widget.user, File(images.path));
                       }
                     },
                     icon: const Icon(
-                      Icons.camera_alt_outlined,
+                     CupertinoIcons.camera_fill,size: 22,
                       color: Colors.white54,
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 25,
                   )
                 ],
               ),
@@ -422,8 +523,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 _textController.text = '';
               }
             },
-            color:Color.fromARGB(255, 107, 107, 107),
-            textColor: Colors.white,
+            color: Color.fromARGB(255, 107, 107, 107),
+            textColor: white,
             shape: CircleBorder(),
             child: Padding(
               padding: const EdgeInsets.only(right: 5),
@@ -441,7 +542,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // ignore: unused_element
   static void showProgressBar(BuildContext context) {
     showDialog(
         context: context,

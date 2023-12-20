@@ -17,7 +17,7 @@ class ViewProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ViewProfileScreen> {
   late double height, width;
-  String? netImage; // Initialize with an empty string
+  String? netImage; 
 
   @override
   void initState() {

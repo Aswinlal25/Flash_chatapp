@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(255, 16, 16, 16),
       builder: (BuildContext context) {
         return ClipRRect(
           borderRadius: BorderRadius.only(
