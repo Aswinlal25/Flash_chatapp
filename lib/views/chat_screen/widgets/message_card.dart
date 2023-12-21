@@ -23,6 +23,7 @@ class MessageCard extends StatefulWidget {
 }
 
 class _MessageCardState extends State<MessageCard> {
+    bool isSelected = false;
   @override
   Widget build(BuildContext context) {
     bool isMe = APIs.user.uid == widget.message.formId;
@@ -30,13 +31,35 @@ class _MessageCardState extends State<MessageCard> {
         onLongPress: () {
           
           try{
+             setState(() {
+          isSelected = !isSelected;
+        });
+
+        
              // widget.onMessagePress();
+          if( isSelected )
           _showMessageEditPopupMenu(context,isMe);
           } on Exception catch (e) {
                   print("the error >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
                   return ;
                 }
         },
+        // onTapCancel:() {
+        //    setState(() {
+        //   isSelected = false;
+        // });
+        //}, 
+        onSecondaryTap: () {
+           setState(() {
+          isSelected = false;
+        });
+        },
+      //    onTap: () {
+      //   // Toggle the selection when the card is tapped
+      //   setState(() {
+      //     isSelected = !isSelected;
+      //   });
+      // },
        // onTap: widget.onMessagePress,
         child: _messageWidget());
   }
@@ -60,7 +83,7 @@ class _MessageCardState extends State<MessageCard> {
               : EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 4),
           margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
           decoration: BoxDecoration(
-            color: isDarkMessage
+            color:isSelected? blue: isDarkMessage
                 ? msgcardcolor1
                 : msgcardcolor2,
             borderRadius: BorderRadius.only(

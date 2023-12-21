@@ -18,6 +18,8 @@ const height32 = SizedBox(height: 32);
 
 const white = Colors.white;
 
+const white70 = Colors.white70;
+
 const black = Colors.black;
 
 const blue = Colors.blue;

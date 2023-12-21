@@ -283,14 +283,14 @@ class _ChatScreenState extends State<ChatScreen> {
                               children: [
                                 Icon(
                                   Icons.info_outline,
-                                  color: Colors.white70, // Icon color
+                                  color: white70, // Icon color
                                   size: 22.0, // Icon size
                                 ),
                                 SizedBox(width: 6.0),
                                 Text(
                                   'View Account',
                                   style: TextStyle(
-                                    color: Colors.white, // Text color
+                                    color: white, // Text color
                                     fontSize: 16.0, // Text size
                                   ),
                                 ),
@@ -311,7 +311,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               children: [
                                 Icon(
                                   Icons.delete_outline,
-                                  color: Colors.white70,
+                                  color: white70,
                                   size: 22.0,
                                 ),
                                 SizedBox(width: 8.0),
